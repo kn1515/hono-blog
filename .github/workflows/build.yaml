@@ -40,7 +40,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy ./dist --project-name=p1ass-blog
+          command: pages deploy ./dist --project-name=hono-blog
       - name: Add publish URL as commit status
         uses: actions/github-script@v7
         with:
