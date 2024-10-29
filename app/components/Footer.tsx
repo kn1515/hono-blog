@@ -60,7 +60,7 @@ export function Footer() {
         src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
         data-id="nakata17893"
         data-description="よろしければコーヒーをおごってください！"
-        data-message=""
+        data-message="よろしければ投げ銭をお願いします！"
         data-color="#FF813F"
         data-position="Right"
         data-x_margin="18"
