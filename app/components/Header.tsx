@@ -1,15 +1,15 @@
-import { css } from 'hono/css'
-import { border, gray, grayLight } from '../styles/color'
+import { css } from "hono/css";
+import { border, gray, grayLight } from "../styles/color";
 
 const headerCss = css`
   overflow: auto;
   border-bottom: 1px solid ${border};
-`
+`;
 
 const headerContainerCss = css`
   margin: 0.85rem auto;
   text-align: center;
-`
+`;
 
 const titleCss = css`
   margin: 0.425rem 0;
@@ -20,8 +20,7 @@ const titleCss = css`
   margin: 0.425rem 0;
   color: ${gray};
   text-decoration: none;
-  
-  
+
   &:hover,
   &:focus {
     color: ${grayLight};
@@ -30,7 +29,7 @@ const titleCss = css`
   &:after {
     display: none;
   }
-`
+`;
 
 const navigationListCss = css`
   list-style-type: none;
@@ -42,10 +41,10 @@ const navigationListCss = css`
     display: inline-block;
     padding: 0 1.5rem;
     margin: 0.2125rem 0 0.2125rem;
-    
+
     @media (max-width: 600px) {
-    padding: 0 0 .425rem 0;
-    width: 100px;
+      padding: 0 0 0.425rem 0;
+      width: 100px;
     }
 
     & a {
@@ -61,54 +60,56 @@ const navigationListCss = css`
       }
     }
   }
-`
+`;
 
 export const Header = () => {
   return (
     <header class={headerCss}>
       <div class={headerContainerCss}>
-        <a href='/' class={titleCss}>
-          <h2>ぷらすのブログ</h2>
+        <a href="/" class={titleCss}>
+          <h2>ぽんろぐ備忘録</h2>
         </a>
         <ul class={navigationListCss}>
           <li>
-            <a href='/categories/'>Categories</a>
+            <a href="/categories/">Categories</a>
           </li>
           <li>
-            <a href='/tags/'>Tags</a>
+            <a href="/tags/">Tags</a>
           </li>
           <li>
-            <a href='/index.xml'>RSS</a>
+            <a href="/index.xml">RSS</a>
           </li>
+          {/*
           <li>
             <a
-              href='https://p1ass.com'
-              target='_blank'
-              rel='noopener noreferrer'
+              href="https://www.google.com"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Portfolio
             </a>
           </li>
+          */}
           <li>
             <a
-              href='https://github.com/p1ass'
-              target='_blank'
-              rel='noopener noreferrer'
+              href="https://github.com/kn1515"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               GitHub
             </a>
           </li>
           <li>
             <a
-              href='https://twitter.com/p1ass'
-              target='_blank'
-              rel='noopener noreferrer'
+              href="https://twitter.com/Non_c5c"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Twitter
+              X(Twitter)
             </a>
           </li>
         </ul>
       </div>
     </header>
-  )
-}
+  );
+};
