@@ -32,7 +32,7 @@ export function Footer() {
         class='adsbygoogle'
         style='display: block'
         data-ad-client='ca-pub-4xxxxxxxxxxxxxxx'
-        data-ad-slot='2xxxxxxxxx'
+        data-ad-slot='24xxxxxxxx'
         data-ad-format='auto'
         data-full-width-responsive='true'
       />

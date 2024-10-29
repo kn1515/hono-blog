@@ -16,7 +16,7 @@ function generateRss(posts: Post[]): string {
     <title>${title}</title>
     <link>${baseUrl}</link>
     <description>Recent content on ${title}</description>
-    <generator>github.com/kn1515/hoo-blog</generator>
+    <generator>github.com/kn1515/hono-blog</generator>
     <language>ja</language>
     <lastBuildDate>${format(buildDate, RSS_DATE_FORMAT, "en")}</lastBuildDate>
     <atom:link href="/index.xml" rel="self" type="application/rss+xml"/>
