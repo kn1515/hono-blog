@@ -54,6 +54,11 @@ export function Footer() {
         </a>
         .
       </span>
+      <br className="sm:hidden block" />
+      <a href="/user-terms/" target="_blank" rel="noopener noreferrer">
+        利用規約
+      </a>{" "}
+      | <a href="/privacy-policy/">プライバシーポリシー</a>
       <script
         data-name="BMC-Widget"
         data-cfasync="false"
