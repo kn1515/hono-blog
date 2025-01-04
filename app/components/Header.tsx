@@ -91,6 +91,9 @@ export const Header = () => {
           </li>
           */}
           <li>
+            <a href="/about/">About</a>
+          </li>
+          <li>
             <a
               href="https://github.com/kn1515"
               target="_blank"
