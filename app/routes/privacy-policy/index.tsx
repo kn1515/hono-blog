@@ -23,13 +23,13 @@ const paragraphCss = css`
   color: #333;
 `;
 
-export const title = "PrivacyPolicy";
+export const title = "Contact";
 
-export default function PrivacyPolicy() {
+export default function Contact() {
   return (
     <Fragment>
       <br />
-      当サイトのお問い合わせにつきましては、XのDMよりお願いいたします。
+      当サイトのお問い合わせにつきましては、X(旧Twitter)のDMよりお願いいたします。
       <br />
       <Author />
       <Heading>プライバシーポリシー</Heading>

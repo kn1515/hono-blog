@@ -94,6 +94,9 @@ export const Header = () => {
             <a href="/about/">About</a>
           </li>
           <li>
+            <a href="/contact/">Contact</a>
+          </li>
+          <li>
             <a
               href="https://github.com/kn1515"
               target="_blank"
