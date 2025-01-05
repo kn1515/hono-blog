@@ -106,8 +106,9 @@ export async function PostSummarySection({ post }: Props) {
   const { default: postText } = await import(postUrl);
 
   // サマリーテキストを取得
-  const summaryText =
-    postText.match(/<summary>([\s\S]*?)<\/summary>/)?.[1].trim() || "";
+  // この辺ヌルポになりそう
+  let summaryText = postText.split("{/* <!--more--> */}")[0] as string;
+  summaryText = summaryText.split("---")[2];
   const imageUrl = post.frontmatter.image;
 
   return (
