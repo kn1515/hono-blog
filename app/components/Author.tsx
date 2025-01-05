@@ -68,7 +68,7 @@ const authorSNSGitHubCss = css`
 const authorSNSTwitterCss = css`
   ${authorSNSLinkCss}
   & i {
-    color: #1b95e0;
+    color: #211f1f;
     padding-right: 0.2rem;
   }
 `;
@@ -103,7 +103,7 @@ export function Author() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <i class="fab fa-twitter author-sns-twitter" />
+          <i class="fab fa-brands fa-x-twitter author-sns-twitter" />
           Non_c5c
         </a>
       </div>
