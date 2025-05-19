@@ -72,8 +72,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
       rehype-highlight:
-        specifier: ^7.0.1
-        version: 7.0.1
+        specifier: ^7.0.2
+        version: 7.0.2
       rehype-mdx-code-props:
         specifier: ^3.0.1
         version: 3.0.1
@@ -848,11 +848,14 @@ packages:
   '@types/react@18.2.73':
     resolution: {integrity: sha512-XcGdod0Jjv84HOC7N5ziY3x+qL0AfmubvKOZ9hJjJ2yd5EE+KYjWhdOjt387e9HPheHkdggF9atTifMRtyAaRA==}
 
-  '@types/unist@2.0.10':
-    resolution: {integrity: sha512-IfYcSBWE3hLpBg8+X2SEa8LVkJdJEkT2Ese2aaLs3ptGdVtABxndrMaxuFlQ1qdFf9Q5rDvDpxI3WwgvKFAsQA==}
+  '@types/unist@2.0.11':
+    resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
 
   '@types/unist@3.0.2':
     resolution: {integrity: sha512-dqId9J8K/vGi5Zr7oo212BGii5m3q5Hxlkwy3WpYuKPklmBEvsbMYYyLxAQpSffdLl/gdW0XUpKWFvYmyoWCoQ==}
+
+  '@types/unist@3.0.3':
+    resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
 
   '@typescript-eslint/types@7.7.0':
     resolution: {integrity: sha512-G01YPZ1Bd2hn+KPpIbrAhEWOn5lQBrjxkzHkWvP6NucMXFtfXoevK82hzQdpfuQYuhkvFDeQYbzXCjR1z9Z03w==}
@@ -1771,6 +1774,9 @@ packages:
   hast-util-to-text@4.0.0:
     resolution: {integrity: sha512-EWiE1FSArNBPUo1cKWtzqgnuRQwEeQbQtnFJRYV1hb1BWDgrAlBU0ExptvZMM/KSA82cDpm2sFGf3Dmc5Mza3w==}
 
+  hast-util-to-text@4.0.2:
+    resolution: {integrity: sha512-KK6y/BN8lbaq654j7JgBydev7wuNMcID54lkRav1P0CaE1e47P72AWWPiGKXTJU271ooYzcvTAn/Zt0REnvc7A==}
+
   hast-util-whitespace@3.0.0:
     resolution: {integrity: sha512-88JUN06ipLwsnv+dVn+OIYOvAuvBMy/Qoi6O7mQHxdPXpjy+Cd6xRkWwux7DKO+4sYILtLBRIKgsdpS2gQc7qw==}
 
@@ -1781,8 +1787,8 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
 
-  highlight.js@11.9.0:
-    resolution: {integrity: sha512-fJ7cW7fQGCYAkgv4CPfwFHrfd/cLS4Hau96JuJ+ZTOWhjnhoeN1ub1tFmALm/+lW5z4WCAuAV9bm05AP0mS6Gw==}
+  highlight.js@11.11.1:
+    resolution: {integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==}
     engines: {node: '>=12.0.0'}
 
   hono@4.6.6:
@@ -1934,8 +1940,8 @@ packages:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
 
-  lowlight@3.1.0:
-    resolution: {integrity: sha512-CEbNVoSikAxwDMDPjXlqlFYiZLkDJHwyGu/MfOsJnF3d7f3tds5J3z8s/l9TMXhzfsJCCJEAsD78842mwmg0PQ==}
+  lowlight@3.3.0:
+    resolution: {integrity: sha512-0JNhgFoPvP6U6lE/UdVsSq99tn6DhjjpAj5MxG49ewd2mOBVtwWYIT8ClyABhq198aXXODMU6Ox8DrGy/CpTZQ==}
 
   lru-cache@6.0.0:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
@@ -2216,8 +2222,8 @@ packages:
   ogp-parser@0.8.1:
     resolution: {integrity: sha512-sqBbX6BBX9YlwK5UL8qreV/mts2jKtmHlNJ6cMVLEA59BYuaWCToieUmWg+wxpxZoeCg+pbxWcd5r8wVtstB3g==}
 
-  ohash@1.1.5:
-    resolution: {integrity: sha512-AtXrG/lMFjPBWj3uhWYFwYVZQqutPYRsv6nnPLTipnC+gJuMFc+WFzf/jx+94Ebray1vxfQfEFDtpIpppOe4xQ==}
+  ohash@1.1.6:
+    resolution: {integrity: sha512-TBu7PtV8YkAZn0tSxobKY2n2aAQva936lhRrj6957aDaCf9IEtqsKbgMzXE/F/sjqYOwmrukeORHNLe5glk7Cg==}
 
   package-manager-detector@0.2.2:
     resolution: {integrity: sha512-VgXbyrSNsml4eHWIvxxG/nTL4wgybMTXCV2Un/+yEc3aDKKU6nQBZjbeP3Pl3qm9Qg92X/1ng4ffvCeD/zwHgg==}
@@ -2338,8 +2344,8 @@ packages:
   recma-stringify@1.0.0:
     resolution: {integrity: sha512-cjwII1MdIIVloKvC9ErQ+OgAtwHBmcZ0Bg4ciz78FtbT8In39aAYbaA7zvxQ61xVMSPE8WxhLwLbhif4Js2C+g==}
 
-  rehype-highlight@7.0.1:
-    resolution: {integrity: sha512-dB/vVGFsbm7xPglqnYbg0ABg6rAuIWKycTvuXaOO27SgLoOFNoTlniTBtAxp3n5ZyMioW1a3KwiNqgjkb6Skjg==}
+  rehype-highlight@7.0.2:
+    resolution: {integrity: sha512-k158pK7wdC2qL3M5NcZROZ2tR/l7zOzjxXd5VGdcfIyoijjQqpHd3JKtYSBDpDZ38UI2WJWuFAtkMDxmx5kstA==}
 
   rehype-mdx-code-props@3.0.1:
     resolution: {integrity: sha512-BWWKn0N6r7/qd7lbLgv5J8of7imz1l1PyCNoY7BH0AOR9JdJlQIfA9cKqTZVEb2h2GPKh473qrBajF0i01fq3A==}
@@ -2574,8 +2580,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  ufo@1.5.4:
-    resolution: {integrity: sha512-UsUk3byDzKd04EyoZ7U4DOlxQaD14JUKQl6/P7wiX4FNvUfm3XL246n9W5AmqwW5RSFJ27NAuM0iLscAOYUiGQ==}
+  ufo@1.6.1:
+    resolution: {integrity: sha512-9a4/uxlTWJ4+a5i0ooc1rU7C7YOw3wT+UGqdeNNHWnOF9qcMBgLRS+4IYUqbczewFx4mLEig6gawh7X6mFlEkA==}
 
   undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
@@ -2639,6 +2645,9 @@ packages:
 
   vfile@6.0.1:
     resolution: {integrity: sha512-1bYqc7pt6NIADBJ98UiG0Bn/CHIVOoZ/IyEkqIruLg0mE1BKzkOXY2D6CSqQIcKqgadppE5lrxgWXJmXd7zZJw==}
+
+  vfile@6.0.3:
+    resolution: {integrity: sha512-KzIbH/9tXat2u30jf+smMwFCsno4wHVdNmzFyL+T/L3UGqqk6JKfVqOFOZEpZSHADH1k40ab6NUIXZq422ov3Q==}
 
   vite-plugin-require@1.2.14:
     resolution: {integrity: sha512-i52DfITgYKtOZyh9kOjyy4ENTQBVHG0ozTKHQdFkGAHYqZwM3Dn2c5gsA5rR7IrHQ/PQET3SMz6HkNzZ2fXCyA==}
@@ -3393,9 +3402,11 @@ snapshots:
       '@types/prop-types': 15.7.14
       csstype: 3.1.3
 
-  '@types/unist@2.0.10': {}
+  '@types/unist@2.0.11': {}
 
   '@types/unist@3.0.2': {}
+
+  '@types/unist@3.0.3': {}
 
   '@typescript-eslint/types@7.7.0': {}
 
@@ -4251,7 +4262,7 @@ snapshots:
   estree-util-visit@2.0.0:
     dependencies:
       '@types/estree-jsx': 1.0.5
-      '@types/unist': 3.0.2
+      '@types/unist': 3.0.3
 
   estree-walker@0.6.1: {}
 
@@ -4377,17 +4388,17 @@ snapshots:
       devlop: 1.1.0
       hast-util-from-parse5: 8.0.1
       parse5: 7.1.2
-      vfile: 6.0.1
+      vfile: 6.0.3
       vfile-message: 4.0.2
 
   hast-util-from-parse5@8.0.1:
     dependencies:
       '@types/hast': 3.0.4
-      '@types/unist': 3.0.2
+      '@types/unist': 3.0.3
       devlop: 1.1.0
       hastscript: 8.0.0
       property-information: 6.4.1
-      vfile: 6.0.1
+      vfile: 6.0.3
       vfile-location: 5.0.2
       web-namespaces: 2.0.1
 
@@ -4460,6 +4471,13 @@ snapshots:
       hast-util-is-element: 3.0.0
       unist-util-find-after: 5.0.0
 
+  hast-util-to-text@4.0.2:
+    dependencies:
+      '@types/hast': 3.0.4
+      '@types/unist': 3.0.3
+      hast-util-is-element: 3.0.0
+      unist-util-find-after: 5.0.0
+
   hast-util-whitespace@3.0.0:
     dependencies:
       '@types/hast': 3.0.4
@@ -4474,7 +4492,7 @@ snapshots:
 
   he@1.2.0: {}
 
-  highlight.js@11.9.0: {}
+  highlight.js@11.11.1: {}
 
   hono@4.6.6: {}
 
@@ -4614,11 +4632,11 @@ snapshots:
     dependencies:
       js-tokens: 4.0.0
 
-  lowlight@3.1.0:
+  lowlight@3.3.0:
     dependencies:
       '@types/hast': 3.0.4
       devlop: 1.1.0
-      highlight.js: 11.9.0
+      highlight.js: 11.11.1
 
   lru-cache@6.0.0:
     dependencies:
@@ -4795,12 +4813,12 @@ snapshots:
       trim-lines: 3.0.1
       unist-util-position: 5.0.0
       unist-util-visit: 5.0.0
-      vfile: 6.0.1
+      vfile: 6.0.3
 
   mdast-util-to-markdown@2.1.0:
     dependencies:
       '@types/mdast': 4.0.3
-      '@types/unist': 3.0.2
+      '@types/unist': 3.0.3
       longest-streak: 3.1.0
       mdast-util-phrasing: 4.1.0
       mdast-util-to-string: 4.0.0
@@ -5064,7 +5082,7 @@ snapshots:
     dependencies:
       '@types/acorn': 4.0.6
       '@types/estree': 1.0.6
-      '@types/unist': 3.0.2
+      '@types/unist': 3.0.3
       devlop: 1.1.0
       estree-util-visit: 2.0.0
       micromark-util-symbol: 2.0.0
@@ -5165,7 +5183,7 @@ snapshots:
       acorn: 8.13.0
       pathe: 1.1.2
       pkg-types: 1.2.1
-      ufo: 1.5.4
+      ufo: 1.6.1
 
   module-definition@6.0.0:
     dependencies:
@@ -5204,13 +5222,13 @@ snapshots:
       iconv-lite: 0.5.1
       jschardet: 2.1.1
 
-  ohash@1.1.5: {}
+  ohash@1.1.6: {}
 
   package-manager-detector@0.2.2: {}
 
   parse-entities@4.0.1:
     dependencies:
-      '@types/unist': 2.0.10
+      '@types/unist': 2.0.11
       character-entities: 2.0.2
       character-entities-legacy: 3.0.0
       character-reference-invalid: 2.0.1
@@ -5352,7 +5370,7 @@ snapshots:
       '@types/estree': 1.0.6
       esast-util-from-js: 2.0.1
       unified: 11.0.4
-      vfile: 6.0.1
+      vfile: 6.0.3
 
   recma-stringify@1.0.0:
     dependencies:
@@ -5361,13 +5379,13 @@ snapshots:
       unified: 11.0.4
       vfile: 6.0.1
 
-  rehype-highlight@7.0.1:
+  rehype-highlight@7.0.2:
     dependencies:
       '@types/hast': 3.0.4
-      hast-util-to-text: 4.0.0
-      lowlight: 3.1.0
+      hast-util-to-text: 4.0.2
+      lowlight: 3.3.0
       unist-util-visit: 5.0.0
-      vfile: 6.0.1
+      vfile: 6.0.3
 
   rehype-mdx-code-props@3.0.1:
     dependencies:
@@ -5663,7 +5681,7 @@ snapshots:
 
   typescript@5.8.2: {}
 
-  ufo@1.5.4: {}
+  ufo@1.6.1: {}
 
   undici-types@5.26.5: {}
 
@@ -5674,9 +5692,9 @@ snapshots:
   unenv-nightly@2.0.0-20241024-111401-d4156ac:
     dependencies:
       defu: 6.1.4
-      ohash: 1.1.5
+      ohash: 1.1.6
       pathe: 1.1.2
-      ufo: 1.5.4
+      ufo: 1.6.1
 
   unified@11.0.4:
     dependencies:
@@ -5690,12 +5708,12 @@ snapshots:
 
   unist-util-find-after@5.0.0:
     dependencies:
-      '@types/unist': 3.0.2
+      '@types/unist': 3.0.3
       unist-util-is: 6.0.0
 
   unist-util-is@6.0.0:
     dependencies:
-      '@types/unist': 3.0.2
+      '@types/unist': 3.0.3
 
   unist-util-position-from-estree@2.0.0:
     dependencies:
@@ -5707,7 +5725,7 @@ snapshots:
 
   unist-util-remove-position@5.0.0:
     dependencies:
-      '@types/unist': 3.0.2
+      '@types/unist': 3.0.3
       unist-util-visit: 5.0.0
 
   unist-util-stringify-position@4.0.0:
@@ -5721,7 +5739,7 @@ snapshots:
 
   unist-util-visit@5.0.0:
     dependencies:
-      '@types/unist': 3.0.2
+      '@types/unist': 3.0.3
       unist-util-is: 6.0.0
       unist-util-visit-parents: 6.0.1
 
@@ -5741,18 +5759,23 @@ snapshots:
 
   vfile-location@5.0.2:
     dependencies:
-      '@types/unist': 3.0.2
-      vfile: 6.0.1
+      '@types/unist': 3.0.3
+      vfile: 6.0.3
 
   vfile-message@4.0.2:
     dependencies:
-      '@types/unist': 3.0.2
+      '@types/unist': 3.0.3
       unist-util-stringify-position: 4.0.0
 
   vfile@6.0.1:
     dependencies:
       '@types/unist': 3.0.2
       unist-util-stringify-position: 4.0.0
+      vfile-message: 4.0.2
+
+  vfile@6.0.3:
+    dependencies:
+      '@types/unist': 3.0.3
       vfile-message: 4.0.2
 
   vite-plugin-require@1.2.14(esbuild@0.17.19)(vite@5.4.10(@types/node@20.11.30)(terser@5.30.0)):
