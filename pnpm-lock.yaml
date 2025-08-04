@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   debug@4.3.4:
-    hash: aed306eafe9cc8822dffa65190fafcd637713568af26aab60ebfd08d6b980149
+    hash: dgp7fmkfjycjr4pda6hyck42xa
     path: patches/debug@4.3.4.patch
 
 importers:
@@ -30,7 +30,7 @@ importers:
         version: 5.5.0(react@18.3.1)
       rehype-mermaid:
         specifier: ^3.0.0
-        version: 3.0.0(playwright@1.52.0)
+        version: 3.0.0(playwright@1.54.2)
       remark-gfm:
         specifier: ^4.0.1
         version: 4.0.1
@@ -60,8 +60,8 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3
       '@playwright/test':
-        specifier: 1.52.0
-        version: 1.52.0
+        specifier: 1.54.2
+        version: 1.54.2
       '@types/mdx':
         specifier: ^2.0.13
         version: 2.0.13
@@ -836,8 +836,8 @@ packages:
   '@originjs/vite-plugin-commonjs@1.0.3':
     resolution: {integrity: sha512-KuEXeGPptM2lyxdIEJ4R11+5ztipHoE7hy8ClZt3PYaOVQ/pyngd2alaSrPnwyFeOW1UagRBaQ752aA1dTMdOQ==}
 
-  '@playwright/test@1.52.0':
-    resolution: {integrity: sha512-uh6W7sb55hl7D6vsAeA+V2p5JnlAqzhqFyF0VcJkKZXkgnFcVG9PziERRHQfPLfNGx1C292a4JqbWzhR8L4R1g==}
+  '@playwright/test@1.54.2':
+    resolution: {integrity: sha512-A+znathYxPf+72riFd1r1ovOLqsIIB0jKIoPjyK2kqEIe30/6jF6BC7QNluHuwUmsD2tv1XZVugN8GqfTMOxsA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -2542,13 +2542,13 @@ packages:
   pkg-types@1.2.1:
     resolution: {integrity: sha512-sQoqa8alT3nHjGuTjuKgOnvjo4cljkufdtLMnO2LBP/wRwuDlo1tkaEdMxCRhyGRPacv/ztlZgDPm2b7FAmEvw==}
 
-  playwright-core@1.52.0:
-    resolution: {integrity: sha512-l2osTgLXSMeuLZOML9qYODUQoPPnUsKsb5/P6LJ2e6uPKXUdPK5WYhN4z03G+YNbWmGDY4YENauNu4ZKczreHg==}
+  playwright-core@1.54.2:
+    resolution: {integrity: sha512-n5r4HFbMmWsB4twG7tJLDN9gmBUeSPcsBZiWSE4DnYz9mJMAFqr2ID7+eGC9kpEnxExJ1epttwR59LEWCk8mtA==}
     engines: {node: '>=18'}
     hasBin: true
 
-  playwright@1.52.0:
-    resolution: {integrity: sha512-JAwMNMBlxJ2oD1kce4KPtMkDeKGHQstdpFPcPH3maElAXon/QZeTvtsfXmTMRyO9TslfoYOXkSsvao2nE1ilTw==}
+  playwright@1.54.2:
+    resolution: {integrity: sha512-Hu/BMoA1NAdRUuulyvQC0pEqZ4vQbGfn8f7wPXcnqQmM+zct9UliKxsIkLNmz/ku7LElUNqmaiv1TG/aL5ACsw==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -3151,7 +3151,7 @@ snapshots:
       '@babel/helper-split-export-declaration': 7.24.6
       '@babel/parser': 7.27.5
       '@babel/types': 7.27.6
-      debug: 4.3.4(patch_hash=aed306eafe9cc8822dffa65190fafcd637713568af26aab60ebfd08d6b980149)
+      debug: 4.3.4(patch_hash=dgp7fmkfjycjr4pda6hyck42xa)
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -3645,9 +3645,9 @@ snapshots:
     dependencies:
       esbuild: 0.14.54
 
-  '@playwright/test@1.52.0':
+  '@playwright/test@1.54.2':
     dependencies:
-      playwright: 1.52.0
+      playwright: 1.54.2
 
   '@rollup/pluginutils@5.1.0(rollup@4.41.0)':
     dependencies:
@@ -4375,7 +4375,7 @@ snapshots:
 
   dayjs@1.11.10: {}
 
-  debug@4.3.4(patch_hash=aed306eafe9cc8822dffa65190fafcd637713568af26aab60ebfd08d6b980149):
+  debug@4.3.4(patch_hash=dgp7fmkfjycjr4pda6hyck42xa):
     dependencies:
       ms: 2.1.2
 
@@ -5312,12 +5312,12 @@ snapshots:
 
   merge2@1.4.1: {}
 
-  mermaid-isomorphic@3.0.0(playwright@1.52.0):
+  mermaid-isomorphic@3.0.0(playwright@1.54.2):
     dependencies:
       '@fortawesome/fontawesome-free': 6.5.2
       mermaid: 11.3.0
     optionalDependencies:
-      playwright: 1.52.0
+      playwright: 1.54.2
     transitivePeerDependencies:
       - supports-color
 
@@ -5874,11 +5874,11 @@ snapshots:
       mlly: 1.7.2
       pathe: 1.1.2
 
-  playwright-core@1.52.0: {}
+  playwright-core@1.54.2: {}
 
-  playwright@1.52.0:
+  playwright@1.54.2:
     dependencies:
-      playwright-core: 1.52.0
+      playwright-core: 1.54.2
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -6022,19 +6022,19 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  rehype-mermaid@3.0.0(playwright@1.52.0):
+  rehype-mermaid@3.0.0(playwright@1.54.2):
     dependencies:
       '@types/hast': 3.0.4
       hast-util-from-html-isomorphic: 2.0.0
       hast-util-to-text: 4.0.0
-      mermaid-isomorphic: 3.0.0(playwright@1.52.0)
+      mermaid-isomorphic: 3.0.0(playwright@1.54.2)
       mini-svg-data-uri: 1.4.4
       space-separated-tokens: 2.0.2
       unified: 11.0.4
       unist-util-visit-parents: 6.0.1
       vfile: 6.0.1
     optionalDependencies:
-      playwright: 1.52.0
+      playwright: 1.54.2
     transitivePeerDependencies:
       - supports-color
 
