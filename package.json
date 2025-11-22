@@ -13,39 +13,37 @@
   "private": true,
   "dependencies": {
     "@formkit/tempo": "^0.1.2",
-    "hono": "^4.6.6",
+    "hono": "^4.10.6",
     "honox": "0.1.26",
     "ogp-parser": "^0.8.1",
-    "react-icons": "^5.3.0",
+    "react-icons": "^5.5.0",
     "rehype-mermaid": "^3.0.0",
-    "remark-gfm": "^4.0.0",
+    "remark-gfm": "^4.0.1",
     "vite-plugin-require": "^1.2.14"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@cloudflare/workers-types": "^4.20241022.0",
-    "@hono/vite-cloudflare-pages": "^0.4.2",
+    "@cloudflare/workers-types": "^4.20251121.0",
+    "@hono/vite-cloudflare-pages": "^0.4.3",
     "@hono/vite-ssg": "0.1.0",
-    "@mdx-js/mdx": "^3.1.0",
-    "@mdx-js/rollup": "^3.1.0",
+    "@mdx-js/mdx": "^3.1.1",
+    "@mdx-js/rollup": "^3.1.1",
     "@originjs/vite-plugin-commonjs": "^1.0.3",
     "@playwright/test": "1.48.1",
     "@types/mdx": "^2.0.13",
     "@types/mdx-js__react": "2.0.0",
-    "recma-export-filepath": "^1.1.0",
-    "rehype-highlight": "^7.0.1",
+    "recma-export-filepath": "^1.2.0",
+    "rehype-highlight": "^7.0.2",
     "rehype-mdx-code-props": "^3.0.1",
     "rehype-mdx-import-media": "^1.2.0",
     "remark-frontmatter": "^5.0.0",
-    "remark-mdx-frontmatter": "^5.0.0",
-    "typescript": "^5.6.3",
-    "vite": "^5.4.10",
-    "vite-plugin-static-copy": "^2.0.0",
-    "wrangler": "^3.83.0"
+    "remark-mdx-frontmatter": "^5.2.0",
+    "typescript": "^5.9.3",
+    "vite": "^5.4.21",
+    "vite-plugin-static-copy": "^2.3.2",
+    "wrangler": "^3.114.15"
   },
   "pnpm": {
-    "patchedDependencies": {
-      "debug@4.3.4": "patches/debug@4.3.4.patch"
-    }
+    "patchedDependencies": {}
   }
 }
