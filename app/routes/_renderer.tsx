@@ -25,10 +25,6 @@ const bodyCss = css`
       -webkit-text-size-adjust: 100%;
     }
 
-    * {
-      line-height: 1.7rem;
-    }
-
     h2 {
       line-height: 2.55rem;
       font-size: 1.75rem;
@@ -42,8 +38,7 @@ const bodyCss = css`
 
     p {
       margin: 0 0 1.7rem;
-      line-height: ${verticalRhythmUnit * 1.25}rem;
-
+      line-height: 1.7rem;
       @media (max-width: 600px) {
         line-height: 2rem;
       }
