@@ -1,5 +1,8 @@
 import { format } from "@formkit/tempo";
 import { css } from "hono/css";
+import fs from "fs/promises";
+import path from "path";
+import url from "url";
 
 import type { Post } from "../lib/posts";
 import { parseDate } from "../lib/time";
@@ -16,9 +19,6 @@ const underlineCss = css`
   border-top: 0.2rem solid ${blue};
   display: block;
   width: 2rem;
-
-  -webkit-transition: all 0.2s ease-out;
-  -moz-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
 `;
 
@@ -28,9 +28,7 @@ const itemCss = css`
   padding: ${verticalRhythmUnit}rem 0;
   text-decoration: none;
 
-  &:hover ${underlineCss} {
-    width: 5rem;
-  }
+  &:hover ${underlineCss},
   &:focus ${underlineCss} {
     width: 5rem;
   }
@@ -56,11 +54,6 @@ const titleCss = css`
   font-size: 2rem;
   margin: ${verticalRhythmUnit * 0.25}rem 0;
   line-height: 3.4rem;
-
-  @media (max-width: 900px) {
-    font-size: 1.75rem;
-    line-height: ${verticalRhythmUnit * 1.75}rem;
-  }
 `;
 
 const imageCss = css`
@@ -68,13 +61,6 @@ const imageCss = css`
   height: 50px;
   border-radius: 50%;
   margin-right: 1rem;
-`;
-
-const summaryCss = css`
-  margin-left: 1rem;
-  color: ${grayLight};
-  font-size: 1rem;
-  line-height: 1.5;
 `;
 
 const moreButtonCss = css`
@@ -87,9 +73,6 @@ const moreButtonCss = css`
   display: flex;
   justify-content: center;
   text-decoration: none;
-
-  -webkit-transition: all 0.2s ease-out;
-  -moz-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
 
   &:hover {
@@ -102,13 +85,17 @@ type Props = {
 };
 
 export async function PostSummarySection({ post }: Props) {
-  const postUrl = `../routes${post.permalink}index.mdx?raw`;
-  const { default: postText } = await import(postUrl);
+  // MDX の絶対パスを生成
+  const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+  const filePath = path.resolve(__dirname, `../routes${post.permalink}index.mdx`);
 
-  // サマリーテキストを取得
-  // この辺ヌルポになりそう
-  let summaryText = postText.split("{/* <!--more--> */}")[0] as string;
-  summaryText = summaryText.split("---")[2];
+  // ファイル読み込み（raw string）
+  const postText = await fs.readFile(filePath, "utf-8");
+
+  // サマリ抽出処理
+  let summaryText = postText.split("{/* <!--more--> */}")[0] ?? "";
+  summaryText = summaryText.split("---")[2] ?? "";
+
   const imageUrl = post.frontmatter.image;
 
   return (
@@ -125,16 +112,20 @@ export async function PostSummarySection({ post }: Props) {
           <div class={underlineCss} />
         </div>
       </a>
+
       <PostDetails frontmatter={post.frontmatter} />
+
       <div class="catalogue-summary">
         <MarkdownRenderer
           content={summaryText}
           baseUrl={post.fullFilePath.href}
         />
       </div>
+
       <a class={moreButtonCss} href={post.permalink}>
         続きを読む
       </a>
     </section>
   );
 }
+
