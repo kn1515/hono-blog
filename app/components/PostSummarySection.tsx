@@ -19,12 +19,7 @@ const sectionCss = css`
 const underlineCss = css`
   border-top: 0.2rem solid ${blue};
   display: block;
-  width: 2rem;
-  transition: all 0.2s ease-out;
-
-  &:not(h1) {
-    width: 2rem;
-  }  
+  transition: all 0.2s ease-out;  
 `;
 
 const itemCss = css`
