@@ -21,6 +21,13 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
+    ssr: {
+      external: [
+        "style-to-js",
+      ],
+    },
+
+  return {
     assetsInclude: ["**/*.JPG"],
     base:
       process.env.NODE_ENV === "production" ? "https://www.ponnlog.com" : "/",
