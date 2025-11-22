@@ -6,8 +6,7 @@ import honox from "honox/vite";
 import client from "honox/vite/client";
 
 import recmaExportFilepath from "recma-export-filepath";
-import { defineConfig } from "vite";
-import { normalizePath } from "vite";
+import { defineConfig, normalizePath } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import { rehypePlugins, remarkPlugins } from "./app/lib/mdx";
 
@@ -23,14 +22,15 @@ export default defineConfig(({ mode }) => {
   return {
     ssr: {
       external: [
-        "style-to-js",
+        "style-to-js",          // ← require() を含む CJS のため
+        "@mdx-js/mdx",          // ← CJS を含むため SSR から除外
+        "hast-util-to-estree",  // ← これも require() を内部で呼ぶ
       ],
     },
-
-  return {
     assetsInclude: ["**/*.JPG"],
-    base:
-      process.env.NODE_ENV === "production" ? "https://www.ponnlog.com" : "/",
+    base: process.env.NODE_ENV === "production" 
+      ? "https://www.ponnlog.com" 
+      : "/",
     build: {
       emptyOutDir: false,
     },
@@ -54,12 +54,11 @@ export default defineConfig(({ mode }) => {
       mdx({
         jsxImportSource: "hono/jsx",
         providerImportSource: "./app/lib/mdx-components",
-        remarkPlugins: remarkPlugins,
-        rehypePlugins: rehypePlugins,
+        remarkPlugins,
+        rehypePlugins,
         recmaPlugins: [recmaExportFilepath],
       }),
       ssg({ entry }),
-      // 記事内でco-locationして配置している画像たちを `dist/posts` にコピーする
       viteStaticCopy({
         targets: [
           {
@@ -70,11 +69,7 @@ export default defineConfig(({ mode }) => {
               "./app/routes/posts/**/*.webp",
             ],
             dest: "posts",
-            rename: (
-              fileName: string,
-              fileExtension: string,
-              fullPath: string
-            ) => {
+            rename: (fileName, fileExtension, fullPath) => {
               const destPath = normalizePath(
                 path
                   .relative(__dirname, fullPath)
@@ -82,7 +77,6 @@ export default defineConfig(({ mode }) => {
               );
               return destPath;
             },
-            // 普通のviteのビルドで生成したファイルを消さないようにする
             overwrite: false,
           },
         ],
@@ -90,3 +84,4 @@ export default defineConfig(({ mode }) => {
     ],
   };
 });
+
