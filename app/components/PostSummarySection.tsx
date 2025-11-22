@@ -11,6 +11,7 @@ import { verticalRhythmUnit } from "../styles/variables";
 import { MarkdownRenderer } from "./MarkdownRenderer";
 import { PostDetails } from "./PostDetails";
 
+// --- CSS (あなたのまま) ---
 const sectionCss = css`
   margin-bottom: ${verticalRhythmUnit}rem;
 `;
@@ -85,16 +86,26 @@ type Props = {
 };
 
 export async function PostSummarySection({ post }: Props) {
-  // MDX の絶対パスを生成
+  // --- MDX の絶対パス ---
   const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
   const filePath = path.resolve(__dirname, `../routes${post.permalink}index.mdx`);
 
-  // ファイル読み込み（raw string）
+  // --- MDX を raw 文字列として読み込む ---
   const postText = await fs.readFile(filePath, "utf-8");
 
-  // サマリ抽出処理
-  let summaryText = postText.split("{/* <!--more--> */}")[0] ?? "";
-  summaryText = summaryText.split("---")[2] ?? "";
+  // --- frontmatter を削除 ---
+  const noFrontmatter = postText.replace(/^---[\s\S]*?---/, "").trim();
+
+  // --- more マーカーまでのサマリーを抽出 ---
+  const [summaryRaw] = noFrontmatter.split("{/* <!--more--> */}");
+
+  // --- description がある場合はそちらを優先 ---
+  const summaryCandidate = post.frontmatter.description ?? summaryRaw;
+
+  // --- 改行整理（縦書き化防止）---
+  const summaryText = summaryCandidate
+    .replace(/\n{3,}/g, "\n\n") // 3行以上→1行へ
+    .trim();
 
   const imageUrl = post.frontmatter.image;
 
