@@ -43,8 +43,8 @@ importers:
         specifier: ^0.4.3
         version: 0.4.3(hono@4.10.6)
       '@hono/vite-ssg':
-        specifier: 0.1.0
-        version: 0.1.0(hono@4.10.6)
+        specifier: 0.3.1
+        version: 0.3.1(hono@4.10.6)
       '@mdx-js/mdx':
         specifier: ^3.1.1
         version: 3.1.1
@@ -606,11 +606,11 @@ packages:
       wrangler:
         optional: true
 
-  '@hono/vite-ssg@0.1.0':
-    resolution: {integrity: sha512-tnkBilZ2/+y8w/X+R2Pf4Heu+Xyk4wO2KiBiEOvqqiXQC2yT8WAdiB17qk87og3ZuRCC/721ZZ736TpB6fGkWQ==}
+  '@hono/vite-ssg@0.3.1':
+    resolution: {integrity: sha512-KhRsIl1dgSfo/y5EGkjckFag4Ezweq6lUHp+9KN+B6vt5No8amVBttXyr65s/og7F5inKTxORsX8htCJ/Pb+hA==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
-      hono: '>=4.0.0'
+      hono: '>=4.8.0'
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -2958,6 +2958,7 @@ packages:
   whatwg-encoding@3.1.1:
     resolution: {integrity: sha512-6qN4hJdMwfYBtE3YBTTHhoeuUrDBPZmbQaxWAqSALV/MeEnR5z1xd8UKud2RAkFoPkmB+hli1TZSnyi84xz1vQ==}
     engines: {node: '>=18'}
+    deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
 
   whatwg-mimetype@4.0.0:
     resolution: {integrity: sha512-QaKxh0eNIi2mE9p2vEdzfagOKHCcj1pJ56EEHGQOVxp8r9/iszLUUV7v89x9O1p/T+NlTM5W7jW6+cz4Fq1YVg==}
@@ -3355,7 +3356,7 @@ snapshots:
       miniflare: 3.20250718.2
       wrangler: 3.114.15(@cloudflare/workers-types@4.20251121.0)
 
-  '@hono/vite-ssg@0.1.0(hono@4.10.6)':
+  '@hono/vite-ssg@0.3.1(hono@4.10.6)':
     dependencies:
       hono: 4.10.6
 
