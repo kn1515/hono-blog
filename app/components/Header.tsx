@@ -337,9 +337,6 @@ const themeToggleCss = css`
     color: var(--c-text);
     background: var(--c-accent-hover-bg);
   }
-
-  & .icon-sun { display: block; }
-  & .icon-moon { display: none; }
 `
 
 export const Header = () => {

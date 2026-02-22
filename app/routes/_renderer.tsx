@@ -97,6 +97,12 @@ const themeInitScript = `
   if(s==='dark'||(s!=='light' ? prefersDark : false)){
     document.documentElement.classList.add('dark');
   }
+  document.addEventListener('click',function(e){
+    var btn=e.target&&e.target.closest&&e.target.closest('#theme-toggle');
+    if(!btn)return;
+    var isDark=document.documentElement.classList.toggle('dark');
+    try{localStorage.setItem('theme',isDark?'dark':'light')}catch(x){}
+  });
 })();
 `;
 
