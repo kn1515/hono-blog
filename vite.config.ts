@@ -31,6 +31,9 @@ export default defineConfig(({ mode }) => {
     base: process.env.NODE_ENV === "production" 
       ? "https://www.ponnlog.com" 
       : "/",
+    resolve: {
+      builtins: [],
+    },
     build: {
       emptyOutDir: false,
     },
