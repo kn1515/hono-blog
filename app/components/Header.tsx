@@ -272,7 +272,6 @@ export const Header = () => {
           <details class={accordionCss}>
             <summary>
               <IconMenu />
-              Menu
               <IconChevron />
             </summary>
             <div class='accordion-panel'>
