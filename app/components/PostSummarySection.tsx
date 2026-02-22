@@ -11,7 +11,6 @@ import { verticalRhythmUnit } from "../styles/variables";
 import { MarkdownRenderer } from "./MarkdownRenderer";
 import { PostDetails } from "./PostDetails";
 
-// --- CSS (あなたのまま) ---
 const sectionCss = css`
   margin-bottom: ${verticalRhythmUnit}rem;
 `;

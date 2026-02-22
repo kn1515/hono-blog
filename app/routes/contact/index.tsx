@@ -32,6 +32,8 @@ export default function PrivacyPolicy() {
       当サイトのお問い合わせにつきましては、X(旧Twitter)のDMよりお願いいたします。
       <br />
       個人情報の取り扱い等は利用規約、プライバシーポリシーをご参照ください。
+      <br />
+      <br />
       <Author />
       <a href="/user-terms/" target="_blank" rel="noopener noreferrer">
         利用規約
