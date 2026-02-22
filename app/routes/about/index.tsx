@@ -1,4 +1,4 @@
-import { css } from 'hono/css'
+import { css, keyframes } from 'hono/css'
 import { Fragment } from 'hono/jsx/jsx-runtime'
 import { gray } from '../../styles/color'
 
@@ -91,20 +91,73 @@ const heroCss = css`
   padding: 3rem 1.5rem 2rem;
 `
 
+const avatarWrapperCss = css`
+  position: relative;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
 const avatarCss = css`
-  width: 140px;
-  height: 140px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid #e8f0fe;
-  box-shadow: 0 8px 30px rgba(65, 114, 181, 0.18);
+  border: 3px solid #1a1a2e;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  z-index: 1;
 
   &:hover {
     transform: scale(1.05);
-    box-shadow: 0 12px 40px rgba(65, 114, 181, 0.28);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
   }
 `
+
+const spinText = keyframes`
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+`
+
+const rotatingTextCss = css`
+  position: absolute;
+  inset: 0;
+  animation: ${spinText} 12s linear infinite;
+`
+
+const RotatingText = () => {
+  const text = 'Hello こんにちは 안녕하세요 你好 Bonjour Hola Ciao नमस्ते مرحبا Привет';
+  const r = 90
+  return (
+    <svg
+      class={rotatingTextCss}
+      viewBox='0 0 200 200'
+      width='200'
+      height='200'
+    >
+      <defs>
+        <path
+          id='circlePath'
+          d={`M 100,100 m -${r},0 a ${r},${r} 0 1,1 ${r * 2},0 a ${r},${r} 0 1,1 -${r * 2},0`}
+          fill='none'
+        />
+      </defs>
+      <text
+        font-size='13'
+        font-weight='600'
+        letter-spacing='2.5'
+        fill='#16a34a'
+        font-family="'SF Mono', 'Fira Code', 'Cascadia Code', Menlo, monospace"
+      >
+        <textPath href='#circlePath'>{text}</textPath>
+      </text>
+    </svg>
+  )
+}
+
 
 const heroNameCss = css`
   font-size: 1.75rem;
@@ -296,11 +349,14 @@ export default function About() {
     <Fragment>
       {/* Hero */}
       <div class={heroCss}>
-        <img
-          src='https://github.com/kn1515.png'
-          alt='Profile'
-          class={avatarCss}
-        />
+        <div class={avatarWrapperCss}>
+          <RotatingText />
+          <img
+            src='https://github.com/kn1515.png'
+            alt='Profile'
+            class={avatarCss}
+          />
+        </div>
         <h1 class={heroNameCss}>ぽん</h1>
         <p class={heroRoleCss}>
           Software Engineer &mdash; Frontend &amp; Backend
@@ -334,15 +390,21 @@ export default function About() {
         <div class={aboutTextCss}>
           <p>
             こんにちは！ぽんと申します。
-            ソフトウェアエンジニアとして、フロントエンドとバックエンドの両方の開発に携わっています。
+            <br />
+            システムエンジニアとして働いております。
+            <br />
           </p>
           <p>
-            関関同立のうちいずれかの文系学部を卒業したのち、
+            関西にある大学の文系学部を卒業したのち、
             2019年より某SIerで働いています。
+          </p>
+          <p>バックエンドやインフラに関連する仕事をしたり、チームリーダーとしてプロジェクトを管理したりしています。
+            セキュリティやOS、低レイヤの技術に特に興味があります。
           </p>
           <p>
             このブログでは、技術的なトピックや日常の出来事について書いています。ぜひご覧ください！
           </p>
+          <br />
         </div>
         <div class={infoGridCss}>
           <div class={infoItemCss}>
@@ -360,7 +422,7 @@ export default function About() {
             </div>
             <div class={infoContentCss}>
               <strong>Hobbies</strong>
-              <span>プログラミング</span>
+              <span>プログラミング、旅行、ゲーム、ごはん</span>
             </div>
           </div>
           <div class={infoItemCss}>
