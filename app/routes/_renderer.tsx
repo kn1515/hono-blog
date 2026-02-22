@@ -106,6 +106,43 @@ const themeInitScript = `
 })();
 `;
 
+/* ── View toggle script (list/grid switching) ── */
+const viewToggleScript = `
+(function(){
+  function switchView(mode){
+    var listView=document.getElementById('post-list-view');
+    var gridView=document.getElementById('post-grid-view');
+    var listBtn=document.getElementById('view-toggle-list');
+    var gridBtn=document.getElementById('view-toggle-grid');
+    if(!listView||!gridView||!listBtn||!gridBtn)return;
+    if(mode==='grid'){
+      listView.style.display='none';
+      gridView.style.display='';
+      listBtn.setAttribute('data-active','false');
+      gridBtn.setAttribute('data-active','true');
+    }else{
+      listView.style.display='';
+      gridView.style.display='none';
+      listBtn.setAttribute('data-active','true');
+      gridBtn.setAttribute('data-active','false');
+    }
+    try{localStorage.setItem('viewMode',mode)}catch(x){}
+  }
+  // Restore saved preference
+  document.addEventListener('DOMContentLoaded',function(){
+    var saved=localStorage.getItem('viewMode');
+    if(saved==='grid'){switchView('grid');}
+  });
+  // Listen for toggle clicks
+  document.addEventListener('click',function(e){
+    var listBtn=e.target&&e.target.closest&&e.target.closest('#view-toggle-list');
+    var gridBtn=e.target&&e.target.closest&&e.target.closest('#view-toggle-grid');
+    if(listBtn){switchView('list');}
+    else if(gridBtn){switchView('grid');}
+  });
+})();
+`;
+
 const bodyCss = css`
   :-hono-global {
     body {
@@ -297,6 +334,8 @@ export default jsxRenderer(
           {/* Theme init (before paint to avoid flash) */}
           {html`<style>${raw(themeVarsStyle)}</style>`}
           {html`<script>${raw(themeInitScript)}</script>`}
+          {/* View toggle (list/grid switching) */}
+          {html`<script>${raw(viewToggleScript)}</script>`}
           <title>{title}</title>
 
           <meta name="description" content={description} />
