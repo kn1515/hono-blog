@@ -1,5 +1,4 @@
 import { css } from 'hono/css'
-import { getCategoryList } from '../lib/categories'
 import { gray, grayLight } from '../styles/color'
 
 /* ── Inline SVG Icons ── */
@@ -53,6 +52,12 @@ const IconX = () => (
   </svg>
 )
 
+const IconMenu = () => (
+  <svg {...svgProps}>
+    <path d='M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z' />
+  </svg>
+)
+
 /* ── Styles ── */
 const headerCss = css`
   position: sticky;
@@ -97,34 +102,30 @@ const titleCss = css`
   }
 `
 
-const navigationListCss = css`
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+const navAreaCss = css`
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  flex-wrap: wrap;
-  justify-content: center;
+  gap: 0.5rem;
+`
 
-  & li {
-    & a {
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      color: ${grayLight};
-      text-decoration: none;
-      font-size: 0.88rem;
-      font-weight: 500;
-      padding: 0.4rem 0.7rem;
-      border-radius: 8px;
-      transition: all 0.2s ease;
+const socialLinksCss = css`
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
 
-      &:hover,
-      &:focus {
-        color: ${gray};
-        background: rgba(65, 114, 181, 0.08);
-      }
+  & a {
+    display: flex;
+    align-items: center;
+    color: ${grayLight};
+    text-decoration: none;
+    padding: 0.4rem 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+
+    &:hover,
+    &:focus {
+      color: ${gray};
+      background: rgba(65, 114, 181, 0.08);
     }
   }
 `
@@ -133,7 +134,6 @@ const dividerCss = css`
   width: 1px;
   height: 1rem;
   background: rgba(221, 224, 228, 0.8);
-  margin: 0 0.15rem;
 
   @media (max-width: 600px) {
     display: none;
@@ -194,7 +194,7 @@ const accordionCss = css`
   & .accordion-panel {
     position: absolute;
     top: 100%;
-    left: 0;
+    right: 0;
     z-index: 200;
     background: rgba(255, 255, 255, 0.97);
     backdrop-filter: blur(12px);
@@ -208,17 +208,19 @@ const accordionCss = css`
     flex-direction: row;
     flex-wrap: wrap;
     gap: 0.25rem;
-    min-width: 200px;
+    min-width: 280px;
     animation: accordionFadeIn 0.2s ease;
   }
 
   & .accordion-panel a {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
     color: ${grayLight};
     text-decoration: none;
     font-size: 0.84rem;
     font-weight: 500;
-    padding: 0.35rem 0.75rem;
+    padding: 0.4rem 0.75rem;
     border-radius: 6px;
     white-space: nowrap;
     transition: all 0.15s ease;
@@ -260,77 +262,59 @@ const accordionCss = css`
 `
 
 export const Header = () => {
-  const categories = getCategoryList()
   return (
     <header class={headerCss}>
       <div class={headerContainerCss}>
         <a href='/' class={titleCss}>
           ぽんろぐ備忘録
         </a>
-        <nav>
-          <ul class={navigationListCss}>
-            <li>
-              <details class={accordionCss}>
-                <summary>
-                  <IconCategory />
-                  Categories
-                  <IconChevron />
-                </summary>
-                <div class='accordion-panel'>
-                  {categories.map(category => (
-                    <a href={`/categories/${category.id}/`}>
-                      {category.name}
-                    </a>
-                  ))}
-                </div>
-              </details>
-            </li>
-            <li>
+        <nav class={navAreaCss}>
+          <details class={accordionCss}>
+            <summary>
+              <IconMenu />
+              Menu
+              <IconChevron />
+            </summary>
+            <div class='accordion-panel'>
+              <a href='/categories/'>
+                <IconCategory />
+                Categories
+              </a>
               <a href='/tags/'>
                 <IconTag />
                 Tags
               </a>
-            </li>
-            <li>
               <a href='/index.xml'>
                 <IconRss />
                 RSS
               </a>
-            </li>
-            <li>
               <a href='/about/'>
                 <IconPerson />
                 About
               </a>
-            </li>
-            <li>
               <a href='/contact/'>
                 <IconMail />
                 Contact
               </a>
-            </li>
-            <li>
-              <div class={dividerCss} />
-            </li>
-            <li>
-              <a
-                href='https://github.com/kn1515'
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <IconGithub />
-              </a>
-            </li>
-            <li>
-              <a
-                href='https://twitter.com/Non_c5c'
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <IconX />
-              </a>
-            </li>
-          </ul>
+            </div>
+          </details>
+          <div class={dividerCss} />
+          <div class={socialLinksCss}>
+            <a
+              href='https://github.com/kn1515'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <IconGithub />
+            </a>
+            <a
+              href='https://twitter.com/Non_c5c'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <IconX />
+            </a>
+          </div>
         </nav>
       </div>
     </header>
