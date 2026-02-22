@@ -144,7 +144,7 @@ export const Header = () => {
     <header class={headerCss}>
       <div class={headerContainerCss}>
         <a href='/' class={titleCss}>
-          ponlog備忘録
+          ぽんろぐ備忘録
         </a>
         <nav>
           <ul class={navigationListCss}>
