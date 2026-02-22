@@ -52,6 +52,12 @@ const IconX = () => (
   </svg>
 )
 
+const IconMenu = () => (
+  <svg {...svgProps}>
+    <path d='M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z' />
+  </svg>
+)
+
 /* ── Styles ── */
 const headerCss = css`
   position: sticky;
@@ -96,34 +102,30 @@ const titleCss = css`
   }
 `
 
-const navigationListCss = css`
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+const navAreaCss = css`
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  flex-wrap: wrap;
-  justify-content: center;
+  gap: 0.5rem;
+`
 
-  & li {
-    & a {
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      color: ${grayLight};
-      text-decoration: none;
-      font-size: 0.88rem;
-      font-weight: 500;
-      padding: 0.4rem 0.7rem;
-      border-radius: 8px;
-      transition: all 0.2s ease;
+const socialLinksCss = css`
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
 
-      &:hover,
-      &:focus {
-        color: ${gray};
-        background: rgba(65, 114, 181, 0.08);
-      }
+  & a {
+    display: flex;
+    align-items: center;
+    color: ${grayLight};
+    text-decoration: none;
+    padding: 0.4rem 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+
+    &:hover,
+    &:focus {
+      color: ${gray};
+      background: rgba(65, 114, 181, 0.08);
     }
   }
 `
@@ -132,10 +134,130 @@ const dividerCss = css`
   width: 1px;
   height: 1rem;
   background: rgba(221, 224, 228, 0.8);
-  margin: 0 0.15rem;
 
   @media (max-width: 600px) {
     display: none;
+  }
+`
+
+const IconChevron = () => (
+  <svg
+    width='12'
+    height='12'
+    viewBox='0 0 24 24'
+    fill='currentColor'
+    style='flex-shrink:0;transition:transform 0.25s ease'
+    class='accordion-chevron'
+  >
+    <path d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z' />
+  </svg>
+)
+
+const accordionCss = css`
+  position: relative;
+  list-style: none;
+
+  & summary {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: ${grayLight};
+    font-size: 0.88rem;
+    font-weight: 500;
+    padding: 0.4rem 0.7rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    list-style: none;
+    user-select: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::marker {
+      display: none;
+      content: '';
+    }
+
+    &:hover,
+    &:focus {
+      color: ${gray};
+      background: rgba(65, 114, 181, 0.08);
+    }
+  }
+
+  &[open] summary .accordion-chevron {
+    transform: rotate(180deg);
+  }
+
+  & .accordion-panel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 200;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(221, 224, 228, 0.6);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    min-width: 280px;
+    animation: accordionFadeIn 0.2s ease;
+  }
+
+  & .accordion-panel a {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: ${grayLight};
+    text-decoration: none;
+    font-size: 0.84rem;
+    font-weight: 500;
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+
+    &:hover,
+    &:focus {
+      color: ${gray};
+      background: rgba(65, 114, 181, 0.08);
+    }
+  }
+
+  @media (max-width: 600px) {
+    & .accordion-panel {
+      position: static;
+      box-shadow: none;
+      border: none;
+      background: rgba(65, 114, 181, 0.04);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-radius: 8px;
+      margin-top: 0.25rem;
+      padding: 0.4rem;
+      flex-direction: column;
+      min-width: 0;
+      width: 100%;
+    }
+  }
+
+  @keyframes accordionFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 `
 
@@ -146,60 +268,52 @@ export const Header = () => {
         <a href='/' class={titleCss}>
           ぽんろぐ備忘録
         </a>
-        <nav>
-          <ul class={navigationListCss}>
-            <li>
+        <nav class={navAreaCss}>
+          <details class={accordionCss}>
+            <summary>
+              <IconMenu />
+              <IconChevron />
+            </summary>
+            <div class='accordion-panel'>
               <a href='/categories/'>
                 <IconCategory />
                 Categories
               </a>
-            </li>
-            <li>
               <a href='/tags/'>
                 <IconTag />
                 Tags
               </a>
-            </li>
-            <li>
               <a href='/index.xml'>
                 <IconRss />
                 RSS
               </a>
-            </li>
-            <li>
               <a href='/about/'>
                 <IconPerson />
                 About
               </a>
-            </li>
-            <li>
               <a href='/contact/'>
                 <IconMail />
                 Contact
               </a>
-            </li>
-            <li>
-              <div class={dividerCss} />
-            </li>
-            <li>
-              <a
-                href='https://github.com/kn1515'
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <IconGithub />
-              </a>
-            </li>
-            <li>
-              <a
-                href='https://twitter.com/Non_c5c'
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <IconX />
-              </a>
-            </li>
-          </ul>
+            </div>
+          </details>
+          <div class={dividerCss} />
+          <div class={socialLinksCss}>
+            <a
+              href='https://github.com/kn1515'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <IconGithub />
+            </a>
+            <a
+              href='https://twitter.com/Non_c5c'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <IconX />
+            </a>
+          </div>
         </nav>
       </div>
     </header>
