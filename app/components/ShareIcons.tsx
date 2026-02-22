@@ -78,15 +78,6 @@ const xIconCss = css`
   }
 `;
 
-const pocketCss = css`
-  ${shareButtonCss}
-  box-shadow: inset 0 0 0 0.1rem #ee4056;
-
-  & i {
-    color: #ee4056;
-  }
-`;
-
 const hatenaCss = css`
   ${shareButtonCss}
   box-shadow: inset 0 0 0 0.1rem #4ba3d9;
@@ -123,17 +114,6 @@ export function ShareButtons({ title, permalink }: Props) {
             class={xShareButtonLinkCss}
           >
             <i class={xIconCss} />
-          </a>
-        </div>
-        <div class={pocketCss}>
-          <a
-            href={`http://getpocket.com/edit?url=https://www.ponnlog.com${permalink}&title=${title} - ぽんろぐ備忘録`}
-            target="_blank"
-            rel="noreferrer noopener"
-            title="pocket"
-            class={shareButtonLinkCss}
-          >
-            <i class="fab fa-get-pocket" />
           </a>
         </div>
         <div class={hatenaCss}>
