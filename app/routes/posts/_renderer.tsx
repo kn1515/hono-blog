@@ -12,7 +12,7 @@ import { gray, grayLight } from "../../styles/color";
 const postTitleCss = css`
   font-size: 2.5rem;
   margin: 0 0 1.7rem;
-  text-align: center;
+  text-align: left;
   line-height: 3.4rem;
   word-break: auto-phrase;
 
@@ -25,12 +25,12 @@ const postTitleCss = css`
 const postDateCss = css`
   color: ${grayLight};
   letter-spacing: 1px;
-  text-align: center;
+  text-align: left;
   padding: 1.275rem 0 0.85rem;
 `;
 
 const toTopLinkCss = css`
-  text-align: center;
+  text-align: left;
 
   & a {
     color: ${gray};
