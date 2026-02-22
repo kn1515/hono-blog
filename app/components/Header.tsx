@@ -58,6 +58,33 @@ const IconMenu = () => (
   </svg>
 )
 
+const IconOwl = () => (
+  <svg width='28' height='28' viewBox='0 0 64 64' fill='currentColor' style='flex-shrink:0'>
+    {/* 耳（角羽） */}
+    <path d='M14 18 L8 4 L22 14 Z' />
+    <path d='M50 18 L56 4 L42 14 Z' />
+    {/* 頭と体 */}
+    <ellipse cx='32' cy='30' rx='22' ry='18' />
+    {/* 目の外枠（白） */}
+    <circle cx='22' cy='28' r='9' fill='#fff' />
+    <circle cx='42' cy='28' r='9' fill='#fff' />
+    {/* 瞳 */}
+    <circle cx='23' cy='28' r='5' fill='#222' />
+    <circle cx='43' cy='28' r='5' fill='#222' />
+    {/* 瞳のハイライト */}
+    <circle cx='25' cy='26' r='1.5' fill='#fff' />
+    <circle cx='45' cy='26' r='1.5' fill='#fff' />
+    {/* くちばし */}
+    <path d='M29 35 L32 41 L35 35 Z' fill='#e8a735' />
+    {/* 足 */}
+    <path d='M24 47 Q22 52 18 52 M24 47 Q24 52 24 52 M24 47 Q26 52 28 51' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' />
+    <path d='M40 47 Q38 52 34 52 M40 47 Q40 52 40 52 M40 47 Q42 52 44 51' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' />
+    {/* 胸の模様 */}
+    <path d='M26 38 Q32 44 38 38' fill='none' stroke='#fff' stroke-width='1.5' opacity='0.5' />
+    <path d='M28 41 Q32 46 36 41' fill='none' stroke='#fff' stroke-width='1.5' opacity='0.4' />
+  </svg>
+)
+
 /* ── Styles ── */
 const headerCss = css`
   position: sticky;
@@ -94,7 +121,9 @@ const titleCss = css`
   font-weight: 700;
   letter-spacing: 0.02em;
   transition: color 0.25s ease, transform 0.25s ease;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
 
   &:hover,
   &:focus {
@@ -272,6 +301,7 @@ export const Header = () => {
     <header class={headerCss}>
       <div class={headerContainerCss}>
         <a href='/' class={titleCss}>
+          <IconOwl />
           ぽんろぐ備忘録
         </a>
         <nav class={navAreaCss}>
