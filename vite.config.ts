@@ -12,6 +12,16 @@ import { rehypePlugins, remarkPlugins } from "./app/lib/mdx";
 
 const entry = "./app/server.ts";
 
+const fixViteSsgBuiltins = () => ({
+  name: "fix-vite-ssg-builtins",
+  configResolved(resolvedConfig: any) {
+    const builtins = resolvedConfig.resolve?.builtins;
+    if (!Array.isArray(builtins)) {
+      resolvedConfig.resolve.builtins = [];
+    }
+  },
+});
+
 export default defineConfig(({ mode }) => {
   if (mode === "client") {
     return {
@@ -38,6 +48,7 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: false,
     },
     plugins: [
+      fixViteSsgBuiltins(),
       viteCommonjs({
         include: [
           "acorn-jsx",
