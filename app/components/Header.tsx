@@ -1,5 +1,6 @@
 import { css } from 'hono/css'
 import { gray, grayLight } from '../styles/color'
+import { getCategories } from '../lib/posts'
 
 /* ── Inline SVG Icons ── */
 const svgProps = {
@@ -139,7 +140,127 @@ const dividerCss = css`
   }
 `
 
+const IconChevron = () => (
+  <svg
+    width='12'
+    height='12'
+    viewBox='0 0 24 24'
+    fill='currentColor'
+    style='flex-shrink:0;transition:transform 0.25s ease'
+    class='accordion-chevron'
+  >
+    <path d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z' />
+  </svg>
+)
+
+const accordionCss = css`
+  position: relative;
+  list-style: none;
+
+  & summary {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: ${grayLight};
+    font-size: 0.88rem;
+    font-weight: 500;
+    padding: 0.4rem 0.7rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    list-style: none;
+    user-select: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::marker {
+      display: none;
+      content: '';
+    }
+
+    &:hover,
+    &:focus {
+      color: ${gray};
+      background: rgba(65, 114, 181, 0.08);
+    }
+  }
+
+  &[open] summary .accordion-chevron {
+    transform: rotate(180deg);
+  }
+
+  & .accordion-panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 200;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(221, 224, 228, 0.6);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    min-width: 200px;
+    animation: accordionFadeIn 0.2s ease;
+  }
+
+  & .accordion-panel a {
+    display: block;
+    color: ${grayLight};
+    text-decoration: none;
+    font-size: 0.84rem;
+    font-weight: 500;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+
+    &:hover,
+    &:focus {
+      color: ${gray};
+      background: rgba(65, 114, 181, 0.08);
+    }
+  }
+
+  @media (max-width: 600px) {
+    & .accordion-panel {
+      position: static;
+      box-shadow: none;
+      border: none;
+      background: rgba(65, 114, 181, 0.04);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-radius: 8px;
+      margin-top: 0.25rem;
+      padding: 0.4rem;
+      flex-direction: column;
+      min-width: 0;
+      width: 100%;
+    }
+  }
+
+  @keyframes accordionFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`
+
 export const Header = () => {
+  const categories = getCategories()
   return (
     <header class={headerCss}>
       <div class={headerContainerCss}>
@@ -149,10 +270,20 @@ export const Header = () => {
         <nav>
           <ul class={navigationListCss}>
             <li>
-              <a href='/categories/'>
-                <IconCategory />
-                Categories
-              </a>
+              <details class={accordionCss}>
+                <summary>
+                  <IconCategory />
+                  Categories
+                  <IconChevron />
+                </summary>
+                <div class='accordion-panel'>
+                  {categories.map(category => (
+                    <a href={`/categories/${category.id}/`}>
+                      {category.name}
+                    </a>
+                  ))}
+                </div>
+              </details>
             </li>
             <li>
               <a href='/tags/'>
