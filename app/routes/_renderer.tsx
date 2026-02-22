@@ -1,5 +1,5 @@
 import { Style, css } from "hono/css";
-import { html } from "hono/html";
+import { html, raw } from "hono/html";
 import { jsxRenderer } from "hono/jsx-renderer";
 import { Script } from "honox/server";
 import { Footer } from "../components/Footer";
@@ -289,8 +289,8 @@ export default jsxRenderer(
             content="width=device-width, initial-scale=1.0"
           />
           {/* Theme init (before paint to avoid flash) */}
-          {html`<style>${themeVarsStyle}</style>`}
-          {html`<script>${themeInitScript}</script>`}
+          {html`<style>${raw(themeVarsStyle)}</style>`}
+          {html`<script>${raw(themeInitScript)}</script>`}
           <title>{title}</title>
 
           <meta name="description" content={description} />
