@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
+import { getCategoryList } from '../lib/categories'
 import { gray, grayLight } from '../styles/color'
-import { getCategories } from '../lib/posts'
 
 /* ── Inline SVG Icons ── */
 const svgProps = {
@@ -260,7 +260,7 @@ const accordionCss = css`
 `
 
 export const Header = () => {
-  const categories = getCategories()
+  const categories = getCategoryList()
   return (
     <header class={headerCss}>
       <div class={headerContainerCss}>
