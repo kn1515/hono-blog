@@ -82,6 +82,7 @@ const headerContainerCss = css`
 
   @media (max-width: 600px) {
     flex-direction: column;
+    align-items: flex-start;
     padding: 0.6rem 1rem;
   }
 `
@@ -106,6 +107,10 @@ const navAreaCss = css`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
+  @media (max-width: 600px) {
+    align-self: flex-end;
+  }
 `
 
 const socialLinksCss = css`
