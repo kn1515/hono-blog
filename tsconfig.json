@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "bundler",
     "strict": true,
     "lib": ["ESNext", "DOM"],
     "types": ["@cloudflare/workers-types", "vite/client"],
