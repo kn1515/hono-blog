@@ -255,7 +255,7 @@ const qualItemCss = css`
   }
 `
 
-const qualIconCss = css`
+const qualIconBase = `
   display: flex;
   align-items: center;
   justify-content: center;
@@ -265,17 +265,20 @@ const qualIconCss = css`
   flex-shrink: 0;
 `
 
-const qualIconBlue = css`
+const qualIconBlueCss = css`
+  ${qualIconBase}
   background: #e8f0fe;
   color: #4172b5;
 `
 
-const qualIconGreen = css`
+const qualIconGreenCss = css`
+  ${qualIconBase}
   background: #e6f7ed;
   color: #1a8b4e;
 `
 
-const qualIconOrange = css`
+const qualIconOrangeCss = css`
+  ${qualIconBase}
   background: #fff3e0;
   color: #e67e22;
 `
@@ -389,25 +392,25 @@ export default function About() {
       <div class={cardCss}>
         <div class={qualListCss}>
           <div class={qualItemCss}>
-            <div class={`${qualIconCss} ${qualIconBlue}`}>
+            <div class={qualIconBlueCss}>
               <IconVerified />
             </div>
             <span class={qualTextCss}>ITパスポート</span>
           </div>
           <div class={qualItemCss}>
-            <div class={`${qualIconCss} ${qualIconBlue}`}>
+            <div class={qualIconBlueCss}>
               <IconVerified />
             </div>
             <span class={qualTextCss}>基本情報技術者</span>
           </div>
           <div class={qualItemCss}>
-            <div class={`${qualIconCss} ${qualIconBlue}`}>
+            <div class={qualIconBlueCss}>
               <IconVerified />
             </div>
             <span class={qualTextCss}>応用情報技術者</span>
           </div>
           <div class={qualItemCss}>
-            <div class={`${qualIconCss} ${qualIconGreen}`}>
+            <div class={qualIconGreenCss}>
               <IconSecurity />
             </div>
             <span class={qualTextCss}>
@@ -415,13 +418,13 @@ export default function About() {
             </span>
           </div>
           <div class={qualItemCss}>
-            <div class={`${qualIconCss} ${qualIconOrange}`}>
+            <div class={qualIconOrangeCss}>
               <IconLinux />
             </div>
             <span class={qualTextCss}>LPIC-1</span>
           </div>
           <div class={qualItemCss}>
-            <div class={`${qualIconCss} ${qualIconOrange}`}>
+            <div class={qualIconOrangeCss}>
               <IconAws />
             </div>
             <span class={qualTextCss}>
@@ -429,7 +432,7 @@ export default function About() {
             </span>
           </div>
           <div class={qualItemCss}>
-            <div class={`${qualIconCss} ${qualIconBlue}`}>
+            <div class={qualIconBlueCss}>
               <IconCloud />
             </div>
             <span class={qualTextCss}>
