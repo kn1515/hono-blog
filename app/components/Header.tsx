@@ -98,6 +98,16 @@ const headerCss = css`
   transition: background-color 0.3s ease, border-color 0.3s ease;
 `
 
+const headerCanvasCss = css`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+`
+
 const headerContainerCss = css`
   max-width: 900px;
   margin: 0 auto;
@@ -105,6 +115,8 @@ const headerContainerCss = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+  z-index: 1;
   flex-wrap: wrap;
   gap: 0.5rem;
 
@@ -341,7 +353,8 @@ const themeToggleCss = css`
 
 export const Header = () => {
   return (
-    <header class={headerCss}>
+    <header class={headerCss} id='site-header'>
+      <canvas id='header-particles' class={headerCanvasCss} />
       <div class={headerContainerCss}>
         <a href='/' class={titleCss}>
           <IconOwl />
