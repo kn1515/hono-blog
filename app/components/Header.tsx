@@ -3,8 +3,8 @@ import { gray, grayLight } from '../styles/color'
 
 /* ── Inline SVG Icons ── */
 const svgProps = {
-  width: '16',
-  height: '16',
+  width: '24',
+  height: '24',
   viewBox: '0 0 24 24',
   fill: 'currentColor',
   style: 'flex-shrink:0',
@@ -82,6 +82,7 @@ const headerContainerCss = css`
 
   @media (max-width: 600px) {
     flex-direction: column;
+    align-items: flex-start;
     padding: 0.6rem 1rem;
   }
 `
@@ -89,7 +90,7 @@ const headerContainerCss = css`
 const titleCss = css`
   color: ${gray};
   text-decoration: none;
-  font-size: 1.35rem;
+  font-size: 2rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   transition: color 0.25s ease, transform 0.25s ease;
@@ -106,6 +107,10 @@ const navAreaCss = css`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
+  @media (max-width: 600px) {
+    align-self: flex-end;
+  }
 `
 
 const socialLinksCss = css`
@@ -118,7 +123,7 @@ const socialLinksCss = css`
     align-items: center;
     color: ${grayLight};
     text-decoration: none;
-    padding: 0.4rem 0.5rem;
+    padding: 0.45rem 0.55rem;
     border-radius: 8px;
     transition: all 0.2s ease;
 
@@ -162,9 +167,9 @@ const accordionCss = css`
     align-items: center;
     gap: 0.35rem;
     color: ${grayLight};
-    font-size: 0.88rem;
+    font-size: 2rem;
     font-weight: 500;
-    padding: 0.4rem 0.7rem;
+    padding: 0.45rem 0.75rem;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -234,18 +239,19 @@ const accordionCss = css`
 
   @media (max-width: 600px) {
     & .accordion-panel {
-      position: static;
-      box-shadow: none;
-      border: none;
-      background: rgba(65, 114, 181, 0.04);
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      border-radius: 8px;
+      position: absolute;
+      right: 0;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(221, 224, 228, 0.6);
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 10px;
       margin-top: 0.25rem;
-      padding: 0.4rem;
+      padding: 0.5rem;
       flex-direction: column;
-      min-width: 0;
-      width: 100%;
+      min-width: 180px;
+      width: auto;
     }
   }
 
