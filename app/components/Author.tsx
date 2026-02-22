@@ -60,7 +60,7 @@ const authorSNSLinkCss = css`
 const authorSNSGitHubCss = css`
   ${authorSNSLinkCss}
   & i {
-    color: #211f1f;
+    color: var(--c-sns-icon);
     padding-right: 0.2rem;
   }
 `;
@@ -68,7 +68,7 @@ const authorSNSGitHubCss = css`
 const authorSNSTwitterCss = css`
   ${authorSNSLinkCss}
   & i {
-    color: #211f1f;
+    color: var(--c-sns-icon);
     padding-right: 0.2rem;
   }
 `;

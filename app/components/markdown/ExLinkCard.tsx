@@ -10,9 +10,9 @@ const cardWrapperCss = css`
 const cardLinkCss = css`
     text-decoration: none;
     display: flex;
-    background-color: ${white};
+    background-color: ${backgroundDark};
     font-size: 13px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--c-link-border);
     border-radius: ${verticalRhythmUnit * 0.5}rem;
     height: ${verticalRhythmUnit * 5}rem;
     overflow: hidden;

@@ -1,15 +1,17 @@
-export const gray = '#1e2126'
-export const grayLight = '#636e7d'
+// All color exports now reference CSS custom properties.
+// Actual values are defined in _renderer.tsx (:root for light, .dark for dark).
+export const gray = 'var(--c-text)'
+export const grayLight = 'var(--c-text-muted)'
 
-export const blue = '#4172b5'
-export const blueLight = '#e8f5fe'
-export const textOnBlueLight = '#303233'
+export const blue = 'var(--c-accent)'
+export const blueLight = 'var(--c-accent-bg)'
+export const textOnBlueLight = 'var(--c-text)'
 
-export const border = '#dde0e4'
-export const borderLight = '#ffffff'
+export const border = 'var(--c-border)'
+export const borderLight = 'var(--c-border-light)'
 
 export const white = '#ffffff'
-export const whiteDark = '#dde0e4'
+export const whiteDark = 'var(--c-border-light)'
 
-export const background = '#ffffff'
-export const backgroundDark = '#f9f9fa'
+export const background = 'var(--c-bg)'
+export const backgroundDark = 'var(--c-bg-alt)'

@@ -13,13 +13,13 @@ const sectionCss = css`
   padding: 1rem;
   border: 1px solid ${blue};
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: var(--c-card-bg);
 `;
 
 const paragraphCss = css`
   margin-bottom: 1rem;
   line-height: 1.5;
-  color: #333;
+  color: var(--c-text-muted);
 `;
 
 export const title = "UserTerms";

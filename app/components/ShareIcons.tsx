@@ -22,7 +22,7 @@ const shareButtonCss = css`
   margin: 0 0 0 12px;
 
   &:hover {
-    box-shadow: inset 0 0 0 22px #eaeaea;
+    box-shadow: inset 0 0 0 22px var(--c-share-hover);
   }
 `;
 
@@ -30,7 +30,7 @@ const shareButtonLinkCss = css`
   display: table-cell;
   width: ${verticalRhythmUnit * 1.625}rem;
   height: ${verticalRhythmUnit * 1.625}rem;
-  color: #42464c;
+  color: #a1a1aa;
   text-align: center;
   vertical-align: middle;
   -moz-transition: all 280ms ease;
@@ -55,8 +55,8 @@ const xCss = css`
   background-color: black;
 
   &:hover {
-    box-shadow: inset 0 0 0 22px #444444;
-    background-color: #dddddd;
+    box-shadow: inset 0 0 0 22px var(--c-x-hover-bg);
+    background-color: var(--c-x-hover-bg);
   }
 `;
 

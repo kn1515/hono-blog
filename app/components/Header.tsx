@@ -90,11 +90,12 @@ const headerCss = css`
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--c-header-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(221, 224, 228, 0.6);
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+  border-bottom: 1px solid var(--c-header-border);
+  box-shadow: 0 1px 8px var(--c-shadow);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 `
 
 const headerContainerCss = css`
@@ -127,7 +128,7 @@ const titleCss = css`
 
   &:hover,
   &:focus {
-    color: #4172b5;
+    color: var(--c-accent);
     transform: translateY(-1px);
   }
 `
@@ -159,7 +160,7 @@ const socialLinksCss = css`
     &:hover,
     &:focus {
       color: ${gray};
-      background: rgba(65, 114, 181, 0.08);
+      background: var(--c-accent-hover-bg);
     }
   }
 `
@@ -167,7 +168,7 @@ const socialLinksCss = css`
 const dividerCss = css`
   width: 1px;
   height: 1rem;
-  background: rgba(221, 224, 228, 0.8);
+  background: var(--c-divider);
 
   @media (max-width: 600px) {
     display: none;
@@ -217,7 +218,7 @@ const accordionCss = css`
     &:hover,
     &:focus {
       color: ${gray};
-      background: rgba(65, 114, 181, 0.08);
+      background: var(--c-accent-hover-bg);
     }
   }
 
@@ -230,12 +231,12 @@ const accordionCss = css`
     top: 100%;
     right: 0;
     z-index: 200;
-    background: rgba(255, 255, 255, 0.97);
+    background: var(--c-panel-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(221, 224, 228, 0.6);
+    border: 1px solid var(--c-panel-border);
     border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 20px var(--c-shadow-lg);
     padding: 0.5rem;
     margin-top: 0.25rem;
     display: flex;
@@ -262,7 +263,7 @@ const accordionCss = css`
     &:hover,
     &:focus {
       color: ${gray};
-      background: rgba(65, 114, 181, 0.08);
+      background: var(--c-accent-hover-bg);
     }
   }
 
@@ -270,9 +271,9 @@ const accordionCss = css`
     & .accordion-panel {
       position: absolute;
       right: 0;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      border: 1px solid rgba(221, 224, 228, 0.6);
-      background: rgba(255, 255, 255, 0.97);
+      box-shadow: 0 4px 20px var(--c-shadow-lg);
+      border: 1px solid var(--c-panel-border);
+      background: var(--c-panel-bg);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-radius: 10px;
@@ -294,6 +295,51 @@ const accordionCss = css`
       transform: translateY(0);
     }
   }
+`
+
+/* ── Theme Toggle ── */
+const IconSun = () => (
+  <svg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='flex-shrink:0'>
+    <circle cx='12' cy='12' r='5' />
+    <line x1='12' y1='1' x2='12' y2='3' />
+    <line x1='12' y1='21' x2='12' y2='23' />
+    <line x1='4.22' y1='4.22' x2='5.64' y2='5.64' />
+    <line x1='18.36' y1='18.36' x2='19.78' y2='19.78' />
+    <line x1='1' y1='12' x2='3' y2='12' />
+    <line x1='21' y1='12' x2='23' y2='12' />
+    <line x1='4.22' y1='19.78' x2='5.64' y2='18.36' />
+    <line x1='18.36' y1='5.64' x2='19.78' y2='4.22' />
+  </svg>
+)
+
+const IconMoon = () => (
+  <svg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='flex-shrink:0'>
+    <path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z' />
+  </svg>
+)
+
+const themeToggleCss = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--c-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+
+  &:hover,
+  &:focus {
+    color: var(--c-text);
+    background: var(--c-accent-hover-bg);
+  }
+
+  & .icon-sun { display: block; }
+  & .icon-moon { display: none; }
 `
 
 export const Header = () => {
@@ -333,6 +379,16 @@ export const Header = () => {
               </a>
             </div>
           </details>
+          <div class={dividerCss} />
+          <button
+            type='button'
+            class={themeToggleCss}
+            id='theme-toggle'
+            aria-label='Toggle theme'
+          >
+            <span class='icon-sun'><IconSun /></span>
+            <span class='icon-moon'><IconMoon /></span>
+          </button>
           <div class={dividerCss} />
           <div class={socialLinksCss}>
             <a

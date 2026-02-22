@@ -64,7 +64,7 @@ const imageCss = css`
 
 const moreButtonCss = css`
   background-color: ${gray};
-  color: ${white};
+  color: var(--c-bg);
   width: 90px;
   border-radius: ${verticalRhythmUnit * 0.25}rem;
   padding: ${verticalRhythmUnit * 0.5}rem 1rem;

@@ -105,15 +105,15 @@ const avatarCss = css`
   height: 130px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #1a1a2e;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  border: 3px solid var(--c-border);
+  box-shadow: 0 8px 30px var(--c-shadow-lg);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   z-index: 1;
 
   &:hover {
     transform: scale(1.05);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 12px 40px var(--c-shadow-lg);
   }
 `
 
@@ -169,7 +169,7 @@ const heroNameCss = css`
 
 const heroRoleCss = css`
   font-size: 0.95rem;
-  color: #636e7d;
+  color: var(--c-text-muted);
   margin: 0 0 1rem;
   font-weight: 400;
 `
@@ -186,16 +186,16 @@ const socialRowCss = css`
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #f1f5f9;
-    color: #636e7d;
+    background: var(--c-social-bg);
+    color: var(--c-social-text);
     transition: all 0.25s ease;
     text-decoration: none;
 
     &:hover {
-      background: #4172b5;
-      color: #fff;
+      background: var(--c-accent);
+      color: var(--c-bg);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(65, 114, 181, 0.3);
+      box-shadow: 0 4px 12px rgba(45, 212, 191, 0.3);
     }
   }
 `
@@ -207,7 +207,7 @@ const sectionHeadingCss = css`
   color: ${gray};
   margin: 2.5rem 0 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid #e8f0fe;
+  border-bottom: 2px solid var(--c-section-border);
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -215,16 +215,16 @@ const sectionHeadingCss = css`
 
 /* ── Card ── */
 const cardCss = css`
-  background: #fff;
-  border: 1px solid #e8ecf1;
+  background: var(--c-card-bg);
+  border: 1px solid var(--c-card-border);
   border-radius: 14px;
   padding: 1.5rem;
   margin-bottom: 1rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 12px var(--c-shadow);
   transition: box-shadow 0.25s ease, transform 0.25s ease;
 
   &:hover {
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 6px 24px var(--c-shadow-lg);
     transform: translateY(-2px);
   }
 `
@@ -233,7 +233,7 @@ const cardCss = css`
 const aboutTextCss = css`
   font-size: 0.95rem;
   line-height: 1.85;
-  color: #3a4150;
+  color: var(--c-text-muted);
 
   & p {
     margin: 0 0 1rem;
@@ -252,9 +252,9 @@ const infoItemCss = css`
   align-items: flex-start;
   gap: 0.75rem;
   padding: 0.85rem 1rem;
-  background: #f8fafc;
+  background: var(--c-bg-info);
   border-radius: 10px;
-  border: 1px solid #eef1f5;
+  border: 1px solid var(--c-border);
 `
 
 const infoIconBoxCss = css`
@@ -264,8 +264,8 @@ const infoIconBoxCss = css`
   width: 36px;
   height: 36px;
   border-radius: 8px;
-  background: #e8f0fe;
-  color: #4172b5;
+  background: rgba(45, 212, 191, 0.15);
+  color: var(--c-accent);
   flex-shrink: 0;
 `
 
@@ -273,7 +273,7 @@ const infoContentCss = css`
   & strong {
     display: block;
     font-size: 0.8rem;
-    color: #636e7d;
+    color: var(--c-text-faint);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -297,14 +297,14 @@ const qualItemCss = css`
   align-items: center;
   gap: 0.75rem;
   padding: 0.8rem 1rem;
-  background: #f8fafc;
+  background: var(--c-bg-info);
   border-radius: 10px;
-  border: 1px solid #eef1f5;
+  border: 1px solid var(--c-border);
   transition: all 0.2s ease;
 
   &:hover {
-    background: #eef4fb;
-    border-color: #c8d8ed;
+    background: var(--c-hover-bg);
+    border-color: var(--c-hover-border);
   }
 `
 
@@ -320,20 +320,20 @@ const qualIconBase = `
 
 const qualIconBlueCss = css`
   ${qualIconBase}
-  background: #e8f0fe;
-  color: #4172b5;
+  background: rgba(45, 212, 191, 0.15);
+  color: var(--c-accent);
 `
 
 const qualIconGreenCss = css`
   ${qualIconBase}
-  background: #e6f7ed;
-  color: #1a8b4e;
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
 `
 
 const qualIconOrangeCss = css`
   ${qualIconBase}
-  background: #fff3e0;
-  color: #e67e22;
+  background: rgba(249, 115, 22, 0.15);
+  color: #f97316;
 `
 
 const qualTextCss = css`
@@ -422,7 +422,7 @@ export default function About() {
             </div>
             <div class={infoContentCss}>
               <strong>Hobbies</strong>
-              <span>プログラミング、旅行、ゲーム、ごはん</span>
+              <span>プログラミング / ゲーム / ごはん</span>
             </div>
           </div>
           <div class={infoItemCss}>

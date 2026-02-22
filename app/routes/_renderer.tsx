@@ -4,15 +4,106 @@ import { jsxRenderer } from "hono/jsx-renderer";
 import { Script } from "honox/server";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
-import { backgroundDark, border, gray } from "../styles/color";
 import { verticalRhythmUnit } from "../styles/variables";
 
 const codeBlockFontSize = 14;
 
+/* ── Theme CSS Variables (injected as raw <style>) ── */
+const themeVarsStyle = `
+:root {
+  --c-text: #1a1a2e;
+  --c-text-muted: #64748b;
+  --c-text-faint: #94a3b8;
+  --c-accent: #2dd4bf;
+  --c-accent-bg: rgba(45, 212, 191, 0.12);
+  --c-accent-hover-bg: rgba(45, 212, 191, 0.08);
+  --c-bg: #ffffff;
+  --c-bg-alt: #f8fafc;
+  --c-bg-info: #f4f4f5;
+  --c-border: #e2e8f0;
+  --c-border-light: #cbd5e1;
+  --c-header-bg: rgba(255, 255, 255, 0.85);
+  --c-header-border: rgba(226, 232, 240, 0.6);
+  --c-panel-bg: rgba(255, 255, 255, 0.97);
+  --c-panel-border: rgba(226, 232, 240, 0.6);
+  --c-shadow-sm: rgba(0, 0, 0, 0.04);
+  --c-shadow: rgba(0, 0, 0, 0.06);
+  --c-shadow-lg: rgba(0, 0, 0, 0.1);
+  --c-glow: rgba(20, 184, 166, 0.05);
+  --c-divider: rgba(226, 232, 240, 0.8);
+  --c-code-bg: #f1f5f9;
+  --c-code-border: #e2e8f0;
+  --c-social-bg: #e2e8f0;
+  --c-social-text: #64748b;
+  --c-sns-icon: #475569;
+  --c-hover-bg: #f1f5f9;
+  --c-hover-border: #cbd5e1;
+  --c-card-bg: #ffffff;
+  --c-card-border: #e2e8f0;
+  --c-link-border: rgba(0, 0, 0, 0.08);
+  --c-section-border: #e2e8f0;
+  --c-share-hover: #e2e8f0;
+  --c-x-hover-bg: #555555;
+  color-scheme: light;
+}
+.dark {
+  --c-text: #e4e4e7;
+  --c-text-muted: #a1a1aa;
+  --c-text-faint: #71717a;
+  --c-accent: #2dd4bf;
+  --c-accent-bg: #0d3d38;
+  --c-accent-hover-bg: rgba(45, 212, 191, 0.1);
+  --c-bg: #09090b;
+  --c-bg-alt: #18181b;
+  --c-bg-info: #1c1c1f;
+  --c-border: #27272a;
+  --c-border-light: #3f3f46;
+  --c-header-bg: rgba(9, 9, 11, 0.85);
+  --c-header-border: rgba(39, 39, 42, 0.6);
+  --c-panel-bg: rgba(24, 24, 27, 0.97);
+  --c-panel-border: rgba(63, 63, 70, 0.6);
+  --c-shadow-sm: rgba(0, 0, 0, 0.15);
+  --c-shadow: rgba(0, 0, 0, 0.2);
+  --c-shadow-lg: rgba(0, 0, 0, 0.35);
+  --c-glow: rgba(20, 184, 166, 0.15);
+  --c-divider: rgba(63, 63, 70, 0.8);
+  --c-code-bg: #18181b;
+  --c-code-border: #27272a;
+  --c-social-bg: #27272a;
+  --c-social-text: #a1a1aa;
+  --c-sns-icon: #e4e4e7;
+  --c-hover-bg: #252528;
+  --c-hover-border: #3f3f46;
+  --c-card-bg: #18181b;
+  --c-card-border: #27272a;
+  --c-link-border: rgba(255, 255, 255, 0.1);
+  --c-section-border: #27272a;
+  --c-share-hover: #3f3f46;
+  --c-x-hover-bg: #333333;
+  color-scheme: dark;
+}
+/* Theme toggle icon visibility */
+#theme-toggle .icon-sun { display: block; }
+#theme-toggle .icon-moon { display: none; }
+.dark #theme-toggle .icon-sun { display: none; }
+.dark #theme-toggle .icon-moon { display: block; }
+`;
+
+/* ── Theme toggle script (runs before paint to avoid flash) ── */
+const themeInitScript = `
+(function(){
+  var s=localStorage.getItem('theme');
+  if(s==='dark'||(s!=='light'&&window.matchMedia('(prefers-color-scheme:dark)').matches)){
+    document.documentElement.classList.add('dark');
+  }
+})();
+`;
+
 const bodyCss = css`
   :-hono-global {
     body {
-      color: ${gray};
+      color: var(--c-text);
+      background-color: var(--c-bg);
       font-size: 16px;
       font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Segoe UI",
         "Roboto", "Noto Sans CJK JP", sans-serif, "Apple Color Emoji",
@@ -21,8 +112,8 @@ const bodyCss = css`
       margin: 0 1rem;
       padding: 0;
 
-      /* https://alpacat.com/posts/unexpected-font-size-change */
       -webkit-text-size-adjust: 100%;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     h2 {
@@ -33,7 +124,7 @@ const bodyCss = css`
     h3 {
       font-size: 1.3rem;
       line-height: 2.55rem;
-      border-bottom: 1px solid #dde0e4;
+      border-bottom: 1px solid var(--c-border);
     }
 
     p {
@@ -45,8 +136,8 @@ const bodyCss = css`
     }
 
     code {
-      background-color: ${backgroundDark};
-      border: 1px solid ${border};
+      background-color: var(--c-code-bg);
+      border: 1px solid var(--c-code-border);
       border-radius: ${verticalRhythmUnit * 0.125}rem;
       font-family: monospace;
       font-size: 85%;
@@ -122,13 +213,11 @@ const bodyCss = css`
       overflow-x: auto;
       padding: ${verticalRhythmUnit * 0.5}rem;
 
-      /* グローバルのcodeスタイルを上書き */
       font-size: ${codeBlockFontSize}px;
       font-family: monospace;
       border: none;
     }
 
-    /* emgithub用 */
     .emgithub-file .code-area td.hljs-ln-line {
       font-size: ${codeBlockFontSize}px !important;
       font-family: monospace !important;
@@ -136,9 +225,43 @@ const bodyCss = css`
   }
 `;
 
+const wrapperCss = css`
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+`
+
+const glowTopCss = css`
+  position: fixed;
+  top: -6rem;
+  right: -6rem;
+  width: 24rem;
+  height: 24rem;
+  background: var(--c-glow);
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+  pointer-events: none;
+`
+
+const glowBottomCss = css`
+  position: fixed;
+  bottom: -8rem;
+  left: -8rem;
+  width: 24rem;
+  height: 24rem;
+  background: var(--c-glow);
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+  pointer-events: none;
+`
+
 const mainCss = css`
   margin: 0 auto;
   max-width: 800px;
+  position: relative;
+  z-index: 1;
 `;
 
 export default jsxRenderer(
@@ -164,6 +287,9 @@ export default jsxRenderer(
             name="viewport"
             content="width=device-width, initial-scale=1.0"
           />
+          {/* Theme init (before paint to avoid flash) */}
+          {html`<style>${themeVarsStyle}</style>`}
+          {html`<script>${themeInitScript}</script>`}
           <title>{title}</title>
 
           <meta name="description" content={description} />
@@ -208,9 +334,13 @@ export default jsxRenderer(
           <Style />
         </head>
         <body class={bodyCss}>
-          <Header />
-          <main class={mainCss}>{children}</main>
-          <Footer />
+          <div class={wrapperCss}>
+            <div class={glowTopCss} />
+            <div class={glowBottomCss} />
+            <Header />
+            <main class={mainCss}>{children}</main>
+            <Footer />
+          </div>
         </body>
       </html>
     );
