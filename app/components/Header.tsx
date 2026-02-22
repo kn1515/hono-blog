@@ -118,7 +118,7 @@ const headerContainerCss = css`
 const titleCss = css`
   color: ${gray};
   text-decoration: none;
-  font-size: 2rem;
+  font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   transition: color 0.25s ease, transform 0.25s ease;
