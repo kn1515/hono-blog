@@ -97,8 +97,10 @@ export async function PostSummarySection({ post }: Props) {
   // --- more マーカーまでのサマリーを抽出 ---
   const [summaryRaw] = noFrontmatter.split("{/* <!--more--> */}");
 
-  // --- description がある場合はそちらを優先 ---
-  const summaryCandidate = post.frontmatter.description ?? summaryRaw;
+  // --- description + 本文冒頭を連結して少し長めに出す ---
+  const summaryCandidate = post.frontmatter.description
+    ? `${post.frontmatter.description}\n\n${summaryRaw}`
+    : summaryRaw;
 
   // --- 改行整理（縦書き化防止）---
   const summaryText = summaryCandidate
