@@ -4,6 +4,7 @@ import mdx from "@mdx-js/rollup";
 import { viteCommonjs } from "@originjs/vite-plugin-commonjs";
 import honox from "honox/vite";
 import client from "honox/vite/client";
+import tailwindcss from "@tailwindcss/vite";
 
 import recmaExportFilepath from "recma-export-filepath";
 import { defineConfig, normalizePath } from "vite";
@@ -25,7 +26,7 @@ const fixViteSsgBuiltins = () => ({
 export default defineConfig(({ mode }) => {
   if (mode === "client") {
     return {
-      plugins: [client()],
+      plugins: [client(), tailwindcss()],
     };
   }
 
@@ -42,6 +43,9 @@ export default defineConfig(({ mode }) => {
       ? "https://www.ponnlog.com" 
       : "/",
     resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./app"),
+      },
       builtins: [],
     },
     build: {
@@ -72,6 +76,7 @@ export default defineConfig(({ mode }) => {
         rehypePlugins,
         recmaPlugins: [recmaExportFilepath],
       }),
+      tailwindcss(),
       ssg({ entry }),
       viteStaticCopy({
         targets: [
