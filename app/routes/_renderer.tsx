@@ -93,7 +93,8 @@ const themeVarsStyle = `
 const themeInitScript = `
 (function(){
   var s=localStorage.getItem('theme');
-  if(s==='dark'||(s!=='light'&&window.matchMedia('(prefers-color-scheme:dark)').matches)){
+  var prefersDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  if(s==='dark'||(s!=='light' ? prefersDark : false)){
     document.documentElement.classList.add('dark');
   }
 })();
