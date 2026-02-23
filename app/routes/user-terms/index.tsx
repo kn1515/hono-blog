@@ -64,7 +64,7 @@ export default function UserTerms() {
           <br />
           そのため、一部ページにおいて同サービスにより提供されるcookieを使用しています。
           <br />
-          cookieに関する情報、収集される情報についての詳細は、Cloudflare Web Analyticsのプライバシーポリシーをご確認ください。
+          cookieに関する情報、収集される情報についての詳細は、Cloudflareのプライバシーポリシーをご確認ください。
         </p>
         <h2>本利用規約について</h2>
         <p class={paragraphCss}>
