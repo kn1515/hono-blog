@@ -1,0 +1,195 @@
+---
+title: "「12ステップで作る組込みOS自作入門」の環境構築でつまずいた点と解決方法"
+date: 2023-06-17T00:00:00
+description: "H8/3069Fマイコンボードで組込みOS「KOZOS」を自作する書籍の環境構築で発生した問題と、その解決方法をまとめました。"
+categories:
+  - 技術
+tags:
+  - RTOS
+  - 組込み
+  - H8
+  - KOZOS
+  - WSL2
+image: "/static/logo2.png"
+---
+
+「12ステップで作る組込みOS自作入門」の環境構築でつまずいたポイントと解決策をまとめます。
+
+{/* <!--more--> */}
+
+<Toc>
+- 12ステップで作る組込みOS自作入門について
+- 開発環境
+- 参考元記事にはないが実施したこと
+- 発生した問題
+- 顛末
+- まとめ
+</Toc>
+
+## 12ステップで作る組込みOS自作入門について
+
+**H8/3069F** というマイコンボードで、著者の「KOZOS」という組み込みOSをフルスクラッチで自作していく書籍です。
+
+<BlockLink href="https://amzn.asia/d/4shuj4R">
+  12ステップで作る 組込みOS自作入門 — Amazon
+</BlockLink>
+
+組込みOSの仕組みを基礎から学べる名著ですが、**環境構築が難しい**ことでも知られています。書籍の発刊からかなり時間が経っているため、現在のOS環境では一筋縄ではいかない部分があります。
+
+基本的にこちらの方の手順を参考に環境構築を行いました。
+
+<BlockLink href="https://to-son.net/2020/04/16/12step-wsl-environment/">
+  12ステップで作る組込みOS自作入門 WSL環境構築 — to-son.net
+</BlockLink>
+
+---
+
+## 開発環境
+
+| 項目 | バージョン |
+|---|---|
+| OS | Windows 11 |
+| Linux環境 | WSL2 Ubuntu 18.04 LTS |
+| binutils | 2.19.1 |
+| gcc | 3.4.6 |
+| kz_h8write | 0.2.1 |
+
+<BlockLink href="https://ja.osdn.net/projects/kz-h8write/">
+  kz_h8write — OSDN
+</BlockLink>
+
+---
+
+## 参考元記事にはないが実施したこと
+
+WSL2の環境からUSB変換のシリアルケーブルを認識させるため、**WSL2の環境にUSBを認識させた（＝アタッチさせた）**。
+
+アタッチの方法は下記を参考にしました。
+
+<BlockLink href="https://qiita.com/KMNMKT/items/ae0e76a3e420b3ca16e6">
+  WSL2でUSBデバイスを使用する方法 — Qiita
+</BlockLink>
+
+---
+
+## 発生した問題
+
+Makeを実施し、**コンパイルはエラーなし**で通りました。しかし、**H8/3069FへのROM書き込みで失敗**しました。
+
+エラーメッセージ：`Bitrate sequence failed. (code=0x04)`
+
+```text
+** wsl2 **
+
+$ ../../kz_h8write-v0.2.1/PackageFiles/src/kz_h8write -3069 -f20 kzload.mot /dev/ttyS1
+=================================================
+ H8/3069F Flash Writer for KOZOS (Version 0.2.1)
+ Copyright(C) 2011-2012 Shinichiro Nakamura
+=================================================
+Bitrate sequence failed. (code=0x04)
+```
+
+---
+
+## 顛末
+
+### 原因：シリアルケーブルがWindows 11と非互換
+
+調査の結果、**使用していたシリアルケーブルがWindows 11と相性が悪い**ことが判明しました。
+
+PowerShellで `usbipd wsl list` を実行すると、デバイス名にはっきりと警告が表示されていました。
+
+```text
+** powershell **
+
+usbipd wsl list
+BUSID  VID:PID    DEVICE                                                        STATE
+4-2    067b:2303  PL2303TA DO NOT SUPPORT WINDOWS 11 OR LATER, PLEASE CONTA...  Attached - Ubuntu-18.04
+```
+
+使っていたのは秋月電子の**USBシリアル変換ケーブル（グレー色）**でした。
+
+<BlockLink href="https://akizukidenshi.com/catalog/g/gM-02746/">
+  USBシリアル変換ケーブル — 秋月電子通商
+</BlockLink>
+
+<Note>
+
+PL2303TAチップを搭載したUSBシリアル変換ケーブルは、Windows 11以降でドライバが非対応となっています。デバイスマネージャで確認すると `PL2303TA DO NOT SUPPORT WINDOWS 11 OR LATER` と表示される場合は、ケーブルの交換が必要です。
+
+</Note>
+
+### 解決方法
+
+家にあった別のシリアル変換ケーブル（**BUFFALO BCUSRC0610BS**）に交換したところ、問題なく書き込めるようになりました。
+
+<BlockLink href="https://amzn.asia/d/6P0R6f4">
+  BUFFALO BCUSRC0610BS USBシリアル変換ケーブル — Amazon
+</BlockLink>
+
+<Note>
+
+別の方は古いデバイスドライバを適用することでこの問題を回避されています。
+
+<BlockLink href="https://qiita.com/nekoshark02/items/a5a95e732fcd3003dede">
+  PL2303TAのWindows 11対応回避策 — Qiita
+</BlockLink>
+
+</Note>
+
+### 是正後の実行結果
+
+ケーブル交換後、無事にROM書き込みが成功しました。
+
+```text
+** wsl2 **
+
+~/12step/src/01/bootload$ make write
+../../kz_h8write-v0.2.1/PackageFiles/src/kz_h8write -3069 -f20 kzload.mot /dev/ttyUSB0
+=================================================
+ H8/3069F Flash Writer for KOZOS (Version 0.2.1)
+ Copyright(C) 2011-2012 Shinichiro Nakamura
+=================================================
+Bitrate sequence: Done.
+Inquiry device: Done.
+Select device: Done.
+Inquiry clock mode: Done.
+Select clock mode: Done.
+Select bitrate: Done.
+Waiting for erase done:..........
+Programming:.....
+Program: Done.
+Complete.
+```
+
+### シリアル通信の確認
+
+Windowsの **PuTTY** からシリアル通信させるため、いったんWSL2からUSBをデタッチしました。
+
+```text
+** powershell **
+
+> usbipd.exe wsl attach -d Ubuntu-18.04 --busid 4-2
+```
+
+<Note>
+
+書籍ではTeraTerm でシリアル通信する方法が記載されていますが、今回は使い慣れた PuTTY を使用しました。
+
+</Note>
+
+**Hello World** の表示を確認できました！
+
+---
+
+## まとめ
+
+鬼門の環境構築を乗り越えることができました。所要時間は **2時間ほど** でした。
+
+今回のポイントをまとめると：
+
+1. **WSL2でのUSB認識** — `usbipd` を使ってWSL2にUSBデバイスをアタッチする必要がある
+2. **シリアルケーブルの互換性** — PL2303TAチップ搭載ケーブルはWindows 11非対応。`usbipd wsl list` のデバイス名で確認可能
+3. **解決策** — ケーブルを交換するか、古いドライバを適用する
+
+環境構築が難しいと言われる書籍ですが、問題の原因さえわかれば対処は簡単でした。同じ問題でつまずいている方の参考になれば幸いです。
