@@ -174,6 +174,14 @@ const categoryItemCss = css`
   }
 `
 
+/* ── Popular Articles Section ── */
+const popularLoadingCss = css`
+  font-size: 0.85rem;
+  color: var(--c-text-faint);
+  text-align: center;
+  padding: 1rem 0;
+`
+
 /* ── Component ── */
 const RECENT_POST_COUNT = 5
 
@@ -244,6 +252,18 @@ export function Sidebar({ recentPosts }: Props) {
             </li>
           ))}
         </ul>
+      </div>
+
+      {/* Popular Articles (populated by client-side JS) */}
+      <div
+        class={sectionCss}
+        id='popular-articles-section'
+        style='display:none'
+      >
+        <h3 class={sectionTitleCss}>人気記事</h3>
+        <div id='popular-articles-container'>
+          <div class={popularLoadingCss}>読み込み中...</div>
+        </div>
       </div>
 
       {/* Categories (Accordion) */}
