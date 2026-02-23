@@ -54,6 +54,24 @@ pnpm deploy
 - `pnpm preview` : wrangler pages dev でローカル確認
 - `pnpm deploy` : ビルドして Cloudflare Pages へデプロイ
 
+## テスト
+
+Playwright で E2E テストを実行しています（テストディレクトリ: `__test__`）。
+
+### テスト実行
+
+- ヘッドレス実行: `pnpm test`
+- UI 付き（テストランナーを開く）: `pnpm test:ui`
+
+`playwright.config.ts` で `pnpm dev` を自動起動し、`http://localhost:5173` を `baseURL` としてテストします。
+
+### テストの追加方法
+
+1. `__test__/` 配下に `*.spec.ts` を追加します。
+2. `import { test, expect } from '@playwright/test'` を使用し、`test('シナリオ名', async ({ page }) => { ... })` を書きます。
+3. 可能なら `data-testid` などのテスト用属性を UI に付与して選択を安定させてください。
+4. 新しいシナリオを追加したら `pnpm test` で通ることを確認します。
+
 ## ライセンス
 
 詳細は LICENSE ファイルを参照してください。
