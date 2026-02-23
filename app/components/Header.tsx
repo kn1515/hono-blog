@@ -145,6 +145,11 @@ const navAreaCss = css`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  background: var(--c-bg);
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  position: relative;
+  z-index: 2;
 
   @media (max-width: 600px) {
     align-self: flex-end;
