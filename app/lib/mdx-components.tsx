@@ -39,7 +39,7 @@ const imageCss = css`
   display: block;
   max-height: 500px;
   max-width: 100%;
-  margin: 0 auto;
+  margin: 0;
   border: 1px solid ${border};
 `;
 
