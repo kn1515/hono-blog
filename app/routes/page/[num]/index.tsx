@@ -5,7 +5,7 @@ import { createRoute } from 'honox/factory'
 import { Pagination } from '../../../components/Pagination'
 import { PostGridContainer } from '../../../components/PostGridContainer'
 import { PostSummarySection } from '../../../components/PostSummarySection'
-import ViewToggle from '../../../islands/ViewToggle'
+import { ViewToggle } from '../../../components/ViewToggle'
 import { getAllPosts, getMaxPageNumber, getPosts } from '../../../lib/posts'
 
 const param = ssgParams<Env>(c => {
@@ -33,16 +33,15 @@ export default createRoute(param, c => {
 
   return c.render(
     <Fragment>
-      <ViewToggle>
-        <div data-view="list" style="display:none;">
-          {posts.map(post => {
-            return <PostSummarySection post={post} />
-          })}
-        </div>
-        <div data-view="grid">
-          <PostGridContainer posts={posts} />
-        </div>
-      </ViewToggle>
+      <ViewToggle />
+      <div id="post-list-view" style="display:none;">
+        {posts.map(post => {
+          return <PostSummarySection post={post} />
+        })}
+      </div>
+      <div id="post-grid-view">
+        <PostGridContainer posts={posts} />
+      </div>
       <Pagination pageNumber={num} hasPrev={hasPrev} hasNext={hasNext} />
     </Fragment>,
   )

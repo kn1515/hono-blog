@@ -90,8 +90,7 @@ const themeVarsStyle = `
 .dark #theme-toggle .icon-moon { display: block; }
 `;
 
-/* ── Theme init script (runs before paint to avoid flash) ── */
-/* NOTE: Only initialises the dark class. Click handling is in app/islands/ThemeToggle.tsx */
+/* ── Theme toggle script (runs before paint to avoid flash) ── */
 const themeInitScript = `
 (function(){
   var s=localStorage.getItem('theme');
@@ -99,10 +98,49 @@ const themeInitScript = `
   if(s==='dark'||(s!=='light' ? prefersDark : false)){
     document.documentElement.classList.add('dark');
   }
+  document.addEventListener('click',function(e){
+    var btn=e.target&&e.target.closest&&e.target.closest('#theme-toggle');
+    if(!btn)return;
+    var isDark=document.documentElement.classList.toggle('dark');
+    try{localStorage.setItem('theme',isDark?'dark':'light')}catch(x){}
+  });
 })();
 `;
 
-/* View toggle is now handled by app/islands/ViewToggle.tsx */
+/* ── View toggle script (list/grid switching) ── */
+const viewToggleScript = `
+(function(){
+  function switchView(mode){
+    var listView=document.getElementById('post-list-view');
+    var gridView=document.getElementById('post-grid-view');
+    var listBtn=document.getElementById('view-toggle-list');
+    var gridBtn=document.getElementById('view-toggle-grid');
+    if(!listView||!gridView||!listBtn||!gridBtn)return;
+    if(mode==='grid'){
+      listView.style.display='none';
+      gridView.style.display='';
+      listBtn.setAttribute('data-active','false');
+      gridBtn.setAttribute('data-active','true');
+    }else{
+      listView.style.display='';
+      gridView.style.display='none';
+      listBtn.setAttribute('data-active','true');
+      gridBtn.setAttribute('data-active','false');
+    }
+    try{localStorage.setItem('viewMode',mode)}catch(x){}
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    var saved=localStorage.getItem('viewMode');
+    if(saved==='list'){switchView('list');}
+  });
+  document.addEventListener('click',function(e){
+    var listBtn=e.target&&e.target.closest&&e.target.closest('#view-toggle-list');
+    var gridBtn=e.target&&e.target.closest&&e.target.closest('#view-toggle-grid');
+    if(listBtn){switchView('list');}
+    else if(gridBtn){switchView('grid');}
+  });
+})();
+`;
 
 /* ── Search script (vanilla JS, runs after DOM is ready) ── */
 const searchScript = `
@@ -383,7 +421,8 @@ export default jsxRenderer(
           {/* Theme init (before paint to avoid flash) */}
           {html`<style>${raw(themeVarsStyle)}</style>`}
           {html`<script>${raw(themeInitScript)}</script>`}
-          {/* View toggle is handled by ViewToggle island */}
+          {/* View toggle (list/grid switching) */}
+          {html`<script>${raw(viewToggleScript)}</script>`}
           <title>{title}</title>
 
           <meta name="description" content={description} />

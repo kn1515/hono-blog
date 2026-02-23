@@ -33,9 +33,13 @@ const servePostImages = (): import("vite").Plugin => ({
   configureServer(server) {
     server.middlewares.use((req, res, next) => {
       if (!req.url) return next();
-      const match = req.url.match(/^\/posts\/(.+\.(png|jpe?g|webp|gif|svg|avif))(\?.*)?$/i);
+      // Match both /posts/slug/file.png and /app/routes/posts/slug/file.png
+      const match = req.url.match(
+        /^\/(app\/routes\/posts|posts)\/(.+\.(png|jpe?g|webp|gif|svg|avif))(\?.*)?$/i
+      );
       if (!match) return next();
-      const filePath = path.resolve(__dirname, "app/routes/posts", match[1]);
+      const relativePath = match[2]; // e.g. "hello-world/53372440.png"
+      const filePath = path.resolve(__dirname, "app/routes/posts", relativePath);
       if (!fs.existsSync(filePath)) return next();
       const ext = path.extname(filePath).toLowerCase();
       const mimeTypes: Record<string, string> = {
