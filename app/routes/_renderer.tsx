@@ -519,7 +519,7 @@ const mainCss = css`
 `;
 
 const leftSidebarAreaCss = css`
-  width: 200px;
+  width: 120px;
   flex-shrink: 0;
 
   @media (max-width: 1100px) {
@@ -530,7 +530,7 @@ const leftSidebarAreaCss = css`
 const contentAreaCss = css`
   flex: 1;
   min-width: 0;
-  max-width: 800px;
+  max-width: 900px;
   background: var(--c-content-bg);
   border-radius: 12px;
   padding: 1.5rem 2rem;
