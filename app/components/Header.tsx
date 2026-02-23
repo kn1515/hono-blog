@@ -355,7 +355,6 @@ export const Header = () => {
           <details class={accordionCss}>
             <summary>
               <IconMenu />
-              <IconChevron />
             </summary>
             <div class='accordion-panel'>
               <a href='/categories/'>
@@ -378,6 +377,22 @@ export const Header = () => {
                 <IconMail />
                 Contact
               </a>
+              <a
+                href='https://github.com/kn1515'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <IconGithub />
+                GitHub
+              </a>
+              <a
+                href='https://twitter.com/Non_c5c'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <IconX />
+                X
+              </a>
             </div>
           </details>
           <div class={dividerCss} />
@@ -390,23 +405,6 @@ export const Header = () => {
             <span class='icon-sun'><IconSun /></span>
             <span class='icon-moon'><IconMoon /></span>
           </button>
-          <div class={dividerCss} />
-          <div class={socialLinksCss}>
-            <a
-              href='https://github.com/kn1515'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <IconGithub />
-            </a>
-            <a
-              href='https://twitter.com/Non_c5c'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <IconX />
-            </a>
-          </div>
         </nav>
       </div>
     </header>
