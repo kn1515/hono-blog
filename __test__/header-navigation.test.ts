@@ -17,7 +17,9 @@ test.describe('Header & Navigation', () => {
     await expect(page).toHaveURL('/')
   })
 
-  test('should display navigation links in the header accordion', async ({ page }) => {
+  test('should display navigation links in the header accordion', async ({
+    page,
+  }) => {
     await page.goto('/')
     // Open the accordion menu
     const accordion = page.locator('header details summary')
@@ -47,7 +49,9 @@ test.describe('Header & Navigation', () => {
     await expect(xLink).toBeVisible()
   })
 
-  test('should display RSS feed link in the header accordion', async ({ page }) => {
+  test('should display RSS feed link in the header accordion', async ({
+    page,
+  }) => {
     await page.goto('/')
     // Open the accordion menu
     const accordion = page.locator('header details summary')
@@ -70,7 +74,7 @@ test.describe('Header & Navigation', () => {
     const html = page.locator('html')
 
     // Initially should not have dark class (or may have based on system preference)
-    const initialHasDark = await html.evaluate((el) =>
+    const initialHasDark = await html.evaluate(el =>
       el.classList.contains('dark'),
     )
 
@@ -78,7 +82,7 @@ test.describe('Header & Navigation', () => {
     await page.locator('#theme-toggle').click()
 
     // After click, the dark class should be toggled
-    const afterHasDark = await html.evaluate((el) =>
+    const afterHasDark = await html.evaluate(el =>
       el.classList.contains('dark'),
     )
     expect(afterHasDark).toBe(!initialHasDark)
@@ -103,9 +107,7 @@ test.describe('Header & Navigation', () => {
     await expect(searchInput).toBeVisible()
   })
 
-  test('should close search modal when Escape is pressed', async ({
-    page,
-  }) => {
+  test('should close search modal when Escape is pressed', async ({ page }) => {
     await page.goto('/')
     await page.locator('#search-open-btn').click()
 

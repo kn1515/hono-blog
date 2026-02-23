@@ -1,9 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 test.describe('Cross-Page Navigation (Integration)', () => {
-  test('should navigate from top page to a post and back', async ({
-    page,
-  }) => {
+  test('should navigate from top page to a post and back', async ({ page }) => {
     await page.goto('/')
     // Click on a post link
     const postLink = page.locator('a[href*="/posts/"]').first()
@@ -16,7 +14,9 @@ test.describe('Cross-Page Navigation (Integration)', () => {
     await expect(page).toHaveURL('/')
   })
 
-  test('should navigate from top page to categories via accordion', async ({ page }) => {
+  test('should navigate from top page to categories via accordion', async ({
+    page,
+  }) => {
     await page.goto('/')
     // Open the header accordion menu first
     const accordion = page.locator('header details summary')
@@ -26,7 +26,9 @@ test.describe('Cross-Page Navigation (Integration)', () => {
     await expect(page).toHaveURL('/categories/')
   })
 
-  test('should navigate from top page to tags via accordion', async ({ page }) => {
+  test('should navigate from top page to tags via accordion', async ({
+    page,
+  }) => {
     await page.goto('/')
     // Open the header accordion menu first
     const accordion = page.locator('header details summary')
@@ -36,7 +38,9 @@ test.describe('Cross-Page Navigation (Integration)', () => {
     await expect(page).toHaveURL('/tags/')
   })
 
-  test('should navigate from top page to about page via accordion', async ({ page }) => {
+  test('should navigate from top page to about page via accordion', async ({
+    page,
+  }) => {
     await page.goto('/')
     // Open the header accordion menu first
     const accordion = page.locator('header details summary')

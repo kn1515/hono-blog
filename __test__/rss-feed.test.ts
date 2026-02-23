@@ -18,9 +18,7 @@ test.describe('RSS Feed (/index.xml)', () => {
     expect(body).toContain('</rss>')
   })
 
-  test('should contain the blog title in the RSS feed', async ({
-    request,
-  }) => {
+  test('should contain the blog title in the RSS feed', async ({ request }) => {
     const response = await request.get('/index.xml')
     const body = await response.text()
     expect(body).toContain('ぽんろぐ備忘録')

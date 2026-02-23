@@ -8,9 +8,7 @@ test.describe('User Terms Page (/user-terms/)', () => {
 
   test('should display the user terms heading', async ({ page }) => {
     await page.goto('/user-terms/')
-    const heading = page
-      .locator('h1, h2')
-      .filter({ hasText: '利用規約' })
+    const heading = page.locator('h1, h2').filter({ hasText: '利用規約' })
     await expect(heading.first()).toBeVisible()
   })
 
@@ -23,9 +21,7 @@ test.describe('User Terms Page (/user-terms/)', () => {
   test('should describe external links policy', async ({ page }) => {
     await page.goto('/user-terms/')
     const body = page.locator('body')
-    await expect(body).toContainText(
-      '当サイトから外部サイトへのリンクについて',
-    )
+    await expect(body).toContainText('当サイトから外部サイトへのリンクについて')
   })
 
   test('should describe copyright information', async ({ page }) => {

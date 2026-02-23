@@ -25,9 +25,7 @@ test.describe('Sidebar', () => {
     await page.setViewportSize({ width: 1280, height: 800 })
     await page.goto('/')
     const sidebar = page.locator('[data-sidebar-area]')
-    const categoryLink = sidebar
-      .locator('a[href*="/categories/"]')
-      .first()
+    const categoryLink = sidebar.locator('a[href*="/categories/"]').first()
     const count = await categoryLink.count()
     if (count > 0) {
       await categoryLink.click()

@@ -18,7 +18,9 @@ test.describe('Top Page (/)', () => {
   }) => {
     await page.goto('/')
     // The hero section contains the blog description text
-    const heroText = page.locator('text=エンジニアリング・セキュリティ・低レイヤの学び')
+    const heroText = page.locator(
+      'text=エンジニアリング・セキュリティ・低レイヤの学び',
+    )
     await expect(heroText).toBeVisible()
   })
 

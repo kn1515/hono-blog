@@ -1,9 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 test.describe('Privacy Policy Page (/privacy-policy/)', () => {
-  test('should load the privacy policy page successfully', async ({
-    page,
-  }) => {
+  test('should load the privacy policy page successfully', async ({ page }) => {
     const response = await page.goto('/privacy-policy/')
     expect(response?.status()).toBe(200)
   })
@@ -32,9 +30,7 @@ test.describe('Privacy Policy Page (/privacy-policy/)', () => {
     await expect(body).toContainText('個人情報の利用目的')
   })
 
-  test('should describe personal information management', async ({
-    page,
-  }) => {
+  test('should describe personal information management', async ({ page }) => {
     await page.goto('/privacy-policy/')
     const body = page.locator('body')
     await expect(body).toContainText('個人情報の管理')

@@ -17,9 +17,7 @@ test.describe('Mobile Layout', () => {
     }
   })
 
-  test('should display the top page correctly on mobile', async ({
-    page,
-  }) => {
+  test('should display the top page correctly on mobile', async ({ page }) => {
     const response = await page.goto('/')
     expect(response?.status()).toBe(200)
     const header = page.locator('header')
@@ -58,7 +56,7 @@ test.describe('Mobile Layout', () => {
     const mobileSearchBtn = page.locator('#mobile-search-btn')
     const searchOpenBtn = page.locator('#search-open-btn')
     const mobileCount = await mobileSearchBtn.count()
-    if (mobileCount > 0 && await mobileSearchBtn.isVisible()) {
+    if (mobileCount > 0 && (await mobileSearchBtn.isVisible())) {
       await mobileSearchBtn.click()
     } else {
       await searchOpenBtn.click()

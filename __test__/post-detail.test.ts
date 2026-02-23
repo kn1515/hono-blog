@@ -73,9 +73,7 @@ test.describe('Post Detail Page (/posts/[slug]/)', () => {
     await expect(shareMenu).toBeHidden()
   })
 
-  test('should display post pagination (prev/next links)', async ({
-    page,
-  }) => {
+  test('should display post pagination (prev/next links)', async ({ page }) => {
     await page.goto('/posts/hello-world/')
     // There should be pagination section with navigation to other posts
     const postPagination = page.locator('body')
@@ -83,9 +81,7 @@ test.describe('Post Detail Page (/posts/[slug]/)', () => {
     await expect(postPagination).toContainText('情報処理安全確保支援士')
   })
 
-  test('should display the "Top" link to return to home', async ({
-    page,
-  }) => {
+  test('should display the "Top" link to return to home', async ({ page }) => {
     await page.goto('/posts/hello-world/')
     const topLink = page.locator('a[href="/"]').filter({ hasText: 'Top' })
     await expect(topLink).toBeVisible()
