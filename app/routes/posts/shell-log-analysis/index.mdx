@@ -1,0 +1,459 @@
+---
+title: "業務で使えるログ解析シェル芸まとめ"
+date: 2026-02-21T00:00:00
+description: "業務開発の現場で役立つログ解析のためのシェルワンライナー・コマンド集。grep, awk, sed, sort, uniq などを駆使してログを素早く分析する手法を紹介します。"
+categories:
+  - 技術
+tags:
+  - Shell
+  - Linux
+  - ログ解析
+  - 業務効率化
+  - コマンドライン
+image: "/posts/shell-log-analysis/cat-silhouette.svg"
+---
+
+![業務で使えるログ解析シェル芸](/posts/shell-log-analysis/cat-silhouette.svg)
+
+業務開発の中で、障害調査やパフォーマンス分析のためにログを読む場面は日常的に発生します。本記事では、現場で即使えるシェル芸（シェルワンライナー）を目的別にまとめます。
+
+{/* <!--more--> */}
+
+<Toc>
+- はじめに
+- 前提環境
+- 基本のログ検索（grep）
+- ログの整形・抽出（awk / cut）
+- ログの置換・加工（sed）
+- 集計・ランキング（sort / uniq）
+- 日時でのフィルタリング
+- 複数ファイルの横断検索
+- リアルタイム監視（tail）
+- 応用：実践的なワンライナー集
+- パフォーマンスに関する注意
+- まとめ
+</Toc>
+
+## はじめに
+
+以前の現場ではユニゲージ開発に携わっており、日々大量のアプリケーションログやアクセスログと向き合っていました。GUIツールに頼らず、ターミナル上でログを素早く解析するスキルは、障害対応のスピードに直結します。
+
+本記事では、そうした経験の中で実際に使い込んだシェルコマンドやワンライナーを体系的にまとめました。
+
+<Note>
+
+本記事のコマンドは **Linux（bash/zsh）** 環境を前提としています。macOS の場合、`grep` や `sed` が BSD 版のため、一部オプションが異なります。GNU 版を使う場合は `brew install coreutils grep gnu-sed` でインストールしてください。
+
+</Note>
+
+---
+
+## 前提環境
+
+以降の例では、以下のような一般的なアプリケーションログ形式を想定します。
+
+```
+2026-02-21 10:15:32.456 [INFO]  com.example.service.UserService - ユーザ認証成功 userId=1234
+2026-02-21 10:15:33.012 [WARN]  com.example.service.OrderService - 在庫残少 itemId=5678 remaining=3
+2026-02-21 10:15:35.789 [ERROR] com.example.service.PaymentService - 決済処理失敗 orderId=9012 reason=TIMEOUT
+2026-02-21 10:15:36.001 [INFO]  com.example.service.UserService - ユーザログアウト userId=1234
+```
+
+---
+
+## 基本のログ検索（grep）
+
+### 特定のキーワードを含む行を抽出
+
+```bash
+# ERROR レベルのログだけ抽出
+grep "ERROR" app.log
+
+# 大文字小文字を区別しない
+grep -i "error" app.log
+
+# 複数キーワード（OR検索）
+grep -E "ERROR|WARN" app.log
+```
+
+### 前後の行を含めて表示
+
+障害の前後のコンテキストを確認したい場合に便利です。
+
+```bash
+# 前後3行を含めて表示
+grep -B 3 -A 3 "ERROR" app.log
+
+# 前後5行（-C は -B と -A の同時指定）
+grep -C 5 "NullPointerException" app.log
+```
+
+### 特定のキーワードを除外
+
+```bash
+# INFO を除外して WARN と ERROR だけ見る
+grep -v "INFO" app.log
+
+# ヘルスチェックログを除外
+grep -v "/health" access.log
+```
+
+### マッチした行数をカウント
+
+```bash
+# ERROR の件数
+grep -c "ERROR" app.log
+
+# ファイルごとに件数を表示
+grep -c "ERROR" logs/*.log
+```
+
+---
+
+## ログの整形・抽出（awk / cut）
+
+### 特定のフィールドを抽出
+
+```bash
+# スペース区切りの3列目（時刻）と5列目以降（メッセージ）を表示
+awk '{print $2, $3, $5}' app.log
+
+# ログレベルだけ抽出
+awk '{print $3}' app.log
+```
+
+### 条件付きフィルタリング
+
+```bash
+# ERROR レベルのみ、時刻とメッセージを表示
+awk '$3 == "[ERROR]" {print $1, $2, $0}' app.log
+
+# レスポンスタイムが1000ms以上のリクエスト
+awk -F',' '$5 > 1000 {print $0}' access.csv
+```
+
+### 特定のパターンから値を抽出
+
+```bash
+# userId= の後ろの値を抽出
+grep -oP 'userId=\K[0-9]+' app.log
+
+# orderId を抽出（macOS の場合は grep -oE を使用）
+grep -oE 'orderId=[0-9]+' app.log | sort -u
+```
+
+### cut でフィールド切り出し
+
+```bash
+# TSV（タブ区切り）の2列目
+cut -f2 data.tsv
+
+# カンマ区切りの1列目と3列目
+cut -d',' -f1,3 access.csv
+```
+
+---
+
+## ログの置換・加工（sed）
+
+### 特定のパターンを置換
+
+```bash
+# パスワードをマスク
+sed 's/password=[^ ]*/password=****/g' app.log
+
+# IPアドレスをマスク
+sed -E 's/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/xxx.xxx.xxx.xxx/g' access.log
+```
+
+### 特定の範囲の行だけ表示
+
+```bash
+# 100行目から200行目
+sed -n '100,200p' app.log
+
+# 特定の文字列が出現する行から別の文字列まで
+sed -n '/START_TRANSACTION/,/END_TRANSACTION/p' app.log
+```
+
+### 不要な行を削除
+
+```bash
+# 空行を削除
+sed '/^$/d' app.log
+
+# コメント行（#始まり）を削除
+sed '/^#/d' config.log
+```
+
+---
+
+## 集計・ランキング（sort / uniq）
+
+### ログレベルごとの件数を集計
+
+```bash
+awk '{print $3}' app.log | sort | uniq -c | sort -rn
+```
+
+出力例：
+```
+  15234 [INFO]
+   1892 [WARN]
+    342 [ERROR]
+      5 [FATAL]
+```
+
+### アクセス数の多いURLランキング
+
+```bash
+awk '{print $7}' access.log | sort | uniq -c | sort -rn | head -20
+```
+
+### エラーが多いクラス名ランキング
+
+```bash
+grep "ERROR" app.log | awk '{print $4}' | sort | uniq -c | sort -rn | head -10
+```
+
+### 時間帯別のリクエスト数
+
+```bash
+# 時（HH）単位で集計
+awk '{print substr($2, 1, 2)}' access.log | sort | uniq -c
+```
+
+### ユニークなユーザ数
+
+```bash
+grep -oP 'userId=\K[0-9]+' app.log | sort -u | wc -l
+```
+
+---
+
+## 日時でのフィルタリング
+
+### 特定の時間帯のログを抽出
+
+```bash
+# 10:00〜10:30 のログ
+awk '$2 >= "10:00:00" && $2 <= "10:30:00"' app.log
+
+# sed で範囲指定
+sed -n '/2026-02-21 10:00/,/2026-02-21 10:30/p' app.log
+```
+
+### 直近N分のログを抽出
+
+```bash
+# 直近30分のログ（GNU date が必要）
+SINCE=$(date -d '30 minutes ago' '+%Y-%m-%d %H:%M')
+awk -v since="$SINCE" '$1" "$2 >= since' app.log
+```
+
+### 特定の日付のログだけ抽出
+
+```bash
+grep "^2026-02-21" app.log
+```
+
+---
+
+## 複数ファイルの横断検索
+
+### ディレクトリ配下を再帰的に検索
+
+```bash
+# logs/ 以下の全 .log ファイルから検索
+grep -r "OutOfMemoryError" logs/
+
+# ファイル名も表示（デフォルトで表示されるが明示的に）
+grep -rn "ERROR" logs/ --include="*.log"
+```
+
+### 圧縮されたログファイルの検索
+
+```bash
+# .gz ファイルを展開せずに検索
+zgrep "ERROR" app.log.2026-02-20.gz
+
+# 複数の gz ファイルを横断
+zgrep "TIMEOUT" logs/*.gz
+```
+
+### 複数ファイルの結合と検索
+
+```bash
+# 日付順に結合してから検索
+cat logs/app.log.2026-02-{19,20,21} | grep "ERROR" | sort
+```
+
+---
+
+## リアルタイム監視（tail）
+
+### ログのリアルタイム監視
+
+```bash
+# 末尾を監視（新しいログが追加されると表示）
+tail -f app.log
+
+# 複数ファイルを同時監視
+tail -f app.log error.log
+
+# ERROR だけリアルタイムで監視
+tail -f app.log | grep --line-buffered "ERROR"
+```
+
+### 色付きリアルタイム監視
+
+```bash
+# ERROR を赤、WARN を黄色にハイライト
+tail -f app.log | sed \
+  -e 's/\(.*ERROR.*\)/\x1b[31m\1\x1b[0m/' \
+  -e 's/\(.*WARN.*\)/\x1b[33m\1\x1b[0m/'
+```
+
+<Note>
+
+`tail -f` はファイルディスクリプタを追跡するため、ログローテーションでファイルが切り替わると追跡が途切れます。`tail -F`（大文字F）を使うとファイル名ベースで追跡するため、ローテーション後も追い続けます。
+
+</Note>
+
+---
+
+## 応用：実践的なワンライナー集
+
+### エラーの発生頻度を1分単位で集計
+
+```bash
+grep "ERROR" app.log | awk '{print substr($1"_"$2, 1, 17)}' | sort | uniq -c
+```
+
+出力例：
+```
+   12 2026-02-21_10:15
+   45 2026-02-21_10:16
+    3 2026-02-21_10:17
+```
+
+### スロークエリの抽出と統計
+
+```bash
+# 実行時間が1秒以上のクエリを抽出し、実行時間の降順で並べる
+grep "slow query" mysql-slow.log \
+  | grep -oP 'Time: \K[0-9.]+' \
+  | sort -rn \
+  | head -20
+```
+
+### レスポンスタイムの統計値を算出
+
+```bash
+# 平均・最大・最小を算出
+awk '{sum+=$NF; if($NF>max)max=$NF; if(min==""||$NF<min)min=$NF; count++} 
+  END{print "avg:", sum/count, "max:", max, "min:", min, "count:", count}' response_times.log
+```
+
+### 特定のリクエストIDの処理フローを追跡
+
+```bash
+# requestId で一連の処理を時系列で追跡
+grep "requestId=abc-123-def" logs/*.log | sort -t' ' -k1,2
+```
+
+### HTTPステータスコード別の集計
+
+```bash
+awk '{print $9}' access.log | sort | uniq -c | sort -rn
+```
+
+出力例：
+```
+  45230 200
+   1204 304
+    892 301
+    156 404
+     23 500
+      2 503
+```
+
+### 同一IPからの大量アクセスを検出
+
+```bash
+awk '{print $1}' access.log | sort | uniq -c | sort -rn | head -20
+```
+
+### 2つのログファイルの差分を確認
+
+```bash
+# 昨日と今日のエラー種別の差分
+diff <(grep "ERROR" yesterday.log | awk '{print $4}' | sort -u) \
+     <(grep "ERROR" today.log | awk '{print $4}' | sort -u)
+```
+
+---
+
+## パフォーマンスに関する注意
+
+大量のログファイルを扱う場合、パフォーマンスを意識することも重要です。
+
+### grep の高速化
+
+```bash
+# 固定文字列検索は -F が速い（正規表現を使わない）
+grep -F "ERROR" huge.log
+
+# ロケールを C に設定すると高速化
+LC_ALL=C grep "ERROR" huge.log
+```
+
+### パイプの順序を最適化
+
+```bash
+# 悪い例：全行を sort してから grep（全行ソートが無駄）
+sort app.log | grep "ERROR"
+
+# 良い例：先に grep で絞り込んでから sort
+grep "ERROR" app.log | sort
+```
+
+### 巨大ファイルの行数確認
+
+```bash
+# wc -l が最速
+wc -l huge.log
+
+# ファイルサイズも同時に確認
+ls -lh huge.log && wc -l huge.log
+```
+
+<Note>
+
+数GB規模のログを扱う場合は、`ripgrep`（`rg`）コマンドの導入もおすすめです。`grep` の数倍〜数十倍の速度で検索できます。
+
+```bash
+# ripgrep のインストール
+brew install ripgrep  # macOS
+apt install ripgrep   # Ubuntu
+
+# 使い方は grep とほぼ同じ
+rg "ERROR" logs/
+```
+
+</Note>
+
+---
+
+## まとめ
+
+ログ解析は、いかに素早く必要な情報にたどり着けるかが勝負です。ポイントを整理すると：
+
+1. **grep** — まず絞り込む。`-E`（OR）、`-v`（除外）、`-C`（前後表示）を使いこなす
+2. **awk** — フィールド抽出と条件フィルタの万能ツール
+3. **sort | uniq -c | sort -rn** — 集計の黄金パターン。これだけで大半のランキングが出せる
+4. **sed** — 範囲抽出やマスク処理に活用
+5. **tail -F** — リアルタイム監視のお供（大文字Fがポイント）
+6. **パイプの順序** — 先に絞り込み → 後で加工が鉄則
+
+これらのコマンドを組み合わせれば、大抵のログ解析はターミナル上で完結します。GUIツールを起動する前に、まずワンライナーで試してみてください。
