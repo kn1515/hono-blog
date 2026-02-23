@@ -198,11 +198,17 @@ export function Sidebar({ recentPosts }: Props) {
       {/* Author */}
       <div class={sectionCss}>
         <div class={authorCss}>
-          <img
+          <a
+              href='/about/'
+              target='_blank'
+              rel='noopener noreferrer'
+          >
+            <img
             src='https://github.com/kn1515.png'
             alt='Author'
             class={authorAvatarCss}
-          />
+            />
+          </a>
           <div class={authorNameCss}>ぽん</div>
           <p class={authorDescCss}>
             サーバーサイドエンジニア。
