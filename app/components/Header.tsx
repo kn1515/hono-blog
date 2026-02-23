@@ -1,7 +1,6 @@
 import { css } from 'hono/css'
 import { gray, grayLight } from '../styles/color'
 import HeaderParticles from '../islands/HeaderParticles'
-import SearchBox from '../islands/SearchBox'
 import ThemeToggle from '../islands/ThemeToggle'
 
 /* ── Inline SVG Icons ── */
@@ -368,7 +367,17 @@ export const Header = () => {
             </div>
           </details>
           <div class={dividerCss} />
-          <SearchBox />
+          <button
+            type='button'
+            id='search-open-btn'
+            aria-label='Search'
+            style='display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:none;background:transparent;color:var(--c-text-muted);cursor:pointer;transition:all 0.2s ease;padding:0'
+          >
+            <svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='flex-shrink:0'>
+              <circle cx='11' cy='11' r='8' />
+              <line x1='21' y1='21' x2='16.65' y2='16.65' />
+            </svg>
+          </button>
           <div class={dividerCss} />
           <ThemeToggle />
         </nav>
