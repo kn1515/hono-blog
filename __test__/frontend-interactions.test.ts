@@ -454,10 +454,9 @@ test.describe('Frontend JS Interactions', () => {
         await page.waitForTimeout(500)
 
         const sidebarDrawer = page.locator('#sidebar-drawer')
-        const hasIsOpen =
-          await sidebarDrawer.evaluate(el =>
-            el.classList.contains('is-open'),
-          )
+        const hasIsOpen = await sidebarDrawer.evaluate(el =>
+          el.classList.contains('is-open'),
+        )
         expect(hasIsOpen).toBe(false)
       }
     })

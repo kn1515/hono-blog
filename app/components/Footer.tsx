@@ -1,7 +1,7 @@
-import { format } from "@formkit/tempo";
-import { css } from "hono/css";
-import { blue } from "../styles/color";
-import { verticalRhythmUnit } from "../styles/variables";
+import { format } from '@formkit/tempo'
+import { css } from 'hono/css'
+import { blue } from '../styles/color'
+import { verticalRhythmUnit } from '../styles/variables'
 
 const footerCss = css`
   padding: ${verticalRhythmUnit}rem 0;
@@ -17,10 +17,10 @@ const footerCss = css`
     color: ${blue};
     text-decoration: none;
   }
-`;
+`
 
 export function Footer() {
-  const now = new Date();
+  const now = new Date()
   return (
     <footer class={footerCss}>
       {/*
@@ -47,30 +47,30 @@ export function Footer() {
       <br />
       */}
       <span>
-        &copy;<time datetime={format(now)}>{format(now, "YYYY")}</time>
-        &nbsp;ぽん. Powered By{" "}
-        <a href="https://hono.dev/" target="_blank" rel="noopener noreferrer">
+        &copy;<time datetime={format(now)}>{format(now, 'YYYY')}</time>
+        &nbsp;ぽん. Powered By{' '}
+        <a href='https://hono.dev/' target='_blank' rel='noopener noreferrer'>
           Hono
         </a>
         .
       </span>
-      <br className="sm:hidden block" />
-      <a href="/user-terms/" target="_blank" rel="noopener noreferrer">
+      <br className='sm:hidden block' />
+      <a href='/user-terms/' target='_blank' rel='noopener noreferrer'>
         利用規約
-      </a>{" "}
-      | <a href="/privacy-policy/">プライバシーポリシー</a>
+      </a>{' '}
+      | <a href='/privacy-policy/'>プライバシーポリシー</a>
       <script
-        data-name="BMC-Widget"
-        data-cfasync="false"
-        src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
-        data-id="nakata17893"
-        data-description="よろしければ投げ銭をお願いします！"
-        data-message=""
-        data-color="#FF813F"
-        data-position="Right"
-        data-x_margin="18"
-        data-y_margin="18"
+        data-name='BMC-Widget'
+        data-cfasync='false'
+        src='https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js'
+        data-id='nakata17893'
+        data-description='よろしければ投げ銭をお願いします！'
+        data-message=''
+        data-color='#FF813F'
+        data-position='Right'
+        data-x_margin='18'
+        data-y_margin='18'
       ></script>
     </footer>
-  );
+  )
 }

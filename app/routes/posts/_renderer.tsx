@@ -1,15 +1,15 @@
-import { format } from "@formkit/tempo";
-import { css } from "hono/css";
-import { jsxRenderer } from "hono/jsx-renderer";
-import { html, raw } from "hono/html";
-import { Author } from "../../components/Author";
-import { PostDetails } from "../../components/PostDetails";
-import { PostPagination } from "../../components/PostPagination";
-import { ShareDropdown } from "../../components/ShareDropdown";
-import { ShareButtons } from "../../components/ShareIcons";
-import { getPaginationPosts } from "../../lib/posts";
-import { parseDate } from "../../lib/time";
-import { gray, grayLight } from "../../styles/color";
+import { format } from '@formkit/tempo'
+import { css } from 'hono/css'
+import { html, raw } from 'hono/html'
+import { jsxRenderer } from 'hono/jsx-renderer'
+import { Author } from '../../components/Author'
+import { PostDetails } from '../../components/PostDetails'
+import { PostPagination } from '../../components/PostPagination'
+import { ShareDropdown } from '../../components/ShareDropdown'
+import { ShareButtons } from '../../components/ShareIcons'
+import { getPaginationPosts } from '../../lib/posts'
+import { parseDate } from '../../lib/time'
+import { gray, grayLight } from '../../styles/color'
 
 /* ── Share dropdown toggle & clipboard copy (vanilla JS) ── */
 const shareDropdownScript = `
@@ -109,7 +109,7 @@ const shareDropdownScript = `
     }
   }
 })();
-`;
+`
 
 /* ── Slack / Discord circular icon buttons – copy to clipboard ── */
 const shareIconCopyScript = `
@@ -164,7 +164,50 @@ const shareIconCopyScript = `
     });
   });
 })();
-`;
+`
+
+/* ── giscus comment widget (vanilla JS) ── */
+const giscusScript = `
+(function(){
+  var container = document.getElementById('giscus-container');
+  if (!container) return;
+  var isDark = document.documentElement.classList.contains('dark');
+  var theme = isDark ? 'dark' : 'light';
+  var script = document.createElement('script');
+  script.src = 'https://giscus.app/client.js';
+  script.setAttribute('data-repo', 'kn1515/hono-blog');
+  script.setAttribute('data-repo-id', 'R_kgDONGoI-A');
+  script.setAttribute('data-category', 'Comments');
+  script.setAttribute('data-category-id', 'DIC_kwDONGoI-M4C3CnG');
+  script.setAttribute('data-mapping', 'pathname');
+  script.setAttribute('data-strict', '0');
+  script.setAttribute('data-reactions-enabled', '1');
+  script.setAttribute('data-emit-metadata', '0');
+  script.setAttribute('data-input-position', 'bottom');
+  script.setAttribute('data-theme', theme);
+  script.setAttribute('data-lang', 'ja');
+  script.crossOrigin = 'anonymous';
+  script.async = true;
+  container.appendChild(script);
+
+  /* Sync giscus theme when dark mode is toggled */
+  var observer = new MutationObserver(function() {
+    var nowDark = document.documentElement.classList.contains('dark');
+    var newTheme = nowDark ? 'dark' : 'light';
+    var iframe = container.querySelector('iframe.giscus-frame');
+    if (iframe && iframe.contentWindow) {
+      iframe.contentWindow.postMessage(
+        { giscus: { setConfig: { theme: newTheme } } },
+        'https://giscus.app'
+      );
+    }
+  });
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class']
+  });
+})();
+`
 
 const postTitleCss = css`
   font-size: 2.5rem;
@@ -177,14 +220,14 @@ const postTitleCss = css`
     font-size: 1.75rem;
     line-height: 2.55rem;
   }
-`;
+`
 
 const postDateCss = css`
   color: ${grayLight};
   letter-spacing: 1px;
   text-align: left;
   padding: 1.275rem 0 0.85rem;
-`;
+`
 
 const toTopLinkCss = css`
   text-align: left;
@@ -201,24 +244,24 @@ const toTopLinkCss = css`
       color: ${grayLight};
     }
   }
-`;
+`
 
 export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
   if (!(frontmatter && filepath)) {
-    return <div>Not Post Page</div>;
+    return <div>Not Post Page</div>
   }
 
-  const paginationPosts = getPaginationPosts(frontmatter.title);
+  const paginationPosts = getPaginationPosts(frontmatter.title)
 
   const permalink = `${import.meta.env.BASE_URL}${filepath
-    .replaceAll("app/routes/", "")
-    .replaceAll("index.mdx", "")}`;
+    .replaceAll('app/routes/', '')
+    .replaceAll('index.mdx', '')}`
 
   return (
     <Layout title={frontmatter.title} frontmatter={frontmatter}>
       <div class={postDateCss}>
         <time datetime={frontmatter.date}>
-          {format(parseDate(frontmatter.date), "YYYY/MM/DD")}
+          {format(parseDate(frontmatter.date), 'YYYY/MM/DD')}
         </time>
       </div>
       <h1 class={postTitleCss}>{frontmatter.title}</h1>
@@ -227,12 +270,14 @@ export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
       <article>{children}</article>
       <ShareButtons title={frontmatter.title} permalink={permalink} />
       <Author />
+      <div id='giscus-container' />
       <PostPagination paginationPosts={paginationPosts} />
       <div class={toTopLinkCss}>
-        <a href="/">Topへ戻る</a>
+        <a href='/'>Topへ戻る</a>
       </div>
       {html`<script>${raw(shareDropdownScript)}</script>`}
       {html`<script>${raw(shareIconCopyScript)}</script>`}
+      {html`<script>${raw(giscusScript)}</script>`}
     </Layout>
-  );
-});
+  )
+})

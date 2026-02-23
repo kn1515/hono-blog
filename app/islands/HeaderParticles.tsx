@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'hono/jsx/dom'
 import { css } from 'hono/css'
+import { useEffect, useRef } from 'hono/jsx/dom'
 
 const canvasCss = css`
   position: absolute;
@@ -24,13 +24,13 @@ const ORBIT_SPEED_MAX = 0.03
 const PASTEL_COLORS = [
   { r: 255, g: 130, b: 160 }, // pink
   { r: 255, g: 170, b: 130 }, // peach
-  { r: 240, g: 220, b: 80 },  // lemon
+  { r: 240, g: 220, b: 80 }, // lemon
   { r: 120, g: 230, b: 160 }, // mint
   { r: 130, g: 160, b: 255 }, // periwinkle
   { r: 180, g: 140, b: 255 }, // lavender
   { r: 255, g: 120, b: 180 }, // rose
   { r: 100, g: 210, b: 200 }, // teal
-  { r: 255, g: 180, b: 80 },  // apricot
+  { r: 255, g: 180, b: 80 }, // apricot
   { r: 140, g: 200, b: 255 }, // sky
 ]
 
@@ -91,7 +91,8 @@ export default function HeaderParticles() {
             ORBIT_SPEED_MIN +
             Math.random() * (ORBIT_SPEED_MAX - ORBIT_SPEED_MIN),
           orbitRadius: ORBIT_RADIUS * (0.6 + Math.random() * 0.8),
-          color: PASTEL_COLORS[Math.floor(Math.random() * PASTEL_COLORS.length)],
+          color:
+            PASTEL_COLORS[Math.floor(Math.random() * PASTEL_COLORS.length)],
         })
       }
     }
@@ -144,10 +145,7 @@ export default function HeaderParticles() {
 
         // Draw matte flat sphere
         const { r: cr, g: cg, b: cb } = p.color
-        const grad = ctx!.createRadialGradient(
-          p.x, p.y, 0,
-          p.x, p.y, p.r
-        )
+        const grad = ctx!.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r)
         grad.addColorStop(0, `rgba(${cr},${cg},${cb},${p.opacity})`)
         grad.addColorStop(0.85, `rgba(${cr},${cg},${cb},${p.opacity * 0.7})`)
         grad.addColorStop(1, `rgba(${cr},${cg},${cb},${p.opacity * 0.1})`)

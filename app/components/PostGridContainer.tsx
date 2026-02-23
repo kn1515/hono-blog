@@ -1,6 +1,6 @@
-import { css } from "hono/css";
-import type { Post } from "../lib/posts";
-import { PostGridCard } from "./PostGridCard";
+import { css } from 'hono/css'
+import type { Post } from '../lib/posts'
+import { PostGridCard } from './PostGridCard'
 
 const gridCss = css`
   display: grid;
@@ -10,18 +10,18 @@ const gridCss = css`
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
   }
-`;
+`
 
 type Props = {
-  posts: Post[];
-};
+  posts: Post[]
+}
 
 export function PostGridContainer({ posts }: Props) {
   return (
     <div class={gridCss}>
-      {posts.map((post) => (
+      {posts.map(post => (
         <PostGridCard post={post} />
       ))}
     </div>
-  );
+  )
 }
