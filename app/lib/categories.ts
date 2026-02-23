@@ -17,10 +17,10 @@ export type CategoryInfo = {
   name: string
 }
 
-const frontmatters = import.meta.glob<Frontmatter>(
-  '../routes/posts/**/*.mdx',
-  { eager: true, import: 'frontmatter' },
-)
+const frontmatters = import.meta.glob<Frontmatter>('../routes/posts/**/*.mdx', {
+  eager: true,
+  import: 'frontmatter',
+})
 
 function categoryNameToId(name: string): string {
   return name.toLowerCase()

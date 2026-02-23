@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
-import { gray, grayLight } from '../styles/color'
 import HeaderParticles from '../islands/HeaderParticles'
+import { gray, grayLight } from '../styles/color'
 
 /* ── Inline SVG Icons ── */
 const svgProps = {
@@ -60,7 +60,13 @@ const IconMenu = () => (
 )
 
 const IconOwl = () => (
-  <svg width='28' height='28' viewBox='0 0 64 64' fill='currentColor' style='flex-shrink:0'>
+  <svg
+    width='28'
+    height='28'
+    viewBox='0 0 64 64'
+    fill='currentColor'
+    style='flex-shrink:0'
+  >
     {/* 耳（角羽） */}
     <path d='M14 18 L8 4 L22 14 Z' />
     <path d='M50 18 L56 4 L42 14 Z' />
@@ -78,11 +84,35 @@ const IconOwl = () => (
     {/* くちばし */}
     <path d='M29 35 L32 41 L35 35 Z' fill='#e8a735' />
     {/* 足 */}
-    <path d='M24 47 Q22 52 18 52 M24 47 Q24 52 24 52 M24 47 Q26 52 28 51' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' />
-    <path d='M40 47 Q38 52 34 52 M40 47 Q40 52 40 52 M40 47 Q42 52 44 51' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' />
+    <path
+      d='M24 47 Q22 52 18 52 M24 47 Q24 52 24 52 M24 47 Q26 52 28 51'
+      fill='none'
+      stroke='currentColor'
+      stroke-width='2'
+      stroke-linecap='round'
+    />
+    <path
+      d='M40 47 Q38 52 34 52 M40 47 Q40 52 40 52 M40 47 Q42 52 44 51'
+      fill='none'
+      stroke='currentColor'
+      stroke-width='2'
+      stroke-linecap='round'
+    />
     {/* 胸の模様 */}
-    <path d='M26 38 Q32 44 38 38' fill='none' stroke='#fff' stroke-width='1.5' opacity='0.5' />
-    <path d='M28 41 Q32 46 36 41' fill='none' stroke='#fff' stroke-width='1.5' opacity='0.4' />
+    <path
+      d='M26 38 Q32 44 38 38'
+      fill='none'
+      stroke='#fff'
+      stroke-width='1.5'
+      opacity='0.5'
+    />
+    <path
+      d='M28 41 Q32 46 36 41'
+      fill='none'
+      stroke='#fff'
+      stroke-width='1.5'
+      opacity='0.4'
+    />
   </svg>
 )
 
@@ -333,7 +363,17 @@ const accordionCss = css`
 
 /* ── Theme Toggle ── */
 const IconSun = () => (
-  <svg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='flex-shrink:0'>
+  <svg
+    width='20'
+    height='20'
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    stroke-width='2'
+    stroke-linecap='round'
+    stroke-linejoin='round'
+    style='flex-shrink:0'
+  >
     <circle cx='12' cy='12' r='5' />
     <line x1='12' y1='1' x2='12' y2='3' />
     <line x1='12' y1='21' x2='12' y2='23' />
@@ -347,7 +387,17 @@ const IconSun = () => (
 )
 
 const IconMoon = () => (
-  <svg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='flex-shrink:0'>
+  <svg
+    width='20'
+    height='20'
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    stroke-width='2'
+    stroke-linecap='round'
+    stroke-linejoin='round'
+    style='flex-shrink:0'
+  >
     <path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z' />
   </svg>
 )
@@ -431,7 +481,17 @@ export const Header = () => {
             aria-label='Search'
             style='display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:none;background:transparent;color:var(--c-text-muted);cursor:pointer;transition:all 0.2s ease;padding:0'
           >
-            <svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='flex-shrink:0'>
+            <svg
+              width='18'
+              height='18'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='2'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              style='flex-shrink:0'
+            >
               <circle cx='11' cy='11' r='8' />
               <line x1='21' y1='21' x2='16.65' y2='16.65' />
             </svg>
@@ -443,8 +503,12 @@ export const Header = () => {
             id='theme-toggle'
             aria-label='Toggle theme'
           >
-            <span class='icon-sun'><IconSun /></span>
-            <span class='icon-moon'><IconMoon /></span>
+            <span class='icon-sun'>
+              <IconSun />
+            </span>
+            <span class='icon-moon'>
+              <IconMoon />
+            </span>
           </button>
         </nav>
       </div>

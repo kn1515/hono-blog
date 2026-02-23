@@ -129,15 +129,11 @@ const rotatingTextCss = css`
 `
 
 const RotatingText = () => {
-  const text = 'Hello こんにちは 안녕하세요 你好 Bonjour Hola Ciao नमस्ते مرحبا Привет';
+  const text =
+    'Hello こんにちは 안녕하세요 你好 Bonjour Hola Ciao नमस्ते مرحبا Привет'
   const r = 90
   return (
-    <svg
-      class={rotatingTextCss}
-      viewBox='0 0 200 200'
-      width='200'
-      height='200'
-    >
+    <svg class={rotatingTextCss} viewBox='0 0 200 200' width='200' height='200'>
       <defs>
         <path
           id='circlePath'
@@ -157,7 +153,6 @@ const RotatingText = () => {
     </svg>
   )
 }
-
 
 const heroNameCss = css`
   font-size: 1.75rem;
@@ -398,7 +393,8 @@ export default function About() {
             関西にある大学の文系学部を卒業したのち、
             2019年より某SIerで働いています。
           </p>
-          <p>バックエンドやインフラに関連する仕事をしたり、チームリーダーとしてプロジェクトを管理したりしています。
+          <p>
+            バックエンドやインフラに関連する仕事をしたり、チームリーダーとしてプロジェクトを管理したりしています。
             セキュリティやOS、低レイヤの技術に特に興味があります。
           </p>
           <p>
@@ -475,9 +471,7 @@ export default function About() {
             <div class={qualIconGreenCss}>
               <IconSecurity />
             </div>
-            <span class={qualTextCss}>
-              情報処理安全確保支援士 (合格)
-            </span>
+            <span class={qualTextCss}>情報処理安全確保支援士 (合格)</span>
           </div>
           <div class={qualItemCss}>
             <div class={qualIconOrangeCss}>
