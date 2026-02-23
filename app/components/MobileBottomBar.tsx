@@ -12,10 +12,10 @@ const bottomBarCss = css`
     left: 0;
     right: 0;
     z-index: 200;
-    background: var(--c-header-bg);
+    background: var(--c-panel-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid var(--c-header-border);
+    border-top: 1px solid var(--c-panel-border);
     box-shadow: 0 -1px 8px var(--c-shadow);
     height: 56px;
     align-items: center;
