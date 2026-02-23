@@ -90,6 +90,13 @@ const themeVarsStyle = `
 #theme-toggle .icon-moon { display: none; }
 .dark #theme-toggle .icon-sun { display: none; }
 .dark #theme-toggle .icon-moon { display: block; }
+
+/* Push Buy Me a Coffee widget above mobile bottom bar */
+@media (max-width: 900px) {
+  #bmc-wbtn {
+    bottom: calc(56px + env(safe-area-inset-bottom, 0) + 18px) !important;
+  }
+}
 `;
 
 /* ── Theme toggle script (runs before paint to avoid flash) ── */
