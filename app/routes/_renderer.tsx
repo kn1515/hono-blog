@@ -20,8 +20,9 @@ const themeVarsStyle = `
   --c-accent: #2dd4bf;
   --c-accent-bg: rgba(45, 212, 191, 0.12);
   --c-accent-hover-bg: rgba(45, 212, 191, 0.08);
-  --c-bg: #ffffff;
+  --c-bg: #f0f2f5;
   --c-bg-alt: #f8fafc;
+  --c-content-bg: #ffffff;
   --c-bg-info: #f4f4f5;
   --c-border: #e2e8f0;
   --c-border-light: #cbd5e1;
@@ -56,8 +57,9 @@ const themeVarsStyle = `
   --c-accent: #2dd4bf;
   --c-accent-bg: rgba(45, 212, 191, 0.12);
   --c-accent-hover-bg: rgba(45, 212, 191, 0.08);
-  --c-bg: #2c2c32;
+  --c-bg: #232328;
   --c-bg-alt: #343438;
+  --c-content-bg: #2c2c32;
   --c-bg-info: #38383e;
   --c-border: #46464e;
   --c-border-light: #56565e;
@@ -529,6 +531,15 @@ const contentAreaCss = css`
   flex: 1;
   min-width: 0;
   max-width: 800px;
+  background: var(--c-content-bg);
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 1px 4px var(--c-shadow-sm), 0 2px 12px var(--c-shadow);
+
+  @media (max-width: 900px) {
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+  }
 `;
 
 const sidebarAreaCss = css`
