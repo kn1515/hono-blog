@@ -11,12 +11,12 @@ export default function Top() {
   return (
     <Fragment>
       <ViewToggle />
-      <div id="post-list-view">
+      <div id="post-list-view" style="display:none;">
         {posts.map((post) => {
           return <PostSummarySection post={post} />;
         })}
       </div>
-      <div id="post-grid-view" style="display:none;">
+      <div id="post-grid-view">
         <PostGridContainer posts={posts} />
       </div>
       <Pagination pageNumber={pageNum} hasPrev={hasPrev} hasNext={hasNext} />

@@ -128,10 +128,10 @@ const viewToggleScript = `
     }
     try{localStorage.setItem('viewMode',mode)}catch(x){}
   }
-  // Restore saved preference
+  // Restore saved preference (default is grid)
   document.addEventListener('DOMContentLoaded',function(){
     var saved=localStorage.getItem('viewMode');
-    if(saved==='grid'){switchView('grid');}
+    if(saved==='list'){switchView('list');}
   });
   // Listen for toggle clicks
   document.addEventListener('click',function(e){

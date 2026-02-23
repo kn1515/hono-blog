@@ -40,7 +40,7 @@ export function ViewToggle() {
         type="button"
         id="view-toggle-list"
         class={toggleButtonBaseCss}
-        data-active="true"
+        data-active="false"
         aria-label="List view"
       >
         <svg
@@ -65,7 +65,7 @@ export function ViewToggle() {
         type="button"
         id="view-toggle-grid"
         class={toggleButtonBaseCss}
-        data-active="false"
+        data-active="true"
         aria-label="Grid view"
       >
         <svg
