@@ -1,20 +1,9 @@
 import { useEffect, useRef } from 'hono/jsx/dom'
 
-/**
- * giscus configuration
- *
- * Before using this component, the repository owner must:
- * 1. Enable GitHub Discussions on the repository (Settings > General > Features > Discussions)
- * 2. Install the giscus GitHub App: https://github.com/apps/giscus
- * 3. Create a "Comments" category in Discussions (or use an existing one)
- * 4. Update GISCUS_CATEGORY_ID below with the correct value from https://giscus.app
- */
 const GISCUS_REPO = 'kn1515/hono-blog'
 const GISCUS_REPO_ID = 'R_kgDONGoI-A'
-// TODO: Update this after enabling Discussions and creating a "Comments" category
-// Visit https://giscus.app to get the correct category ID
 const GISCUS_CATEGORY = 'Comments'
-const GISCUS_CATEGORY_ID = ''
+const GISCUS_CATEGORY_ID = 'DIC_kwDONGoI-M4C3CnG'
 
 export default function GiscusComments() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -38,10 +27,9 @@ export default function GiscusComments() {
     script.setAttribute('data-strict', '0')
     script.setAttribute('data-reactions-enabled', '1')
     script.setAttribute('data-emit-metadata', '0')
-    script.setAttribute('data-input-position', 'top')
+    script.setAttribute('data-input-position', 'bottom')
     script.setAttribute('data-theme', theme)
     script.setAttribute('data-lang', 'ja')
-    script.setAttribute('data-loading', 'lazy')
     script.crossOrigin = 'anonymous'
     script.async = true
     container.appendChild(script)
