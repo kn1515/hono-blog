@@ -4,6 +4,7 @@ import { jsxRenderer } from "hono/jsx-renderer";
 import { Script } from "honox/server";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
+import { MobileBottomBar } from "../components/MobileBottomBar";
 import { Sidebar } from "../components/Sidebar";
 import { getAllPosts } from "../lib/posts";
 import { verticalRhythmUnit } from "../styles/variables";
@@ -239,6 +240,95 @@ const searchScript = `
 })();
 `;
 
+/* ── Mobile bottom bar script ── */
+const mobileBarScript = `
+(function(){
+  /* Sidebar drawer */
+  var sidebarBtn = document.getElementById('mobile-sidebar-btn');
+  var sidebarOverlay = document.getElementById('sidebar-overlay');
+  var sidebarDrawer = document.getElementById('sidebar-drawer');
+  var sidebarArea = document.querySelector('[data-sidebar-area]');
+
+  function openSidebar() {
+    if (!sidebarDrawer || !sidebarOverlay) return;
+    /* Clone sidebar content into drawer if empty */
+    if (sidebarArea && sidebarDrawer.children.length === 0) {
+      sidebarDrawer.innerHTML = sidebarArea.innerHTML;
+    }
+    sidebarOverlay.style.display = 'block';
+    sidebarDrawer.style.display = 'block';
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        sidebarOverlay.classList.add('is-open');
+        sidebarDrawer.classList.add('is-open');
+      });
+    });
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSidebar() {
+    if (!sidebarDrawer || !sidebarOverlay) return;
+    sidebarOverlay.classList.remove('is-open');
+    sidebarDrawer.classList.remove('is-open');
+    document.body.style.overflow = '';
+    setTimeout(function() {
+      sidebarOverlay.style.display = 'none';
+      sidebarDrawer.style.display = 'none';
+    }, 300);
+  }
+
+  if (sidebarBtn) sidebarBtn.addEventListener('click', openSidebar);
+  if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
+
+  /* Category dropdown */
+  var catBtn = document.getElementById('mobile-category-btn');
+  var catOverlay = document.getElementById('category-overlay');
+  var catDropdown = document.getElementById('category-dropdown');
+
+  function openCategory() {
+    if (!catDropdown || !catOverlay) return;
+    catOverlay.style.display = 'block';
+    catDropdown.style.display = 'block';
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        catOverlay.classList.add('is-open');
+        catDropdown.classList.add('is-open');
+      });
+    });
+  }
+
+  function closeCategory() {
+    if (!catDropdown || !catOverlay) return;
+    catOverlay.classList.remove('is-open');
+    catDropdown.classList.remove('is-open');
+    setTimeout(function() {
+      catOverlay.style.display = 'none';
+      catDropdown.style.display = 'none';
+    }, 300);
+  }
+
+  if (catBtn) catBtn.addEventListener('click', openCategory);
+  if (catOverlay) catOverlay.addEventListener('click', closeCategory);
+
+  /* Scroll to top */
+  var topBtn = document.getElementById('mobile-top-btn');
+  if (topBtn) {
+    topBtn.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  /* Search (reuse existing search modal) */
+  var searchBtn = document.getElementById('mobile-search-btn');
+  var searchOpenBtn = document.getElementById('search-open-btn');
+  if (searchBtn && searchOpenBtn) {
+    searchBtn.addEventListener('click', function() {
+      searchOpenBtn.click();
+    });
+  }
+})();
+`;
+
 const bodyCss = css`
   :-hono-global {
     body {
@@ -254,6 +344,10 @@ const bodyCss = css`
 
       -webkit-text-size-adjust: 100%;
       transition: background-color 0.3s ease, color 0.3s ease;
+
+      @media (max-width: 900px) {
+        padding-bottom: calc(56px + env(safe-area-inset-bottom, 0));
+      }
     }
 
     h2 {
@@ -435,7 +529,7 @@ const sidebarAreaCss = css`
   flex-shrink: 0;
 
   @media (max-width: 900px) {
-    width: 100%;
+    display: none;
   }
 `;
 
@@ -533,7 +627,7 @@ export default jsxRenderer(
                 {/* 左サイドバー（将来拡張用） */}
               </div>
               <div class={contentAreaCss}>{children}</div>
-              <div class={sidebarAreaCss}>
+              <div class={sidebarAreaCss} data-sidebar-area>
                 <Sidebar recentPosts={getAllPosts()} />
               </div>
             </main>
@@ -552,6 +646,8 @@ export default jsxRenderer(
             <div id="search-results" style="max-height:400px;overflow-y:auto;padding:0.5rem" />
           </div>
           {html`<script>${raw(searchScript)}</script>`}
+          <MobileBottomBar />
+          {html`<script>${raw(mobileBarScript)}</script>`}
         </body>
       </html>
     );
