@@ -1,13 +1,77 @@
 import { format } from "@formkit/tempo";
 import { css } from "hono/css";
 import { jsxRenderer } from "hono/jsx-renderer";
+import { html, raw } from "hono/html";
 import { Author } from "../../components/Author";
 import { PostDetails } from "../../components/PostDetails";
 import { PostPagination } from "../../components/PostPagination";
+import { ShareDropdown } from "../../components/ShareDropdown";
 import { ShareButtons } from "../../components/ShareIcons";
 import { getPaginationPosts } from "../../lib/posts";
 import { parseDate } from "../../lib/time";
 import { gray, grayLight } from "../../styles/color";
+
+/* ── Share dropdown toggle & clipboard copy (vanilla JS) ── */
+const shareDropdownScript = `
+(function(){
+  var wrapper = document.getElementById('share-dropdown-wrapper');
+  var toggle = document.getElementById('share-dropdown-toggle');
+  var menu = document.getElementById('share-dropdown-menu');
+  var copyBtn = document.getElementById('share-copy-url-btn');
+  var toast = document.getElementById('share-copied-toast');
+  if (!wrapper || !toggle || !menu) return;
+
+  function openMenu() {
+    menu.style.display = 'block';
+    toggle.setAttribute('aria-expanded', 'true');
+  }
+  function closeMenu() {
+    menu.style.display = 'none';
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  toggle.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (menu.style.display === 'block') { closeMenu(); }
+    else { openMenu(); }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!wrapper.contains(e.target)) { closeMenu(); }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { closeMenu(); }
+  });
+
+  if (copyBtn && toast) {
+    copyBtn.addEventListener('click', function() {
+      var url = copyBtn.getAttribute('data-url');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function() { showToast(); });
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = url;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast();
+      }
+      closeMenu();
+    });
+    function showToast() {
+      toast.style.display = 'block';
+      toast.style.animation = 'none';
+      toast.offsetHeight;
+      toast.style.animation = '';
+      setTimeout(function(){ toast.style.display = 'none'; }, 1500);
+    }
+  }
+})();
+`;
 
 const postTitleCss = css`
   font-size: 2.5rem;
@@ -65,7 +129,7 @@ export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
         </time>
       </div>
       <h1 class={postTitleCss}>{frontmatter.title}</h1>
-      <ShareButtons title={frontmatter.title} permalink={permalink} />
+      <ShareDropdown title={frontmatter.title} permalink={permalink} />
       <PostDetails frontmatter={frontmatter} />
       <article>{children}</article>
       <ShareButtons title={frontmatter.title} permalink={permalink} />
@@ -74,6 +138,7 @@ export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
       <div class={toTopLinkCss}>
         <a href="/">Topへ戻る</a>
       </div>
+      {html`<script>${raw(shareDropdownScript)}</script>`}
     </Layout>
   );
 });
