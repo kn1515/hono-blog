@@ -58,8 +58,6 @@ const IconMenu = () => (
   </svg>
 )
 
-
-
 /* ── Styles ── */
 const headerCss = css`
   position: sticky;

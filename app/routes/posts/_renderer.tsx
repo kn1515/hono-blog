@@ -261,6 +261,11 @@ const toTopLinkCss = css`
   }
 `
 
+const articleCss = css`
+  overflow-wrap: break-word;
+  word-break: break-word;
+`
+
 export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
   if (!(frontmatter && filepath)) {
     return <div>Not Post Page</div>
@@ -293,7 +298,7 @@ export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
       <h1 class={postTitleCss}>{frontmatter.title}</h1>
       <ShareDropdown title={frontmatter.title} permalink={permalink} />
       <PostDetails frontmatter={frontmatter} />
-      <article>{children}</article>
+      <article class={articleCss}>{children}</article>
       <ShareButtons title={frontmatter.title} permalink={permalink} />
       <Author />
       <div id='giscus-container' />

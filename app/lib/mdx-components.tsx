@@ -85,6 +85,8 @@ function BlockQuote(props: PropsWithChildren<Hono.BlockquoteHTMLAttributes>) {
 
 const linkCss = css`
   color: ${blue};
+  overflow-wrap: break-word;
+  word-break: break-all;
 `
 
 function Link(props: PropsWithChildren<Hono.AnchorHTMLAttributes>) {
