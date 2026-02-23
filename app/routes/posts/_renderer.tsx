@@ -7,6 +7,7 @@ import { PostDetails } from "../../components/PostDetails";
 import { PostPagination } from "../../components/PostPagination";
 import { ShareDropdown } from "../../components/ShareDropdown";
 import { ShareButtons } from "../../components/ShareIcons";
+import GiscusComments from "../../islands/GiscusComments";
 import { getPaginationPosts } from "../../lib/posts";
 import { parseDate } from "../../lib/time";
 import { gray, grayLight } from "../../styles/color";
@@ -227,6 +228,7 @@ export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
       <article>{children}</article>
       <ShareButtons title={frontmatter.title} permalink={permalink} />
       <Author />
+      <GiscusComments />
       <PostPagination paginationPosts={paginationPosts} />
       <div class={toTopLinkCss}>
         <a href="/">Topへ戻る</a>
