@@ -13,13 +13,13 @@ test.describe('Top Page (/)', () => {
     await expect(header.locator('a').first()).toBeVisible()
   })
 
-  test('should display the hero section with pinned posts', async ({
+  test('should display the hero section with blog description', async ({
     page,
   }) => {
     await page.goto('/')
-    // The hero section should be present on the page
-    const heroSection = page.locator('[class*="hero"]').first()
-    await expect(heroSection).toBeVisible()
+    // The hero section contains the blog description text
+    const heroText = page.locator('text=エンジニアリング・セキュリティ・低レイヤの学び')
+    await expect(heroText).toBeVisible()
   })
 
   test('should display blog posts in the post grid view', async ({ page }) => {

@@ -116,8 +116,8 @@ test.describe('Post Detail Page (/posts/[slug]/)', () => {
     page,
   }) => {
     await page.goto('/posts/hello-world/')
-    // X/Twitter share button should exist
-    const xShareLink = page.locator('a[href*="x.com/intent"]')
+    // X/Twitter share button uses twitter.com/intent/tweet
+    const xShareLink = page.locator('a[href*="twitter.com/intent"]')
     const count = await xShareLink.count()
     expect(count).toBeGreaterThan(0)
   })

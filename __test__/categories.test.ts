@@ -33,8 +33,9 @@ test.describe('Categories Pages', () => {
     test('should have links to category detail pages', async ({ page }) => {
       await page.goto('/categories/')
       const categoryLink = page
-        .locator('a[href*="/categories/"]')
+        .locator('main ul a[href*="/categories/"]')
         .filter({ hasText: 'よもやま' })
+        .first()
       await expect(categoryLink).toBeVisible()
     })
   })
@@ -64,8 +65,9 @@ test.describe('Categories Pages', () => {
     }) => {
       await page.goto('/categories/')
       const categoryLink = page
-        .locator('a[href*="/categories/"]')
+        .locator('main ul a[href*="/categories/"]')
         .filter({ hasText: 'よもやま' })
+        .first()
       await categoryLink.click()
       await expect(page).toHaveURL(/\/categories\/.*\//)
       const body = page.locator('body')

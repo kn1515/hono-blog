@@ -17,8 +17,12 @@ test.describe('Header & Navigation', () => {
     await expect(page).toHaveURL('/')
   })
 
-  test('should display navigation links in the header', async ({ page }) => {
+  test('should display navigation links in the header accordion', async ({ page }) => {
     await page.goto('/')
+    // Open the accordion menu
+    const accordion = page.locator('header details summary')
+    await accordion.click()
+
     // Check for categories link
     const categoriesLink = page.locator('header a[href="/categories/"]')
     await expect(categoriesLink).toBeVisible()
@@ -28,19 +32,27 @@ test.describe('Header & Navigation', () => {
     await expect(tagsLink).toBeVisible()
   })
 
-  test('should display social links (GitHub, X/Twitter)', async ({
+  test('should display social links (GitHub, X/Twitter) in accordion', async ({
     page,
   }) => {
     await page.goto('/')
+    // Open the accordion menu
+    const accordion = page.locator('header details summary')
+    await accordion.click()
+
     const githubLink = page.locator('header a[href*="github.com"]')
     await expect(githubLink).toBeVisible()
 
-    const xLink = page.locator('header a[href*="x.com"]')
+    const xLink = page.locator('header a[href*="twitter.com"]')
     await expect(xLink).toBeVisible()
   })
 
-  test('should display RSS feed link in the header', async ({ page }) => {
+  test('should display RSS feed link in the header accordion', async ({ page }) => {
     await page.goto('/')
+    // Open the accordion menu
+    const accordion = page.locator('header details summary')
+    await accordion.click()
+
     const rssLink = page.locator('header a[href="/index.xml"]')
     await expect(rssLink).toBeVisible()
   })

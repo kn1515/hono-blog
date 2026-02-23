@@ -16,23 +16,32 @@ test.describe('Cross-Page Navigation (Integration)', () => {
     await expect(page).toHaveURL('/')
   })
 
-  test('should navigate from top page to categories', async ({ page }) => {
+  test('should navigate from top page to categories via accordion', async ({ page }) => {
     await page.goto('/')
-    const categoriesLink = page.locator('a[href="/categories/"]').first()
+    // Open the header accordion menu first
+    const accordion = page.locator('header details summary')
+    await accordion.click()
+    const categoriesLink = page.locator('header a[href="/categories/"]')
     await categoriesLink.click()
     await expect(page).toHaveURL('/categories/')
   })
 
-  test('should navigate from top page to tags', async ({ page }) => {
+  test('should navigate from top page to tags via accordion', async ({ page }) => {
     await page.goto('/')
-    const tagsLink = page.locator('a[href="/tags/"]').first()
+    // Open the header accordion menu first
+    const accordion = page.locator('header details summary')
+    await accordion.click()
+    const tagsLink = page.locator('header a[href="/tags/"]')
     await tagsLink.click()
     await expect(page).toHaveURL('/tags/')
   })
 
-  test('should navigate from top page to about page', async ({ page }) => {
+  test('should navigate from top page to about page via accordion', async ({ page }) => {
     await page.goto('/')
-    const aboutLink = page.locator('a[href="/about/"]').first()
+    // Open the header accordion menu first
+    const accordion = page.locator('header details summary')
+    await accordion.click()
+    const aboutLink = page.locator('header a[href="/about/"]')
     await aboutLink.click()
     await expect(page).toHaveURL('/about/')
   })
@@ -41,8 +50,8 @@ test.describe('Cross-Page Navigation (Integration)', () => {
     page,
   }) => {
     await page.goto('/categories/')
-    // Click a category link
-    const categoryLink = page.locator('a[href*="/categories/"]').first()
+    // Click a category link from the list (not from header)
+    const categoryLink = page.locator('ul a[href*="/categories/"]').first()
     await categoryLink.click()
     await expect(page).toHaveURL(/\/categories\//)
 
@@ -56,8 +65,8 @@ test.describe('Cross-Page Navigation (Integration)', () => {
     page,
   }) => {
     await page.goto('/tags/')
-    // Click a tag link
-    const tagLink = page.locator('a[href*="/tags/"]').first()
+    // Click a tag link from the list (not from header)
+    const tagLink = page.locator('ul a[href*="/tags/"]').first()
     await tagLink.click()
     await expect(page).toHaveURL(/\/tags\//)
 
@@ -69,7 +78,7 @@ test.describe('Cross-Page Navigation (Integration)', () => {
 
   test('should navigate from contact to privacy policy', async ({ page }) => {
     await page.goto('/contact/')
-    const privacyLink = page.locator('a[href="/privacy-policy/"]')
+    const privacyLink = page.locator('main a[href="/privacy-policy/"]')
     await privacyLink.click()
     await expect(page).toHaveURL('/privacy-policy/')
   })

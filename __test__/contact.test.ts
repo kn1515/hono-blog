@@ -20,13 +20,13 @@ test.describe('Contact Page (/contact/)', () => {
 
   test('should have a link to the privacy policy page', async ({ page }) => {
     await page.goto('/contact/')
-    const privacyLink = page.locator('a[href="/privacy-policy/"]')
+    const privacyLink = page.locator('main a[href="/privacy-policy/"]')
     await expect(privacyLink).toBeVisible()
   })
 
   test('should have a link to the user terms page', async ({ page }) => {
     await page.goto('/contact/')
-    const termsLink = page.locator('a[href="/user-terms/"]')
+    const termsLink = page.locator('main a[href="/user-terms/"]')
     await expect(termsLink).toBeVisible()
   })
 
