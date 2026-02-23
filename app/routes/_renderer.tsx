@@ -304,6 +304,7 @@ const glowBottomCss = css`
 const mainCss = css`
   margin: 0 auto;
   max-width: 800px;
+  padding-top: 2rem;
   position: relative;
   z-index: 1;
 `;
