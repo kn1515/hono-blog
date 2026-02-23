@@ -1,25 +1,15 @@
 import { css } from 'hono/css'
 import { border, gray, white } from '../styles/color'
-import { verticalRhythmUnit } from '../styles/variables'
 
 const paginationCss = css`
   border-top: .5px solid ${border};
   padding-top: 2rem;
-  display: inline-flex;
-  text-align: center;
-  justify-content: space-between;
-  width:100%;
-  & span {
-    flex-grow:10;
-    font-size: 1.1rem;
-  }
-
-  & a {
-    max-width: 50%;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
 `
-
-const arrowBoxWidth = '60px'
 
 const arrowCss = css`
   -webkit-transition: all 0.2s ease-out;
@@ -28,12 +18,14 @@ const arrowCss = css`
 
   border: solid 1px ${gray};
   color: ${gray};
-  border-radius: ${verticalRhythmUnit * 0.25}rem;
-  padding: ${verticalRhythmUnit * 0.25}rem 1rem;
-  margin: 0 0 0 auto;
+  border-radius: 0.35rem;
+  padding: 0.4rem 1rem;
   display: flex;
+  align-items: center;
   justify-content: center;
   text-decoration: none;
+  font-size: 1.1rem;
+  flex-shrink: 0;
   &:hover,
   &:focus {
       background-color: ${gray};
@@ -43,19 +35,27 @@ const arrowCss = css`
 
 const leftCss = css`
     ${arrowCss}
-    text-align: left;
 `
 const rightCss = css`
     ${arrowCss}
-    text-align: right;
 `
 
 const emptyArrowCss = css`
-  width: ${arrowBoxWidth}; 
+  width: 60px; 
 `
 
 const pageNumberCss = css`
-  padding: ${verticalRhythmUnit * 0.25}rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: var(--c-accent);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  flex-shrink: 0;
 `
 
 type Props = {
