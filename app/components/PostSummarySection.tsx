@@ -5,7 +5,7 @@ import { format } from '@formkit/tempo'
 import { css } from 'hono/css'
 
 import type { Post } from '../lib/posts'
-import { parseDate } from '../lib/time'
+import { parseDate, getRelativeDate } from '../lib/time'
 import { blue, gray, grayLight } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 import { MarkdownRenderer } from './MarkdownRenderer'
@@ -118,6 +118,7 @@ export async function PostSummarySection({ post }: Props) {
         <div>
           <time datetime={post.frontmatter.date} class={timeCss}>
             {format(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
+            <span style='margin-left:0.4rem;opacity:0.8;font-size:0.85em'>({getRelativeDate(post.frontmatter.date)})</span>
           </time>
           <div class={titleContainerCss}>
             <img src={imageUrl} alt='PostImg' class={imageCss} />

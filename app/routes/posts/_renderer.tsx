@@ -8,7 +8,7 @@ import { PostPagination } from '../../components/PostPagination'
 import { ShareDropdown } from '../../components/ShareDropdown'
 import { ShareButtons } from '../../components/ShareIcons'
 import { getPaginationPosts } from '../../lib/posts'
-import { parseDate } from '../../lib/time'
+import { getRelativeDate, parseDate } from '../../lib/time'
 import { gray, grayLight } from '../../styles/color'
 
 /* ── Share dropdown toggle & clipboard copy (vanilla JS) ── */
@@ -227,6 +227,21 @@ const postDateCss = css`
   letter-spacing: 1px;
   text-align: left;
   padding: 1.275rem 0 0.85rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+`
+
+const relativeDateCss = css`
+  font-size: 0.85rem;
+  color: ${grayLight};
+  opacity: 0.8;
+`
+
+const updatedAtCss = css`
+  font-size: 0.9rem;
+  color: ${grayLight};
 `
 
 const toTopLinkCss = css`
@@ -263,6 +278,14 @@ export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
         <time datetime={frontmatter.date}>
           {format(parseDate(frontmatter.date), 'YYYY/MM/DD')}
         </time>
+        <span class={relativeDateCss}>({getRelativeDate(frontmatter.date)})</span>
+        {frontmatter.updatedAt && (
+          <span class={updatedAtCss}>
+            更新: <time datetime={frontmatter.updatedAt}>
+              {format(parseDate(frontmatter.updatedAt), 'YYYY/MM/DD')}
+            </time>
+          </span>
+        )}
       </div>
       <h1 class={postTitleCss}>{frontmatter.title}</h1>
       <ShareDropdown title={frontmatter.title} permalink={permalink} />

@@ -2,7 +2,7 @@ import { format } from '@formkit/tempo'
 import { css } from 'hono/css'
 
 import type { Post } from '../lib/posts'
-import { parseDate } from '../lib/time'
+import { getRelativeDate, parseDate } from '../lib/time'
 
 const cardCss = css`
   display: block;
@@ -72,6 +72,15 @@ const cardTitleCss = css`
 const cardDateCss = css`
   font-size: 0.8rem;
   color: var(--c-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+`
+
+const relativeDateCss = css`
+  font-size: 0.75rem;
+  color: var(--c-text-muted);
+  opacity: 0.8;
 `
 
 type Props = {
@@ -100,9 +109,12 @@ export function PostGridCard({ post }: Props) {
           ))}
         </div>
         <h2 class={cardTitleCss}>{post.frontmatter.title}</h2>
-        <time datetime={post.frontmatter.date} class={cardDateCss}>
-          {format(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
-        </time>
+        <div class={cardDateCss}>
+          <time datetime={post.frontmatter.date}>
+            {format(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
+          </time>
+          <span class={relativeDateCss}>({getRelativeDate(post.frontmatter.date)})</span>
+        </div>
       </div>
     </a>
   )

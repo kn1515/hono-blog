@@ -1,6 +1,8 @@
 export type Frontmatter = {
   title: string
   date: string
+  /** 更新日 (YYYY-MM-DDTHH:mm:ss) */
+  updatedAt?: string
   description: string
   categories: string[]
   tags?: string[]
