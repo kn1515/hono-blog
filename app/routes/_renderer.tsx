@@ -338,6 +338,191 @@ const mobileBarScript = `
 })();
 `;
 
+/* ── Left sidebar TOC with scroll spy ── */
+const leftTocScript = `
+(function(){
+  var container = document.getElementById('left-toc-container');
+  if (!container) return;
+
+  /* Find article headings (h2, h3) with IDs */
+  var article = document.querySelector('article');
+  if (!article) return;
+  var headings = article.querySelectorAll('h2[id], h3[id]');
+  if (headings.length === 0) { container.style.display = 'none'; return; }
+
+  /* Build TOC HTML */
+  var html = '<nav id="left-toc" aria-label="Table of Contents">';
+  html += '<div id="left-toc-title">目次</div>';
+  html += '<ul id="left-toc-list">';
+  for (var i = 0; i < headings.length; i++) {
+    var h = headings[i];
+    var level = h.tagName === 'H3' ? 'toc-h3' : 'toc-h2';
+    html += '<li class="' + level + '">';
+    html += '<a href="#' + h.id + '" data-toc-id="' + h.id + '">' + (h.textContent || '') + '</a>';
+    html += '</li>';
+  }
+  html += '</ul></nav>';
+  container.innerHTML = html;
+
+  /* Scroll spy with IntersectionObserver */
+  var tocLinks = container.querySelectorAll('a[data-toc-id]');
+  var headingMap = {};
+  for (var j = 0; j < tocLinks.length; j++) {
+    headingMap[tocLinks[j].getAttribute('data-toc-id')] = tocLinks[j];
+  }
+
+  var currentActive = null;
+
+  function setActive(id) {
+    if (currentActive === id) return;
+    if (currentActive && headingMap[currentActive]) {
+      headingMap[currentActive].parentElement.classList.remove('is-active');
+    }
+    if (id && headingMap[id]) {
+      headingMap[id].parentElement.classList.add('is-active');
+      /* Scroll TOC item into view if needed */
+      var tocList = document.getElementById('left-toc-list');
+      var activeEl = headingMap[id].parentElement;
+      if (tocList && activeEl) {
+        var tocRect = tocList.getBoundingClientRect();
+        var itemRect = activeEl.getBoundingClientRect();
+        if (itemRect.top < tocRect.top || itemRect.bottom > tocRect.bottom) {
+          activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+      }
+    }
+    currentActive = id;
+  }
+
+  /* Use IntersectionObserver for precise tracking */
+  var headingIds = [];
+  for (var k = 0; k < headings.length; k++) {
+    headingIds.push(headings[k].id);
+  }
+
+  var observer = new IntersectionObserver(function(entries) {
+    /* Find topmost visible heading */
+    var visible = [];
+    for (var m = 0; m < entries.length; m++) {
+      if (entries[m].isIntersecting) {
+        visible.push(entries[m].target.id);
+      }
+    }
+    if (visible.length > 0) {
+      /* Pick the first one in document order */
+      for (var n = 0; n < headingIds.length; n++) {
+        if (visible.indexOf(headingIds[n]) !== -1) {
+          setActive(headingIds[n]);
+          return;
+        }
+      }
+    }
+  }, {
+    rootMargin: '-80px 0px -70% 0px',
+    threshold: 0
+  });
+
+  for (var p = 0; p < headings.length; p++) {
+    observer.observe(headings[p]);
+  }
+
+  /* Also track on scroll for when no heading is intersecting */
+  var ticking = false;
+  window.addEventListener('scroll', function() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function() {
+      ticking = false;
+      var scrollY = window.scrollY || window.pageYOffset;
+      var found = null;
+      for (var q = headings.length - 1; q >= 0; q--) {
+        if (headings[q].getBoundingClientRect().top <= 100) {
+          found = headings[q].id;
+          break;
+        }
+      }
+      if (found) setActive(found);
+    });
+  });
+
+  /* Smooth scroll on click */
+  container.addEventListener('click', function(e) {
+    var link = e.target.closest && e.target.closest('a[data-toc-id]');
+    if (!link) return;
+    e.preventDefault();
+    var target = document.getElementById(link.getAttribute('data-toc-id'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', '#' + link.getAttribute('data-toc-id'));
+    }
+  });
+})();
+`;
+
+const leftTocStyle = `
+#left-toc-container {
+  position: sticky;
+  top: 5rem;
+  align-self: flex-start;
+}
+#left-toc {
+  max-height: calc(100vh - 7rem);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--c-border) transparent;
+}
+#left-toc-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-text-muted);
+  margin-bottom: 0.6rem;
+  padding-left: 0.75rem;
+}
+#left-toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#left-toc-list li {
+  position: relative;
+  border-left: 2px solid var(--c-border);
+  transition: border-color 0.2s ease;
+}
+#left-toc-list li.toc-h3 {
+  padding-left: 0.5rem;
+}
+#left-toc-list li a {
+  display: block;
+  padding: 0.3rem 0.5rem 0.3rem 0.75rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--c-text-muted);
+  text-decoration: none;
+  transition: color 0.15s ease, background 0.15s ease;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+#left-toc-list li.toc-h3 a {
+  font-size: 0.73rem;
+  padding-left: 1rem;
+}
+#left-toc-list li a:hover {
+  color: var(--c-text);
+}
+#left-toc-list li.is-active {
+  border-left-color: var(--c-accent);
+}
+#left-toc-list li.is-active a {
+  color: var(--c-accent);
+  font-weight: 600;
+}
+`;
+
 const bodyCss = css`
   :-hono-global {
     body {
@@ -471,7 +656,7 @@ const bodyCss = css`
 const wrapperCss = css`
   position: relative;
   min-height: 100vh;
-  overflow: hidden;
+  overflow: clip;
 `
 
 const glowTopCss = css`
@@ -502,7 +687,7 @@ const glowBottomCss = css`
 
 const mainCss = css`
   margin: 0 auto;
-  max-width: 1280px;
+  max-width: 1360px;
   padding-top: 2rem;
   position: relative;
   z-index: 1;
@@ -519,8 +704,11 @@ const mainCss = css`
 `;
 
 const leftSidebarAreaCss = css`
-  width: 120px;
+  width: 200px;
   flex-shrink: 0;
+  align-self: flex-start;
+  position: sticky;
+  top: 5rem;
 
   @media (max-width: 1100px) {
     display: none;
@@ -576,6 +764,7 @@ export default jsxRenderer(
           />
           {/* Theme init (before paint to avoid flash) */}
           {html`<style>${raw(themeVarsStyle)}</style>`}
+          {html`<style>${raw(leftTocStyle)}</style>`}
           {html`<script>${raw(themeInitScript)}</script>`}
           {/* View toggle (list/grid switching) */}
           {html`<script>${raw(viewToggleScript)}</script>`}
@@ -642,7 +831,7 @@ export default jsxRenderer(
             <Header />
             <main class={mainCss}>
               <div class={leftSidebarAreaCss}>
-                {/* 左サイドバー（将来拡張用） */}
+                <div id="left-toc-container" />
               </div>
               <div class={contentAreaCss}>{children}</div>
               <div class={sidebarAreaCss} data-sidebar-area>
@@ -664,6 +853,7 @@ export default jsxRenderer(
             <div id="search-results" style="max-height:400px;overflow-y:auto;padding:0.5rem" />
           </div>
           {html`<script>${raw(searchScript)}</script>`}
+          {html`<script>${raw(leftTocScript)}</script>`}
           <MobileBottomBar />
           {html`<script>${raw(mobileBarScript)}</script>`}
         </body>
