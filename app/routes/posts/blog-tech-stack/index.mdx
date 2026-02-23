@@ -1,7 +1,7 @@
 ---
-title: "このブログの技術スタックと特徴的な機能を紹介します"
+title: "Hono/HonoXを使ったブログの作成と技術スタック"
 date: 2026-02-23T00:00:00
-description: "Hono / HonoX + Vite で構築し Cloudflare Pages にデプロイしている当ブログの技術的な特徴やアーキテクチャについて、コードを交えて紹介します。"
+description: "当ブログの技術的な特徴やアーキテクチャについて、コードを交えて紹介します。"
 categories:
   - 技術
 tags:
@@ -36,19 +36,20 @@ pinned: false
 
 ## テーマの原点と感謝
 
-このブログのデザインは、<Bold>Chester How</Bold> 氏が公開された Jekyll テーマ「Tale」と、それを Hugo に移植された <Bold>Emiel Hollander</Bold> 氏の「tale-hugo」に大きくインスピレーションを受けています。
+このブログは、<Bold>p1ass</Bold> 氏が公開されているブログリポジトリをベースにして構築しています。
 
-<BlockLink href="https://github.com/chesterhow/tale">
-  chesterhow/tale — A minimal Jekyll theme for storytellers
+<BlockLink href="https://github.com/p1ass/blog">
+  p1ass/blog — p1ass氏のブログリポジトリ
 </BlockLink>
 
-<BlockLink href="https://github.com/EmielH/tale-hugo">
-  EmielH/tale-hugo — Taleテーマの Hugo 移植版
-</BlockLink>
+p1ass 氏のリポジトリは Hono / HonoX + Vite + MDX という構成で、SSG によるブログの実装例として非常に参考になりました。ファイルベースルーティングや MDX カスタムコンポーネントの設計、Cloudflare Pages へのデプロイ構成など、多くの部分で氏のコードから学ばせていただいています。
 
-お二人が公開してくださったテーマの美しいタイポグラフィやレイアウトがなければ、このブログの出発点はなかったと思います。MIT ライセンスで公開してくださったことに、心から感謝いたします。
+素晴らしいリポジトリを公開してくださった p1ass 氏に、心から感謝いたします。
 
-現在のブログは <Marker>Hono / HonoX + Vite</Marker> で完全に書き直していますが、テーマの精神を受け継ぎつつ、自分好みにカスタマイズを重ねています。
+また、デザインの原点として <Bold>Chester How</Bold> 氏が公開された Jekyll テーマ「Tale」と、それを Hugo に移植された <Bold>Emiel Hollander</Bold> 氏の「tale-hugo」にも影響を受けています。MIT ライセンスで公開してくださったことに感謝いたします。
+
+現在のブログは p1ass 氏のリポジトリをベースに、<Marker>自分好みのカスタマイズ</Marker>を重ねて独自のブログへと育てています。
+
 
 ## 技術スタックの概要
 
@@ -355,6 +356,9 @@ pnpm deploy
 - <Marker color="pink">MDX + カスタムコンポーネント</Marker> — リッチな記事執筆体験
 - <Bold>Cloudflare Pages</Bold> — エッジ配信で高速アクセス
 
-Chester How 氏と Emiel Hollander 氏のテーマをベースに、Hono エコシステムの強みを活かして独自のブログプラットフォームに育てることができました。今後もカスタマイズを続けていきたいと思います。
+p1ass 氏のおかげで、こちらのブログを作成することができました。今後もカスタマイズを続けていきたいと思います。
+
+またカスタマイズにあたっては、Claudeとdevinを活用しました。最近のAIエージェントの発達には驚きます。
+課金の力を感じます。
 
 何か質問やフィードバックがあれば、下のコメント欄からお気軽にどうぞ！
