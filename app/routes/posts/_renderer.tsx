@@ -300,7 +300,7 @@ export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
         </span>
         {frontmatter.updatedAt && (
           <span class={updatedAtCss}>
-            更新:{' '}
+            更新日:{' '}
             <time datetime={frontmatter.updatedAt}>
               {format(parseDate(frontmatter.updatedAt), 'YYYY/MM/DD')}
             </time>
