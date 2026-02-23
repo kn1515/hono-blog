@@ -8,7 +8,7 @@ import { PostSummarySection } from '../../../components/PostSummarySection'
 import { ViewToggle } from '../../../components/ViewToggle'
 import { getAllPosts, getMaxPageNumber, getPosts } from '../../../lib/posts'
 
-const param = ssgParams<Env>(c => {
+const param = ssgParams<Env>(_c => {
   const posts = getAllPosts()
   const maxPageNumber = getMaxPageNumber(posts)
   const params = []
@@ -24,7 +24,7 @@ const param = ssgParams<Env>(c => {
 
 export default createRoute(param, c => {
   const numStr = c.req.param('num')
-  const num = Number.parseInt(numStr)
+  const num = Number.parseInt(numStr, 10)
   if (Number.isNaN(num)) {
     return c.notFound()
   }

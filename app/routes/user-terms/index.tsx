@@ -3,7 +3,7 @@ import { Fragment } from 'hono/jsx/jsx-runtime'
 import { Heading } from '../../components/Heading'
 import { blue } from '../../styles/color'
 
-const linkCss = css`
+const _linkCss = css`
   color: ${blue};
   text-decoration: none;
 `

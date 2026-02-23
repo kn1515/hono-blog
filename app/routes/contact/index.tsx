@@ -1,15 +1,14 @@
 import { css } from 'hono/css'
 import { Fragment } from 'hono/jsx/jsx-runtime'
 import { Author } from '../../components/Author'
-import { Heading } from '../../components/Heading'
 import { blue } from '../../styles/color'
 
-const linkCss = css`
+const _linkCss = css`
   color: ${blue};
   text-decoration: none;
 `
 
-const sectionCss = css`
+const _sectionCss = css`
   margin: 1rem 0;
   padding: 1rem;
   border: 1px solid ${blue};
@@ -17,7 +16,7 @@ const sectionCss = css`
   background-color: var(--c-card-bg);
 `
 
-const paragraphCss = css`
+const _paragraphCss = css`
   margin-bottom: 1rem;
   line-height: 1.5;
   color: var(--c-text-muted);

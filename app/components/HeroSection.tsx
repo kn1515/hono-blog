@@ -150,7 +150,7 @@ const pinnedBadgeCss = css`
 `
 
 /* ── Divider ── */
-const dividerCss = css`
+const _dividerCss = css`
   border: none;
   border-top: 1px solid var(--c-border);
   margin: 0;

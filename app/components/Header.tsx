@@ -207,7 +207,7 @@ const navAreaCss = css`
   }
 `
 
-const socialLinksCss = css`
+const _socialLinksCss = css`
   display: flex;
   align-items: center;
   gap: 0.15rem;
@@ -239,7 +239,7 @@ const dividerCss = css`
   }
 `
 
-const IconChevron = () => (
+const _IconChevron = () => (
   <svg
     width='12'
     height='12'

@@ -4,7 +4,7 @@ import { Author } from '../../components/Author'
 import { Heading } from '../../components/Heading'
 import { blue } from '../../styles/color'
 
-const linkCss = css`
+const _linkCss = css`
   color: ${blue};
   text-decoration: none;
 `

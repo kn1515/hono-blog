@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
 import { fetchOgp } from '../../lib/ogp'
-import { backgroundDark, gray, grayLight, white } from '../../styles/color'
+import { backgroundDark, gray, grayLight } from '../../styles/color'
 import { transition } from '../../styles/transition'
 import { verticalRhythmUnit } from '../../styles/variables'
 

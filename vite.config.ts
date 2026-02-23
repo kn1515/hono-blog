@@ -125,7 +125,7 @@ export default defineConfig(({ mode }) => {
               './app/routes/posts/**/*.webp',
             ],
             dest: 'posts',
-            rename: (fileName, fileExtension, fullPath) => {
+            rename: (_fileName, _fileExtension, fullPath) => {
               const destPath = normalizePath(
                 path
                   .relative(__dirname, fullPath)

@@ -906,7 +906,7 @@ export default jsxRenderer(
   },
 )
 
-const GoogleAnalytics = () => {
+const _GoogleAnalytics = () => {
   return (
     <>
       <script
