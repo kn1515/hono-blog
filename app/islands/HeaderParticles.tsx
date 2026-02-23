@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'hono/jsx'
+import { useEffect, useRef } from 'hono/jsx/dom'
 import { css } from 'hono/css'
 
 const canvasCss = css`
