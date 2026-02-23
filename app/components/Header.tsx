@@ -1,6 +1,7 @@
 import { css } from 'hono/css'
 import { gray, grayLight } from '../styles/color'
 import HeaderParticles from '../islands/HeaderParticles'
+import SearchBox from '../islands/SearchBox'
 import ThemeToggle from '../islands/ThemeToggle'
 
 /* ── Inline SVG Icons ── */
@@ -366,6 +367,8 @@ export const Header = () => {
               </a>
             </div>
           </details>
+          <div class={dividerCss} />
+          <SearchBox />
           <div class={dividerCss} />
           <ThemeToggle />
         </nav>

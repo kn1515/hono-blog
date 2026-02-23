@@ -4,6 +4,7 @@ import { jsxRenderer } from "hono/jsx-renderer";
 import { Script } from "honox/server";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
+import { getAllPosts } from "../lib/posts";
 import { verticalRhythmUnit } from "../styles/variables";
 
 const codeBlockFontSize = 14;
@@ -338,6 +339,19 @@ export default jsxRenderer(
           />
           <Script src="/app/client.ts" async />
           <Style />
+          {html`<script id="search-posts-data" type="application/json">${raw(
+            JSON.stringify(
+              getAllPosts().map(p => ({
+                title: p.frontmatter.title,
+                permalink: p.permalink,
+                date: p.frontmatter.date,
+                description: p.frontmatter.description || '',
+                categories: p.frontmatter.categories || [],
+                tags: p.frontmatter.tags || [],
+                image: p.frontmatter.image || undefined,
+              })),
+            ),
+          )}</script>`}
         </head>
         <body class={bodyCss}>
           <div class={wrapperCss}>
