@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
 import { getCategoryList } from '../lib/categories'
-import type { Post } from '../lib/posts'
+import type { PostMeta } from '../lib/post-meta'
 
 /* ── Sidebar Container ── */
 const sidebarCss = css`
@@ -186,7 +186,7 @@ const popularLoadingCss = css`
 const RECENT_POST_COUNT = 5
 
 type Props = {
-  recentPosts: Post[]
+  recentPosts: PostMeta[]
 }
 
 export function Sidebar({ recentPosts }: Props) {
@@ -248,7 +248,7 @@ export function Sidebar({ recentPosts }: Props) {
         <ul class={recentPostListCss}>
           {posts.map(post => (
             <li class={recentPostItemCss}>
-              <a href={post.permalink}>{post.frontmatter.title}</a>
+              <a href={post.permalink}>{post.title}</a>
             </li>
           ))}
         </ul>

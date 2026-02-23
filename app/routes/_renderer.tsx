@@ -6,7 +6,7 @@ import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { MobileBottomBar } from '../components/MobileBottomBar'
 import { Sidebar } from '../components/Sidebar'
-import { getAllPosts } from '../lib/posts'
+import { getAllPostMeta } from '../lib/post-meta'
 import { verticalRhythmUnit } from '../styles/variables'
 
 const codeBlockFontSize = 14
@@ -939,17 +939,7 @@ export default jsxRenderer(
           <Script src='/app/client.ts' async />
           <Style />
           {html`<script id="search-posts-data" type="application/json">${raw(
-            JSON.stringify(
-              getAllPosts().map(p => ({
-                title: p.frontmatter.title,
-                permalink: p.permalink,
-                date: p.frontmatter.date,
-                description: p.frontmatter.description || '',
-                categories: p.frontmatter.categories || [],
-                tags: p.frontmatter.tags || [],
-                image: p.frontmatter.image || undefined,
-              })),
-            ),
+            JSON.stringify(getAllPostMeta()),
           )}</script>`}
         </head>
         <body class={bodyCss}>
@@ -964,7 +954,7 @@ export default jsxRenderer(
               </div>
               <div class={contentAreaCss}>{children}</div>
               <div class={sidebarAreaCss} data-sidebar-area>
-                <Sidebar recentPosts={getAllPosts()} />
+                <Sidebar recentPosts={getAllPostMeta()} />
               </div>
             </main>
             <Footer />

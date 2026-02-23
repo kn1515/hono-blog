@@ -1,0 +1,360 @@
+---
+title: "このブログの技術スタックと特徴的な機能を紹介します"
+date: 2026-02-23T00:00:00
+description: "Hono / HonoX + Vite で構築し Cloudflare Pages にデプロイしている当ブログの技術的な特徴やアーキテクチャについて、コードを交えて紹介します。"
+categories:
+  - 技術
+tags:
+  - Hono
+  - HonoX
+  - Vite
+  - Cloudflare Pages
+  - MDX
+  - SSG
+pinned: false
+---
+
+当ブログ **ぽんろぐ備忘録** の技術スタックや特徴的な機能について紹介します。
+
+{/* <!--more--> */}
+
+<Toc>
+- テーマの原点と感謝
+- 技術スタックの概要
+- SSG（静的サイト生成）アーキテクチャ
+- ファイルベースルーティング
+- MDX によるリッチな記事執筆
+- Island Architecture
+- ゼロフレームワークなインタラクション
+- ダークモード
+- OGP 取得と外部リンクカード
+- giscus によるコメント機能
+- SEO 対応（RSS / Sitemap / robots.txt）
+- Cloudflare Pages へのデプロイ
+- まとめ
+</Toc>
+
+## テーマの原点と感謝
+
+このブログのデザインは、<Bold>Chester How</Bold> 氏が公開された Jekyll テーマ「Tale」と、それを Hugo に移植された <Bold>Emiel Hollander</Bold> 氏の「tale-hugo」に大きくインスピレーションを受けています。
+
+<BlockLink href="https://github.com/chesterhow/tale">
+  chesterhow/tale — A minimal Jekyll theme for storytellers
+</BlockLink>
+
+<BlockLink href="https://github.com/EmielH/tale-hugo">
+  EmielH/tale-hugo — Taleテーマの Hugo 移植版
+</BlockLink>
+
+お二人が公開してくださったテーマの美しいタイポグラフィやレイアウトがなければ、このブログの出発点はなかったと思います。MIT ライセンスで公開してくださったことに、心から感謝いたします。
+
+現在のブログは <Marker>Hono / HonoX + Vite</Marker> で完全に書き直していますが、テーマの精神を受け継ぎつつ、自分好みにカスタマイズを重ねています。
+
+## 技術スタックの概要
+
+| レイヤー | 技術 |
+|---|---|
+| フレームワーク | Hono / HonoX |
+| ビルドツール | Vite |
+| 記事フォーマット | MDX (remark / rehype プラグイン) |
+| スタイリング | hono/css (CSS-in-JS) + Tailwind CSS |
+| デプロイ先 | Cloudflare Pages |
+| コメント | giscus (GitHub Discussions) |
+| リンター | Biome |
+| E2E テスト | Playwright |
+
+<Note>
+Hono は軽量で高速な Web フレームワークで、HonoX はそのファイルベースルーティング拡張です。Cloudflare Workers / Pages との親和性が非常に高く、エッジでの実行に最適化されています。
+</Note>
+
+## SSG（静的サイト生成）アーキテクチャ
+
+当ブログは `@hono/vite-ssg` を使って<Marker color="blue">ビルド時にすべてのページを静的 HTML として生成</Marker>しています。ランタイムでのサーバー処理はなく、Cloudflare Pages から静的ファイルを配信するだけなので、非常に高速です。
+
+サーバーのエントリーポイントはわずか数行です：
+
+```ts
+import { showRoutes } from 'hono/dev'
+import { createApp } from 'honox/server'
+
+const app = createApp({
+  trailingSlash: true,
+  init(_app) {},
+})
+
+showRoutes(app)
+export default app
+```
+
+Vite の設定で SSG プラグインをチェーンすることで、このシンプルなサーバー定義から静的サイトが生成されます：
+
+```ts
+plugins: [
+  honox(),
+  mdx({
+    jsxImportSource: 'hono/jsx',
+    providerImportSource: './app/lib/mdx-components',
+    remarkPlugins,
+    rehypePlugins,
+    recmaPlugins: [recmaExportFilepath],
+  }),
+  tailwindcss(),
+  ssg({ entry }),
+  viteStaticCopy({ /* 記事画像を dist にコピー */ }),
+]
+```
+
+## ファイルベースルーティング
+
+HonoX のファイルベースルーティングにより、`app/routes/` ディレクトリの構造がそのまま URL パスに対応します。記事は `app/routes/posts/<slug>/index.mdx` に配置するだけで自動的にルートが生成されます。
+
+```
+app/routes/
+  index.tsx          → /
+  about/index.tsx    → /about/
+  posts/
+    hello-world/
+      index.mdx      → /posts/hello-world/
+    riss/
+      index.mdx      → /posts/riss/
+  categories/
+    [id]/index.tsx   → /categories/:id/
+  tags/
+    [id]/index.tsx   → /tags/:id/
+```
+
+記事データの取得には Vite の `import.meta.glob` を使い、ビルド時にすべての MDX ファイルを一括読み込みしています：
+
+```ts
+const posts = import.meta.glob<MDXExports>(
+  '../routes/posts/**/*.mdx',
+  { eager: true }
+)
+```
+
+## MDX によるリッチな記事執筆
+
+記事は MDX 形式で書いており、Markdown の中に JSX コンポーネントを埋め込めます。`useMDXComponents` プロバイダで<Marker color="pink">カスタムコンポーネントを自動登録</Marker>しているため、記事内で `import` を書く必要がありません。
+
+```tsx
+export function useMDXComponents(): MDXComponents {
+  return {
+    img: Image,
+    pre: StyledPre,
+    blockquote: BlockQuote,
+    a: Link,
+    BlockLink: BlockLink,
+    Note: Note,
+    Toc: Toc,
+    Marker: Marker,
+    Bold: Bold,
+    Twitter: Twitter,
+    // ...
+  }
+}
+```
+
+これにより、記事の中で以下のようにカスタムタグを使えます：
+
+```mdx
+<Toc>
+- セクション1
+- セクション2
+</Toc>
+
+<Note>
+  これは補足情報です。
+</Note>
+
+<Marker color="pink">ハイライトされたテキスト</Marker>
+```
+
+remark / rehype プラグインも豊富に導入しており、GFM（GitHub Flavored Markdown）、シンタックスハイライト、Mermaid 図、見出しスラッグなどに対応しています：
+
+```ts
+export const remarkPlugins: PluggableList = [
+  remarkFrontmatter,
+  remarkMdxFrontmatter,
+  remarkGfm,
+]
+
+export const rehypePlugins: PluggableList = [
+  rehypeSlug,
+  rehypeHighlight,
+  rehypeMdxCodeProps,
+  rehypeMdxImportMedia,
+  rehypeMermaid,
+]
+```
+
+## Island Architecture
+
+当ブログでは HonoX の <Bold color="red">Island Architecture</Bold> を採用しています。ページのほとんどは静的 HTML として配信し、<Marker>クライアントサイドで JavaScript が必要な部分だけを「アイランド」として個別にハイドレート</Marker>します。
+
+現在、唯一のアイランドコンポーネントはヘッダーのパーティクルアニメーションです：
+
+```tsx
+// app/islands/HeaderParticles.tsx
+// islands/ に配置するだけでクライアントサイドで自動ハイドレート
+import { useEffect, useRef } from 'hono/jsx/dom'
+
+export default function HeaderParticles() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    // Canvas パーティクルアニメーション
+    // マウスカーソルに反応してパーティクルが逃げる物理演算
+  }, [])
+
+  return <canvas ref={canvasRef} />
+}
+```
+
+`app/islands/` ディレクトリに配置するだけで HonoX が自動的にクライアントサイドでハイドレートしてくれます。これにより、ページ全体の JavaScript バンドルサイズを最小限に抑えつつ、必要な部分だけにリッチなインタラクションを持たせることができます。
+
+## ゼロフレームワークなインタラクション
+
+ダークモード切替、検索、シェアドロップダウン、ビュー切替（リスト / グリッド）など、ほとんどのインタラクションは<Marker color="green">バニラ JavaScript</Marker> で実装しています。React のようなクライアントサイドフレームワークをランタイムで読み込む必要がないため、ページが非常に軽量です。
+
+たとえばビュートグルは、`data-active` 属性でスタイルを制御しています：
+
+```css
+&[data-active="true"] {
+  background-color: var(--c-accent-bg);
+  border-color: var(--c-accent);
+  color: var(--c-text);
+}
+```
+
+サイドバーのカテゴリアコーディオンは、ネイティブの `<details>` / `<summary>` 要素を使っており、JavaScript は一切不要です：
+
+```tsx
+<details open>
+  <summary>
+    <h3>カテゴリー</h3>
+    <span><svg class='sidebar-chevron'>...</svg></span>
+  </summary>
+  <ul>
+    {categories.map(cat => (
+      <li><a href={`/categories/${cat.id}/`}>{cat.name}</a></li>
+    ))}
+  </ul>
+</details>
+```
+
+## ダークモード
+
+ダークモードは <Bold>FOUC（Flash of Unstyled Content）を防ぐ</Bold>ために、`<head>` 内のインラインスクリプトで即座に適用しています。`localStorage` と `prefers-color-scheme` メディアクエリを組み合わせて、ユーザーの設定を尊重します：
+
+```js
+(function(){
+  var s = localStorage.getItem('theme');
+  var prefersDark = window.matchMedia(
+    '(prefers-color-scheme:dark)'
+  ).matches;
+  if (s === 'dark' || (s !== 'light' ? prefersDark : false)) {
+    document.documentElement.classList.add('dark');
+  }
+})();
+```
+
+テーマの色は約 40 個の CSS カスタムプロパティで管理しており、`.dark` クラスの有無で light / dark を切り替えます。コンポーネントからは `var(--c-*)` 経由で参照するだけなので、テーマ定義とスタイリングが明確に分離されています：
+
+```ts
+// app/styles/color.ts
+export const gray = 'var(--c-text)'
+export const grayLight = 'var(--c-text-muted)'
+export const blue = 'var(--c-accent)'
+export const background = 'var(--c-bg)'
+```
+
+## OGP 取得と外部リンクカード
+
+`<ExLinkCard>` コンポーネントは<Marker color="blue">非同期サーバーコンポーネント</Marker>として実装されています。SSG ビルド時に外部 URL の OGP 情報を取得し、リッチなリンクカードとして静的 HTML にベイクします：
+
+```tsx
+export async function ExLinkCard({ url }: Props) {
+  const ogp = await fetchOgp(url)
+  return (
+    <a href={url}>
+      {ogp.Image?.length ? (
+        <img src={ogp.Image[0].URL} alt={ogp.Title} />
+      ) : null}
+      <p>{ogp.Title}</p>
+      <div>{ogp.Description}</div>
+      <span>{new URL(url).host}</span>
+    </a>
+  )
+}
+```
+
+OGP データはインメモリキャッシュで重複フェッチを防いでいます。ビルド時に取得するため、ランタイムでの API コールは一切発生しません。
+
+## giscus によるコメント機能
+
+コメント機能には GitHub Discussions ベースの <Bold>giscus</Bold> を使っています。特筆すべきは、ダークモード切替と連動して giscus の iframe にリアルタイムでテーマを同期する仕組みです：
+
+```js
+var observer = new MutationObserver(function() {
+  var nowDark = document.documentElement.classList.contains('dark');
+  var iframe = container
+    .querySelector('iframe.giscus-frame');
+  if (iframe && iframe.contentWindow) {
+    iframe.contentWindow.postMessage(
+      { giscus: {
+          setConfig: { theme: nowDark ? 'dark' : 'light' }
+      }},
+      'https://giscus.app'
+    );
+  }
+});
+observer.observe(document.documentElement, {
+  attributes: true,
+  attributeFilter: ['class']
+});
+```
+
+`MutationObserver` で `<html>` 要素の `class` 属性変化を監視し、`postMessage` で giscus iframe のテーマをリアルタイムに切り替えています。
+
+## SEO 対応（RSS / Sitemap / robots.txt）
+
+RSS フィード、サイトマップ、robots.txt はすべて HonoX のルートハンドラとして実装しており、ビルド時に静的ファイルとして生成されます：
+
+```ts
+// app/routes/index.xml.ts — RSS フィード
+export default createRoute(c => {
+  const rss = generateRss(getAllPosts())
+  return c.text(rss, 200, {
+    'Content-Type': 'application/xml',
+  })
+})
+```
+
+XML テンプレートエンジンを使わず、`Array.map()` と文字列テンプレートだけで RSS 2.0 を生成するシンプルなアプローチです。
+
+## Cloudflare Pages へのデプロイ
+
+デプロイは `wrangler` コマンド一発で完了します：
+
+```bash
+pnpm deploy
+# → vite build --mode client && vite build && wrangler pages deploy ./dist
+```
+
+`dist/` ディレクトリに生成された静的ファイルを Cloudflare Pages にデプロイするだけなので、サーバーの管理は不要です。Cloudflare のグローバル CDN により、世界中から高速にアクセスできます。
+
+## まとめ
+
+当ブログの技術的な特徴をまとめると：
+
+- <Marker>Hono / HonoX による SSG</Marker> — 軽量フレームワークで静的サイトを生成
+- <Marker color="blue">Island Architecture</Marker> — クライアント JS は必要最小限
+- <Marker color="green">バニラ JS によるインタラクション</Marker> — ランタイムフレームワーク不要
+- <Marker color="pink">MDX + カスタムコンポーネント</Marker> — リッチな記事執筆体験
+- <Bold>Cloudflare Pages</Bold> — エッジ配信で高速アクセス
+
+Chester How 氏と Emiel Hollander 氏のテーマをベースに、Hono エコシステムの強みを活かして独自のブログプラットフォームに育てることができました。今後もカスタマイズを続けていきたいと思います。
+
+何か質問やフィードバックがあれば、下のコメント欄からお気軽にどうぞ！
