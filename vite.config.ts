@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import path from "node:path";
 import ssg from "@hono/vite-ssg";
 import mdx from "@mdx-js/rollup";
@@ -20,6 +21,35 @@ const fixViteSsgBuiltins = () => ({
     if (!Array.isArray(builtins)) {
       resolvedConfig.resolve.builtins = [];
     }
+  },
+});
+
+/**
+ * Dev-only plugin: serves post images from app/routes/posts/ at /posts/
+ * so that frontmatter `image: "/posts/slug/file.png"` works in dev.
+ */
+const servePostImages = (): import("vite").Plugin => ({
+  name: "serve-post-images",
+  configureServer(server) {
+    server.middlewares.use((req, res, next) => {
+      if (!req.url) return next();
+      const match = req.url.match(/^\/posts\/(.+\.(png|jpe?g|webp|gif|svg|avif))(\?.*)?$/i);
+      if (!match) return next();
+      const filePath = path.resolve(__dirname, "app/routes/posts", match[1]);
+      if (!fs.existsSync(filePath)) return next();
+      const ext = path.extname(filePath).toLowerCase();
+      const mimeTypes: Record<string, string> = {
+        ".png": "image/png",
+        ".jpg": "image/jpeg",
+        ".jpeg": "image/jpeg",
+        ".webp": "image/webp",
+        ".gif": "image/gif",
+        ".svg": "image/svg+xml",
+        ".avif": "image/avif",
+      };
+      res.setHeader("Content-Type", mimeTypes[ext] || "application/octet-stream");
+      fs.createReadStream(filePath).pipe(res);
+    });
   },
 });
 
@@ -52,6 +82,7 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: false,
     },
     plugins: [
+      servePostImages(),
       fixViteSsgBuiltins(),
       viteCommonjs({
         include: [
