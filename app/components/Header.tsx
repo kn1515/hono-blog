@@ -116,6 +116,11 @@ const headerContainerCss = css`
     align-items: center;
     padding: 0.6rem 1rem;
   }
+
+  @media (max-width: 434px) {
+    padding: 0.5rem 0.5rem;
+    gap: 0.35rem;
+  }
 `
 
 const titleCss = css`
@@ -133,11 +138,21 @@ const titleCss = css`
   border-radius: 8px;
   position: relative;
   z-index: 2;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 
   &:hover,
   &:focus {
     color: var(--c-accent);
     transform: translateY(-1px);
+  }
+
+  @media (max-width: 434px) {
+    font-size: 1.05rem;
+    padding: 0.2rem 0.4rem;
+    gap: 0.25rem;
   }
 `
 
@@ -150,9 +165,15 @@ const navAreaCss = css`
   border-radius: 8px;
   position: relative;
   z-index: 2;
+  flex-shrink: 0;
 
   @media (max-width: 600px) {
     align-self: flex-end;
+  }
+
+  @media (max-width: 434px) {
+    gap: 0.25rem;
+    padding: 0.2rem 0.3rem;
   }
 `
 
