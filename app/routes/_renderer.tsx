@@ -493,9 +493,7 @@ const leftTocScript = `
 
 const leftTocStyle = `
 #left-toc-container {
-  position: sticky;
-  top: 5rem;
-  align-self: flex-start;
+  /* sticky is handled by the parent leftSidebarArea */
 }
 #left-toc {
   max-height: calc(100vh - 7rem);
@@ -844,6 +842,7 @@ const wrapperCss = css`
   position: relative;
   min-height: 100vh;
   overflow: clip;
+  isolation: isolate;
 `
 
 const glowTopCss = css`
@@ -855,7 +854,7 @@ const glowTopCss = css`
   background: var(--c-glow);
   border-radius: 50%;
   filter: blur(80px);
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
 `
 
@@ -868,7 +867,7 @@ const glowBottomCss = css`
   background: var(--c-glow);
   border-radius: 50%;
   filter: blur(80px);
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
 `
 
@@ -880,6 +879,8 @@ const mainCss = css`
   z-index: 1;
   display: flex;
   gap: 2rem;
+  /* Ensure main contents never overlap the sticky header (z-index:100) */
+  isolation: isolate;
 
   @media (max-width: 1100px) {
     max-width: 1000px;
@@ -896,6 +897,8 @@ const leftSidebarAreaCss = css`
   align-self: flex-start;
   position: sticky;
   top: 5rem;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
 
   @media (max-width: 1100px) {
     display: none;
