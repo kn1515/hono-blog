@@ -175,54 +175,6 @@ const categoryItemCss = css`
 `
 
 /* ── Popular Articles Section ── */
-const _popularPostListCss = css`
-  list-style: none;
-  margin: 0;
-  padding: 0;
-`
-
-const _popularPostItemCss = css`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 0;
-  border-bottom: 1px solid var(--c-border);
-  line-height: 1.55;
-
-  &:last-child {
-    border-bottom: none;
-  }
-
-  & a {
-    font-size: 0.9rem;
-    color: var(--c-text);
-    text-decoration: none;
-    transition: color 0.15s ease;
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-
-    &:hover {
-      color: var(--c-accent);
-    }
-  }
-`
-
-const _popularBadgeCss = css`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.2rem;
-  font-size: 0.75rem;
-  color: var(--c-text-muted);
-  flex-shrink: 0;
-  min-width: 2.5rem;
-  justify-content: flex-end;
-`
-
 const popularLoadingCss = css`
   font-size: 0.85rem;
   color: var(--c-text-faint);

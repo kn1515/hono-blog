@@ -537,18 +537,18 @@ const popularArticlesScript = `
     if (dataEl) postsData = JSON.parse(dataEl.textContent || '[]');
   } catch(e) {}
 
-  fetch('/api/discussions')
+  fetch('https://api.github.com/repos/kn1515/hono-blog/discussions?per_page=100')
     .then(function(r) { return r.ok ? r.json() : null; })
-    .then(function(data) {
-      if (!data || !data.discussions || data.discussions.length === 0) {
+    .then(function(discussions) {
+      if (!discussions || discussions.length === 0) {
         section.style.display = 'none';
         return;
       }
 
-      /* Sort by total reactions descending */
-      var sorted = data.discussions
-        .filter(function(d) { return d.totalReactions > 0; })
-        .sort(function(a, b) { return b.totalReactions - a.totalReactions; })
+      /* Filter to Comments category and sort by total reactions descending */
+      var sorted = discussions
+        .filter(function(d) { return d.category && d.category.name === 'Comments' && d.reactions && d.reactions.total_count > 0; })
+        .sort(function(a, b) { return b.reactions.total_count - a.reactions.total_count; })
         .slice(0, 5);
 
       if (sorted.length === 0) {
@@ -559,19 +559,21 @@ const popularArticlesScript = `
       var html = '<ul style="list-style:none;margin:0;padding:0">';
       for (var i = 0; i < sorted.length; i++) {
         var d = sorted[i];
+        /* Discussion title is the pathname (giscus mapping) */
+        var pathname = '/' + d.title;
         /* Find article title from posts data */
-        var title = d.pathname;
+        var title = d.title;
         for (var j = 0; j < postsData.length; j++) {
-          if (postsData[j].permalink === d.pathname) {
+          if (postsData[j].permalink === pathname) {
             title = postsData[j].title;
             break;
           }
         }
         html += '<li style="display:flex;align-items:center;gap:0.5rem;padding:0.6rem 0;border-bottom:1px solid var(--c-border);line-height:1.55">';
-        html += '<a href="' + d.pathname + '" style="font-size:0.9rem;color:var(--c-text);text-decoration:none;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">' + title.replace(/</g,'&lt;') + '</a>';
+        html += '<a href="' + pathname + '" style="font-size:0.9rem;color:var(--c-text);text-decoration:none;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">' + title.replace(/</g,'&lt;') + '</a>';
         html += '<span style="display:inline-flex;align-items:center;gap:0.2rem;font-size:0.75rem;color:var(--c-text-muted);flex-shrink:0;min-width:2.5rem;justify-content:flex-end">';
         html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
-        html += d.totalReactions + '</span></li>';
+        html += d.reactions.total_count + '</span></li>';
       }
       html += '</ul>';
       container.innerHTML = html;
@@ -600,71 +602,41 @@ const likeButtonScript = `
     return;
   }
 
-  var isLoading = false;
+  /* Derive discussion search term from pathname (giscus uses pathname mapping) */
+  var term = path.replace(/^\\//, '');
 
-  function render(count, hasReacted, authenticated) {
-    var activeColor = hasReacted ? 'var(--c-accent)' : 'var(--c-text-muted)';
-    var fill = hasReacted ? 'currentColor' : 'none';
-    var label = authenticated ? (hasReacted ? 'いいね済み' : 'いいね') : 'GitHubでいいね';
-
+  function render(count, discussionUrl) {
+    var label = 'GitHubでいいね';
     container.innerHTML =
       '<div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--c-border)">' +
-      '<button id="like-btn" type="button" aria-label="' + label + '" style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;background:none;border:none;cursor:pointer;padding:0.5rem;color:' + activeColor + ';transition:color 0.2s ease,transform 0.15s ease;width:100%">' +
-      '<svg width="24" height="24" viewBox="0 0 24 24" fill="' + fill + '" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>' +
+      '<a id="like-btn" href="' + (discussionUrl || '#giscus-container') + '" ' + (discussionUrl ? 'target="_blank" rel="noopener noreferrer"' : '') + ' aria-label="' + label + '" style="display:flex;flex-direction:column;align-items:center;gap:0.3rem;background:none;border:none;cursor:pointer;padding:0.5rem;color:var(--c-text-muted);transition:color 0.2s ease,transform 0.15s ease;width:100%;text-decoration:none">' +
+      '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>' +
       '<span style="font-size:0.85rem;font-weight:600">' + count + '</span>' +
       '<span style="font-size:0.65rem;letter-spacing:0.02em">' + label + '</span>' +
-      '</button></div>';
+      '</a></div>';
 
     var btn = document.getElementById('like-btn');
     if (btn) {
       btn.addEventListener('mouseenter', function() { btn.style.transform = 'scale(1.1)'; });
       btn.addEventListener('mouseleave', function() { btn.style.transform = 'scale(1)'; });
-      btn.addEventListener('click', handleClick);
     }
   }
 
-  function handleClick() {
-    if (isLoading) return;
-    isLoading = true;
+  /* Initial load */
+  render(0, '');
 
-    /* Check if authenticated first */
-    fetch('/api/auth/session')
-      .then(function(r) { return r.json(); })
-      .then(function(session) {
-        if (!session.authenticated) {
-          /* Redirect to OAuth login */
-          window.location.href = '/api/auth/login?return_to=' + encodeURIComponent(window.location.pathname);
+  /* Fetch discussion data from GitHub REST API */
+  fetch('https://api.github.com/repos/kn1515/hono-blog/discussions?per_page=100')
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(discussions) {
+      if (!discussions) return;
+      for (var i = 0; i < discussions.length; i++) {
+        var d = discussions[i];
+        if (d.title === term && d.category && d.category.name === 'Comments') {
+          var thumbsUp = d.reactions ? d.reactions['+1'] || 0 : 0;
+          render(thumbsUp, d.html_url);
           return;
         }
-        /* Toggle reaction */
-        return fetch('/api/reactions', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ path: path })
-        })
-        .then(function(r) { return r.json(); })
-        .then(function(result) {
-          if (result.error) {
-            if (result.error === 'Discussion not found for this article') {
-              alert('この記事にはまだDiscussionがありません。先にコメントセクションを読み込んでください。');
-            }
-          } else {
-            render(result.thumbsUp, result.viewerHasReacted, true);
-          }
-          isLoading = false;
-        });
-      })
-      .catch(function() { isLoading = false; });
-  }
-
-  /* Initial load */
-  render(0, false, false);
-
-  fetch('/api/reactions?path=' + encodeURIComponent(path))
-    .then(function(r) { return r.ok ? r.json() : null; })
-    .then(function(data) {
-      if (data) {
-        render(data.thumbsUp, data.viewerHasReacted, data.authenticated);
       }
     })
     .catch(function() {});
