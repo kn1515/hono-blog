@@ -1,5 +1,6 @@
 import { css } from 'hono/css'
 import { gray, grayLight } from '../styles/color'
+import HeaderParticles from '../islands/HeaderParticles'
 
 /* ── Inline SVG Icons ── */
 const svgProps = {
@@ -96,16 +97,6 @@ const headerCss = css`
   border-bottom: 1px solid var(--c-header-border);
   box-shadow: 0 1px 8px var(--c-shadow);
   transition: background-color 0.3s ease, border-color 0.3s ease;
-`
-
-const headerCanvasCss = css`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
 `
 
 const headerContainerCss = css`
@@ -354,7 +345,7 @@ const themeToggleCss = css`
 export const Header = () => {
   return (
     <header class={headerCss} id='site-header'>
-      <canvas id='header-particles' class={headerCanvasCss} />
+      <HeaderParticles />
       <div class={headerContainerCss}>
         <a href='/' class={titleCss}>
           <IconOwl />
