@@ -104,6 +104,15 @@ const themeInitScript = `
     var isDark=document.documentElement.classList.toggle('dark');
     try{localStorage.setItem('theme',isDark?'dark':'light')}catch(x){}
   });
+  /* Close accordion menu when clicking outside */
+  document.addEventListener('click',function(e){
+    var details=document.querySelectorAll('header details[open]');
+    for(var i=0;i<details.length;i++){
+      if(!details[i].contains(e.target)){
+        details[i].removeAttribute('open');
+      }
+    }
+  });
 })();
 `;
 
