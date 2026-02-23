@@ -4,6 +4,7 @@ import { jsxRenderer } from "hono/jsx-renderer";
 import { Script } from "honox/server";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
+import { Sidebar } from "../components/Sidebar";
 import { getAllPosts } from "../lib/posts";
 import { verticalRhythmUnit } from "../styles/variables";
 
@@ -398,10 +399,44 @@ const glowBottomCss = css`
 
 const mainCss = css`
   margin: 0 auto;
-  max-width: 800px;
+  max-width: 1280px;
   padding-top: 2rem;
   position: relative;
   z-index: 1;
+  display: flex;
+  gap: 2rem;
+
+  @media (max-width: 1100px) {
+    max-width: 1000px;
+  }
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+  }
+`;
+
+const leftSidebarAreaCss = css`
+  width: 200px;
+  flex-shrink: 0;
+
+  @media (max-width: 1100px) {
+    display: none;
+  }
+`;
+
+const contentAreaCss = css`
+  flex: 1;
+  min-width: 0;
+  max-width: 800px;
+`;
+
+const sidebarAreaCss = css`
+  width: 280px;
+  flex-shrink: 0;
+
+  @media (max-width: 900px) {
+    width: 100%;
+  }
 `;
 
 export default jsxRenderer(
@@ -493,7 +528,15 @@ export default jsxRenderer(
             <div class={glowTopCss} />
             <div class={glowBottomCss} />
             <Header />
-            <main class={mainCss}>{children}</main>
+            <main class={mainCss}>
+              <div class={leftSidebarAreaCss}>
+                {/* 左サイドバー（将来拡張用） */}
+              </div>
+              <div class={contentAreaCss}>{children}</div>
+              <div class={sidebarAreaCss}>
+                <Sidebar recentPosts={getAllPosts()} />
+              </div>
+            </main>
             <Footer />
           </div>
           {/* Search Modal (hidden by default, toggled by vanilla JS) */}
