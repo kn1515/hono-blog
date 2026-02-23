@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'hono/jsx/dom'
 import { css } from 'hono/css'
+import { useEffect, useRef } from 'hono/jsx/dom'
 
 const canvasCss = css`
   position: absolute;
@@ -81,19 +81,19 @@ export default function HeaderParticles() {
     }
 
     function resize() {
-      const rect = header!.getBoundingClientRect()
+      const rect = header?.getBoundingClientRect()
       w = rect.width
       h = rect.height
       canvas!.width = w * devicePixelRatio
       canvas!.height = h * devicePixelRatio
-      canvas!.style.width = `${w}px`
-      canvas!.style.height = `${h}px`
-      ctx!.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0)
+      canvas?.style.width = `${w}px`
+      canvas?.style.height = `${h}px`
+      ctx?.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0)
       initParticles()
     }
 
     function animate() {
-      ctx!.clearRect(0, 0, w, h)
+      ctx?.clearRect(0, 0, w, h)
       const isDark = document.documentElement.classList.contains('dark')
       const color = isDark ? '255,255,255' : '0,0,0'
 
@@ -129,10 +129,10 @@ export default function HeaderParticles() {
         p.y += p.vy
 
         // Draw particle
-        ctx!.beginPath()
-        ctx!.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+        ctx?.beginPath()
+        ctx?.arc(p.x, p.y, p.r, 0, Math.PI * 2)
         ctx!.fillStyle = `rgba(${color},${p.opacity})`
-        ctx!.fill()
+        ctx?.fill()
       }
 
       // Draw connections between close particles
@@ -145,12 +145,12 @@ export default function HeaderParticles() {
           const d = Math.sqrt(dx * dx + dy * dy)
           if (d < 80) {
             const alpha = (1 - d / 80) * 0.12
-            ctx!.beginPath()
-            ctx!.moveTo(a.x, a.y)
-            ctx!.lineTo(b.x, b.y)
+            ctx?.beginPath()
+            ctx?.moveTo(a.x, a.y)
+            ctx?.lineTo(b.x, b.y)
             ctx!.strokeStyle = `rgba(${color},${alpha})`
             ctx!.lineWidth = 0.5
-            ctx!.stroke()
+            ctx?.stroke()
           }
         }
       }
@@ -159,7 +159,7 @@ export default function HeaderParticles() {
     }
 
     const onMouseMove = (e: MouseEvent) => {
-      const rect = header!.getBoundingClientRect()
+      const rect = header?.getBoundingClientRect()
       mouse.x = e.clientX - rect.left
       mouse.y = e.clientY - rect.top
     }

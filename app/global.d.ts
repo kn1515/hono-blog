@@ -1,4 +1,3 @@
-import {} from 'hono'
 import type { Frontmatter } from './routes/posts/types'
 
 type Head = {
@@ -14,7 +13,7 @@ declare module 'hono' {
     Bindings: {}
   }
   interface ContextRenderer {
-    // biome-ignore lint/style/useShorthandFunctionType: <explanation>
+    // biome-ignore lint/style/useShorthandFunctionType: interface method signature required for Hono ContextRenderer
     (
       content: string | Promise<string>,
       head?: Head,

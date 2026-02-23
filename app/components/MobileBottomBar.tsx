@@ -1,5 +1,5 @@
-import { css } from "hono/css";
-import { getCategoryList } from "../lib/categories";
+import { css } from 'hono/css'
+import { getCategoryList } from '../lib/categories'
 
 /* ── Bottom Tab Bar (mobile only) ── */
 const bottomBarCss = css`
@@ -23,7 +23,7 @@ const bottomBarCss = css`
     padding: 0 0.5rem;
     padding-bottom: env(safe-area-inset-bottom, 0);
   }
-`;
+`
 
 const tabBtnCss = css`
   display: flex;
@@ -49,7 +49,7 @@ const tabBtnCss = css`
     color: var(--c-accent);
     background: var(--c-accent-hover-bg);
   }
-`;
+`
 
 /* ── Sidebar Overlay (mobile drawer) ── */
 const sidebarOverlayCss = css`
@@ -67,7 +67,7 @@ const sidebarOverlayCss = css`
   &.is-open {
     opacity: 1;
   }
-`;
+`
 
 const sidebarDrawerCss = css`
   display: none;
@@ -89,7 +89,7 @@ const sidebarDrawerCss = css`
   &.is-open {
     transform: translateX(0);
   }
-`;
+`
 
 /* ── Category Dropdown (bottom sheet) ── */
 const categoryOverlayCss = css`
@@ -107,7 +107,7 @@ const categoryOverlayCss = css`
   &.is-open {
     opacity: 1;
   }
-`;
+`
 
 const categoryDropdownCss = css`
   display: none;
@@ -131,7 +131,7 @@ const categoryDropdownCss = css`
   &.is-open {
     transform: translateY(0);
   }
-`;
+`
 
 const categoryDropdownTitleCss = css`
   font-size: 0.85rem;
@@ -142,7 +142,7 @@ const categoryDropdownTitleCss = css`
   margin: 0 0 0.75rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--c-border);
-`;
+`
 
 const categoryDropdownListCss = css`
   list-style: none;
@@ -151,7 +151,7 @@ const categoryDropdownListCss = css`
   display: flex;
   flex-direction: column;
   gap: 0;
-`;
+`
 
 const categoryDropdownItemCss = css`
   & a {
@@ -175,79 +175,88 @@ const categoryDropdownItemCss = css`
   & + & {
     border-top: 1px solid var(--c-border);
   }
-`;
+`
 
 /* ── Icons ── */
 const HomeIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+  <svg width='20' height='20' viewBox='0 0 24 24' fill='currentColor'>
+    <path d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z' />
   </svg>
-);
+)
 
 const SearchIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="11" cy="11" r="8" />
-    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+  <svg
+    width='20'
+    height='20'
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    stroke-width='2'
+    stroke-linecap='round'
+    stroke-linejoin='round'
+  >
+    <circle cx='11' cy='11' r='8' />
+    <line x1='21' y1='21' x2='16.65' y2='16.65' />
   </svg>
-);
+)
 
 const TopIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" />
+  <svg width='20' height='20' viewBox='0 0 24 24' fill='currentColor'>
+    <path d='M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z' />
   </svg>
-);
+)
 
 const SidebarIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
+  <svg width='20' height='20' viewBox='0 0 24 24' fill='currentColor'>
+    <path d='M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z' />
   </svg>
-);
+)
 
 const CategoryIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z" />
+  <svg width='20' height='20' viewBox='0 0 24 24' fill='currentColor'>
+    <path d='M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z' />
   </svg>
-);
+)
 
 export function MobileBottomBar() {
-  const categories = getCategoryList();
+  const categories = getCategoryList()
 
   return (
     <>
       {/* Bottom Tab Bar */}
-      <nav class={bottomBarCss} id="mobile-bottom-bar">
-        <a href="/" class={tabBtnCss}>
+      <nav class={bottomBarCss} id='mobile-bottom-bar'>
+        <a href='/' class={tabBtnCss}>
           <HomeIcon />
           <span>ホーム</span>
         </a>
-        <button type="button" class={tabBtnCss} id="mobile-search-btn">
+        <button type='button' class={tabBtnCss} id='mobile-search-btn'>
           <SearchIcon />
           <span>検索</span>
         </button>
-        <button type="button" class={tabBtnCss} id="mobile-category-btn">
+        <button type='button' class={tabBtnCss} id='mobile-category-btn'>
           <CategoryIcon />
           <span>カテゴリ</span>
         </button>
-        <button type="button" class={tabBtnCss} id="mobile-top-btn">
+        <button type='button' class={tabBtnCss} id='mobile-top-btn'>
           <TopIcon />
           <span>トップ</span>
         </button>
-        <button type="button" class={tabBtnCss} id="mobile-sidebar-btn">
+        <button type='button' class={tabBtnCss} id='mobile-sidebar-btn'>
           <SidebarIcon />
           <span>サイドバー</span>
         </button>
       </nav>
 
       {/* Sidebar Drawer Overlay */}
-      <div class={sidebarOverlayCss} id="sidebar-overlay" />
-      <div class={sidebarDrawerCss} id="sidebar-drawer" />
+      <div class={sidebarOverlayCss} id='sidebar-overlay' />
+      <div class={sidebarDrawerCss} id='sidebar-drawer' />
 
       {/* Category Dropdown (bottom sheet) */}
-      <div class={categoryOverlayCss} id="category-overlay" />
-      <div class={categoryDropdownCss} id="category-dropdown">
+      <div class={categoryOverlayCss} id='category-overlay' />
+      <div class={categoryDropdownCss} id='category-dropdown'>
         <h3 class={categoryDropdownTitleCss}>カテゴリー</h3>
         <ul class={categoryDropdownListCss}>
-          {categories.map((cat) => (
+          {categories.map(cat => (
             <li class={categoryDropdownItemCss}>
               <a href={`/categories/${cat.id}/`}>{cat.name}</a>
             </li>
@@ -255,5 +264,5 @@ export function MobileBottomBar() {
         </ul>
       </div>
     </>
-  );
+  )
 }

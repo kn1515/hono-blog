@@ -1,5 +1,5 @@
-import { css } from "hono/css";
-import type { PropsWithChildren } from "hono/jsx";
+import { css } from 'hono/css'
+import type { PropsWithChildren } from 'hono/jsx'
 
 const tocWrapperCss = css`
   margin: 2rem 0;
@@ -11,7 +11,7 @@ const tocWrapperCss = css`
   .dark & {
     background: var(--c-bg-alt, #2a2a30);
   }
-`;
+`
 
 const tocHeaderCss = css`
   display: flex;
@@ -35,7 +35,7 @@ const tocHeaderCss = css`
     border-radius: 2px;
     flex-shrink: 0;
   }
-`;
+`
 
 const tocBodyCss = css`
   padding: 0.75rem 1.25rem 0.75rem 1.5rem;
@@ -85,17 +85,17 @@ const tocBodyCss = css`
       color: var(--c-accent);
     }
   }
-`;
+`
 
 type Props = PropsWithChildren<{
-  title?: string;
-}>;
+  title?: string
+}>
 
 export function Toc({ children, title }: Props) {
   return (
     <div class={tocWrapperCss}>
-      <div class={tocHeaderCss}>{title || "目次"}</div>
+      <div class={tocHeaderCss}>{title || '目次'}</div>
       <nav class={tocBodyCss}>{children}</nav>
     </div>
-  );
+  )
 }

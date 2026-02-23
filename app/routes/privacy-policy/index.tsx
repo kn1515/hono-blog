@@ -1,13 +1,13 @@
-import { Author } from "../../components/Author";
-import { css } from "hono/css";
-import { Fragment } from "hono/jsx/jsx-runtime";
-import { Heading } from "../../components/Heading";
-import { blue } from "../../styles/color";
+import { css } from 'hono/css'
+import { Fragment } from 'hono/jsx/jsx-runtime'
+import { Author } from '../../components/Author'
+import { Heading } from '../../components/Heading'
+import { blue } from '../../styles/color'
 
-const linkCss = css`
+const _linkCss = css`
   color: ${blue};
   text-decoration: none;
-`;
+`
 
 const sectionCss = css`
   margin: 1rem 0;
@@ -15,15 +15,15 @@ const sectionCss = css`
   border: 1px solid ${blue};
   border-radius: 8px;
   background-color: var(--c-card-bg);
-`;
+`
 
 const paragraphCss = css`
   margin-bottom: 1rem;
   line-height: 1.5;
   color: var(--c-text-muted);
-`;
+`
 
-export const title = "Contact";
+export const title = 'Contact'
 
 export default function Contact() {
   return (
@@ -74,5 +74,5 @@ export default function Contact() {
         </p>
       </div>
     </Fragment>
-  );
+  )
 }

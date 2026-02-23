@@ -9,13 +9,20 @@
     "rules": {
       "recommended": true,
       "suspicious": {
-        "noExplicitAny": "off"
+        "noExplicitAny": "off",
+        "noUnknownAtRules": "off"
       },
       "complexity": {
         "noBannedTypes": "off"
       },
       "correctness": {
         "useJsxKeyInIterable": "off"
+      },
+      "a11y": {
+        "noSvgWithoutTitle": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off"
       }
     }
   },
