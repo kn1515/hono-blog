@@ -128,6 +128,11 @@ const titleCss = css`
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  background: var(--c-bg);
+  padding: 0.25rem 0.6rem;
+  border-radius: 8px;
+  position: relative;
+  z-index: 2;
 
   &:hover,
   &:focus {
