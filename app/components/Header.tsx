@@ -112,8 +112,8 @@ const headerContainerCss = css`
   gap: 0.5rem;
 
   @media (max-width: 600px) {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
     padding: 0.6rem 1rem;
   }
 `
