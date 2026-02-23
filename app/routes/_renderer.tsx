@@ -26,8 +26,8 @@ const themeVarsStyle = `
   --c-bg-info: #f4f4f5;
   --c-border: #e2e8f0;
   --c-border-light: #cbd5e1;
-  --c-header-bg: rgba(45, 212, 191, 0.88);
-  --c-header-border: rgba(35, 180, 160, 0.6);
+  --c-header-bg: rgba(255, 255, 255, 0.97);
+  --c-header-border: rgba(226, 232, 240, 0.6);
   --c-panel-bg: rgba(255, 255, 255, 0.97);
   --c-panel-border: rgba(226, 232, 240, 0.6);
   --c-shadow-sm: rgba(0, 0, 0, 0.04);
@@ -63,8 +63,8 @@ const themeVarsStyle = `
   --c-bg-info: #38383e;
   --c-border: #46464e;
   --c-border-light: #56565e;
-  --c-header-bg: rgba(20, 140, 125, 0.92);
-  --c-header-border: rgba(30, 160, 145, 0.6);
+  --c-header-bg: rgba(44, 44, 50, 0.97);
+  --c-header-border: rgba(70, 70, 78, 0.6);
   --c-panel-bg: rgba(52, 52, 56, 0.97);
   --c-panel-border: rgba(86, 86, 94, 0.6);
   --c-shadow-sm: rgba(0, 0, 0, 0.1);
