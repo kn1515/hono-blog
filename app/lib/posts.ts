@@ -84,6 +84,10 @@ export function getPosts(page: number): Posts {
   }
 }
 
+export function getPinnedPosts(): Post[] {
+  return getAllPosts().filter(p => p.frontmatter.pinned)
+}
+
 export type PaginationPosts = {
   prevPost: Post | null
   nextPost: Post | null
