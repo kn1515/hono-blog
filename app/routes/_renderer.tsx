@@ -4,6 +4,7 @@ import { jsxRenderer } from "hono/jsx-renderer";
 import { Script } from "honox/server";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
+import { getAllPosts } from "../lib/posts";
 import { verticalRhythmUnit } from "../styles/variables";
 
 const codeBlockFontSize = 14;
@@ -137,6 +138,93 @@ const viewToggleScript = `
     var gridBtn=e.target&&e.target.closest&&e.target.closest('#view-toggle-grid');
     if(listBtn){switchView('list');}
     else if(gridBtn){switchView('grid');}
+  });
+})();
+`;
+
+/* ── Search script (vanilla JS, runs after DOM is ready) ── */
+const searchScript = `
+(function(){
+  var openBtn = document.getElementById('search-open-btn');
+  var overlay = document.getElementById('search-overlay');
+  var modal = document.getElementById('search-modal');
+  var input = document.getElementById('search-input');
+  var closeBtn = document.getElementById('search-close-btn');
+  var results = document.getElementById('search-results');
+  if (!openBtn || !overlay || !modal || !input || !closeBtn || !results) return;
+
+  var posts = [];
+  try {
+    var dataEl = document.getElementById('search-posts-data');
+    if (dataEl) posts = JSON.parse(dataEl.textContent || '[]');
+  } catch(e) {}
+
+  function formatDate(d) {
+    var dt = new Date(d);
+    if (isNaN(dt.getTime())) return d;
+    var y = dt.getFullYear();
+    var m = ('0'+(dt.getMonth()+1)).slice(-2);
+    var day = ('0'+dt.getDate()).slice(-2);
+    return y+'/'+m+'/'+day;
+  }
+
+  function openSearch() {
+    overlay.style.display = 'block';
+    modal.style.display = 'block';
+    input.value = '';
+    results.innerHTML = '<div style="padding:2rem 1rem;text-align:center;color:var(--c-text-faint);font-size:0.85rem">タイトル、説明、カテゴリ、タグで検索できます</div>';
+    setTimeout(function(){ input.focus(); }, 50);
+  }
+
+  function closeSearch() {
+    overlay.style.display = 'none';
+    modal.style.display = 'none';
+    input.value = '';
+  }
+
+  function renderResults(query) {
+    if (!query.trim()) {
+      results.innerHTML = '<div style="padding:2rem 1rem;text-align:center;color:var(--c-text-faint);font-size:0.85rem">タイトル、説明、カテゴリ、タグで検索できます</div>';
+      return;
+    }
+    var q = query.toLowerCase();
+    var filtered = posts.filter(function(p) {
+      return p.title.toLowerCase().indexOf(q) !== -1 ||
+        p.description.toLowerCase().indexOf(q) !== -1 ||
+        (p.categories || []).some(function(c){ return c.toLowerCase().indexOf(q) !== -1; }) ||
+        (p.tags || []).some(function(t){ return t.toLowerCase().indexOf(q) !== -1; });
+    });
+    if (filtered.length === 0) {
+      results.innerHTML = '<div style="padding:2rem 1rem;text-align:center;color:var(--c-text-muted);font-size:0.9rem">「' + query.replace(/</g,'&lt;') + '」に一致する記事が見つかりませんでした</div>';
+      return;
+    }
+    var html = '';
+    for (var i = 0; i < filtered.length; i++) {
+      var p = filtered[i];
+      var imgHtml = p.image
+        ? '<img src="'+p.image+'" alt="" style="width:48px;height:48px;border-radius:6px;object-fit:cover;flex-shrink:0">'
+        : '<div style="width:48px;height:48px;border-radius:6px;background:var(--c-bg-alt);display:flex;align-items:center;justify-content:center;color:var(--c-text-faint);font-size:0.7rem;flex-shrink:0">No Image</div>';
+      var cats = (p.categories || []).join(', ');
+      var meta = formatDate(p.date) + (cats ? ' / ' + cats : '');
+      html += '<a href="'+p.permalink+'" style="display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0.75rem;border-radius:8px;text-decoration:none;color:var(--c-text);transition:background 0.15s ease" onmouseover="this.style.background=\\'var(--c-accent-hover-bg)\\'" onmouseout="this.style.background=\\'transparent\\'">'
+        + imgHtml
+        + '<div style="flex:1;min-width:0">'
+        + '<div style="font-size:0.9rem;font-weight:600;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + p.title.replace(/</g,'&lt;') + '</div>'
+        + '<div style="font-size:0.75rem;color:var(--c-text-muted);margin-top:0.15rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + meta + '</div>'
+        + '</div></a>';
+    }
+    results.innerHTML = html;
+  }
+
+  openBtn.addEventListener('click', openSearch);
+  closeBtn.addEventListener('click', closeSearch);
+  overlay.addEventListener('click', closeSearch);
+  input.addEventListener('input', function(){ renderResults(input.value); });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal.style.display !== 'none') {
+      closeSearch();
+    }
   });
 })();
 `;
@@ -377,6 +465,19 @@ export default jsxRenderer(
           />
           <Script src="/app/client.ts" async />
           <Style />
+          {html`<script id="search-posts-data" type="application/json">${raw(
+            JSON.stringify(
+              getAllPosts().map(p => ({
+                title: p.frontmatter.title,
+                permalink: p.permalink,
+                date: p.frontmatter.date,
+                description: p.frontmatter.description || '',
+                categories: p.frontmatter.categories || [],
+                tags: p.frontmatter.tags || [],
+                image: p.frontmatter.image || undefined,
+              })),
+            ),
+          )}</script>`}
         </head>
         <body class={bodyCss}>
           <div class={wrapperCss}>
@@ -386,6 +487,19 @@ export default jsxRenderer(
             <main class={mainCss}>{children}</main>
             <Footer />
           </div>
+          {/* Search Modal (hidden by default, toggled by vanilla JS) */}
+          <div id="search-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:300" />
+          <div id="search-modal" style="display:none;position:fixed;top:15%;left:50%;transform:translateX(-50%);width:90%;max-width:560px;background:var(--c-panel-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--c-panel-border);border-radius:12px;box-shadow:0 8px 32px var(--c-shadow-lg);z-index:301;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1rem;border-bottom:1px solid var(--c-border)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input id="search-input" type="text" placeholder="記事を検索..." style="flex:1;border:none;background:transparent;color:var(--c-text);font-size:1rem;outline:none;font-family:inherit" />
+              <button id="search-close-btn" type="button" aria-label="Close search" style="display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;border:none;background:transparent;color:var(--c-text-muted);cursor:pointer;padding:0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+            <div id="search-results" style="max-height:400px;overflow-y:auto;padding:0.5rem" />
+          </div>
+          {html`<script>${raw(searchScript)}</script>`}
         </body>
       </html>
     );
