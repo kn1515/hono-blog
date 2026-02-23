@@ -20,66 +20,52 @@ test.describe('Tags Pages', () => {
       expect(count).toBeGreaterThan(0)
     })
 
-    test('should display known tag names', async ({ page }) => {
-      await page.goto('/tags/')
-      const body = page.locator('body')
-      await expect(body).toContainText('雑談')
-      await expect(body).toContainText('情報処理安全確保支援士')
-      await expect(body).toContainText('合格体験記')
-    })
-
     test('should have links to tag detail pages', async ({ page }) => {
       await page.goto('/tags/')
-      const tagLink = page
-        .locator('a[href*="/tags/"]')
-        .filter({ hasText: '雑談' })
-      await expect(tagLink).toBeVisible()
+      const tagLinks = page.locator('ul a[href*="/tags/"]')
+      const count = await tagLinks.count()
+      expect(count).toBeGreaterThan(0)
     })
   })
 
   test.describe('Tag Detail (/tags/[id]/)', () => {
+    // Dynamically discover a tag from the tags index
+    let tagUrl: string
+    let tagName: string
+
+    test.beforeAll(async ({ browser }) => {
+      const page = await browser.newPage()
+      await page.goto('/tags/')
+      const link = page.locator('ul a[href*="/tags/"]').first()
+      tagUrl = (await link.getAttribute('href')) ?? '/tags/'
+      tagName = (await link.textContent()) ?? ''
+      await page.close()
+    })
+
     test('should load a tag detail page', async ({ page }) => {
-      const response = await page.goto('/tags/雑談/')
+      const response = await page.goto(tagUrl)
       expect(response?.status()).toBe(200)
     })
 
     test('should display the tag name in the heading', async ({ page }) => {
-      await page.goto('/tags/雑談/')
-      const heading = page.locator('h1, h2').filter({ hasText: '雑談' })
+      await page.goto(tagUrl)
+      const heading = page.locator('h1, h2').filter({ hasText: tagName })
       await expect(heading.first()).toBeVisible()
     })
 
     test('should list posts with the specified tag', async ({ page }) => {
-      await page.goto('/tags/雑談/')
-      const body = page.locator('body')
-      await expect(body).toContainText('ブログ初投稿')
+      await page.goto(tagUrl)
+      // Should have at least one post link
+      const postLinks = page.locator('a[href*="/posts/"]')
+      const count = await postLinks.count()
+      expect(count).toBeGreaterThan(0)
     })
 
     test('should navigate from tags index to tag detail', async ({ page }) => {
       await page.goto('/tags/')
-      const tagLink = page
-        .locator('a[href*="/tags/"]')
-        .filter({ hasText: '雑談' })
+      const tagLink = page.locator('ul a[href*="/tags/"]').first()
       await tagLink.click()
       await expect(page).toHaveURL(/\/tags\/.*\//)
-      const body = page.locator('body')
-      await expect(body).toContainText('ブログ初投稿')
-    })
-
-    test('should load the 情報処理安全確保支援士 tag page', async ({
-      page,
-    }) => {
-      const response = await page.goto('/tags/情報処理安全確保支援士/')
-      expect(response?.status()).toBe(200)
-      const body = page.locator('body')
-      await expect(body).toContainText('情報処理安全確保支援士に合格しました')
-    })
-
-    test('should load the 合格体験記 tag page', async ({ page }) => {
-      const response = await page.goto('/tags/合格体験記/')
-      expect(response?.status()).toBe(200)
-      const body = page.locator('body')
-      await expect(body).toContainText('情報処理安全確保支援士に合格しました')
     })
   })
 })

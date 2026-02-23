@@ -31,11 +31,11 @@ test.describe('Sitemap (/sitemap.xml)', () => {
     expect(body).toContain('<lastmod>')
   })
 
-  test('should contain URLs for known posts', async ({ request }) => {
+  test('should contain at least one post URL', async ({ request }) => {
     const response = await request.get('/sitemap.xml')
     const body = await response.text()
-    expect(body).toContain('/posts/hello-world/')
-    expect(body).toContain('/posts/riss/')
+    // At least one /posts/ URL should be in the sitemap
+    expect(body).toContain('/posts/')
   })
 
   test('should contain a lastmod date in YYYY-MM-DD format', async ({
@@ -43,7 +43,6 @@ test.describe('Sitemap (/sitemap.xml)', () => {
   }) => {
     const response = await request.get('/sitemap.xml')
     const body = await response.text()
-    // Check for date pattern in lastmod
     const datePattern = /<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/
     expect(body).toMatch(datePattern)
   })

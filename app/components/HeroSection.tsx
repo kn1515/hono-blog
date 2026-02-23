@@ -1,7 +1,7 @@
-import { format } from '@formkit/tempo'
-import { css } from 'hono/css'
-import type { Post } from '../lib/posts'
-import { parseDate } from '../lib/time'
+import { format } from "@formkit/tempo";
+import { css } from "hono/css";
+import type { Post } from "../lib/posts";
+import { parseDate } from "../lib/time";
 
 /* ── Hero Container ── */
 const heroCss = css`
@@ -13,7 +13,7 @@ const heroCss = css`
   @media (max-width: 700px) {
     flex-direction: column;
   }
-`
+`;
 
 const heroIntroCss = css`
   flex: 1;
@@ -27,21 +27,21 @@ const heroIntroCss = css`
   @media (max-width: 700px) {
     text-align: center;
   }
-`
+`;
 
 const heroTitleCss = css`
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--c-text);
   margin: 0 0 0.35rem;
-`
+`;
 
 const heroDescCss = css`
   font-size: 0.88rem;
   color: var(--c-text-muted);
   margin: 0;
   line-height: 1.6;
-`
+`;
 
 /* ── Pinned Section (right side) ── */
 const pinnedSideCss = css`
@@ -49,7 +49,7 @@ const pinnedSideCss = css`
   min-width: 0;
   display: flex;
   flex-direction: column;
-`
+`;
 
 const pinnedHeaderCss = css`
   display: flex;
@@ -61,14 +61,14 @@ const pinnedHeaderCss = css`
   letter-spacing: 0.06em;
   color: var(--c-accent);
   margin: 0 0 0.75rem;
-`
+`;
 
 const pinnedGridCss = css`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   flex: 1;
-`
+`;
 
 const pinnedCardCss = css`
   display: flex;
@@ -85,7 +85,7 @@ const pinnedCardCss = css`
     box-shadow: 0 4px 16px var(--c-shadow);
     transform: translateY(-2px);
   }
-`
+`;
 
 const pinnedImgCss = css`
   width: 100px;
@@ -94,7 +94,7 @@ const pinnedImgCss = css`
   object-fit: cover;
   flex-shrink: 0;
   border-right: 1px solid var(--c-card-border);
-`
+`;
 
 const pinnedNoImgCss = css`
   width: 100px;
@@ -107,14 +107,14 @@ const pinnedNoImgCss = css`
   font-size: 0.7rem;
   flex-shrink: 0;
   border-right: 1px solid var(--c-card-border);
-`
+`;
 
 const pinnedBodyCss = css`
   padding: 0.75rem 0.85rem;
   flex: 1;
   display: flex;
   flex-direction: column;
-`
+`;
 
 const pinnedCardTitleCss = css`
   font-size: 0.9rem;
@@ -126,7 +126,7 @@ const pinnedCardTitleCss = css`
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-`
+`;
 
 const pinnedCardMetaCss = css`
   font-size: 0.72rem;
@@ -135,7 +135,7 @@ const pinnedCardMetaCss = css`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-`
+`;
 
 const pinnedBadgeCss = css`
   display: inline-flex;
@@ -147,32 +147,32 @@ const pinnedBadgeCss = css`
   background: var(--c-accent-bg);
   padding: 0.15rem 0.45rem;
   border-radius: 4px;
-`
+`;
 
 /* ── Divider ── */
-const _dividerCss = css`
+const dividerCss = css`
   border: none;
   border-top: 1px solid var(--c-border);
   margin: 0;
-`
+`;
 
 /* ── Icons ── */
 const PinIcon = () => (
   <svg
-    width='14'
-    height='14'
-    viewBox='0 0 24 24'
-    fill='currentColor'
-    style='flex-shrink:0'
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    style="flex-shrink:0"
   >
-    <path d='M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2l-2-2z' />
+    <path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2l-2-2z" />
   </svg>
-)
+);
 
 /* ── Component ── */
 type Props = {
-  pinnedPosts: Post[]
-}
+  pinnedPosts: Post[];
+};
 
 export function HeroSection({ pinnedPosts }: Props) {
   return (
@@ -193,27 +193,29 @@ export function HeroSection({ pinnedPosts }: Props) {
             <span>ピックアップ</span>
           </div>
           <div class={pinnedGridCss}>
-            {pinnedPosts.map(post => (
+            {pinnedPosts.map((post) => (
               <a href={post.permalink} class={pinnedCardCss}>
                 {post.frontmatter.image ? (
                   <img
                     src={post.frontmatter.image}
-                    alt=''
+                    alt=""
                     class={pinnedImgCss}
-                    loading='lazy'
+                    loading="lazy"
                   />
                 ) : (
                   <div class={pinnedNoImgCss}>No Image</div>
                 )}
                 <div class={pinnedBodyCss}>
-                  <div class={pinnedCardTitleCss}>{post.frontmatter.title}</div>
+                  <div class={pinnedCardTitleCss}>
+                    {post.frontmatter.title}
+                  </div>
                   <div class={pinnedCardMetaCss}>
                     <span class={pinnedBadgeCss}>
                       <PinIcon />
                       PICK UP
                     </span>
                     <time datetime={post.frontmatter.date}>
-                      {format(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
+                      {format(parseDate(post.frontmatter.date), "YYYY/MM/DD")}
                     </time>
                   </div>
                 </div>
@@ -223,5 +225,5 @@ export function HeroSection({ pinnedPosts }: Props) {
         </div>
       )}
     </section>
-  )
+  );
 }

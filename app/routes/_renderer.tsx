@@ -1,15 +1,15 @@
-import { css, Style } from 'hono/css'
-import { html, raw } from 'hono/html'
-import { jsxRenderer } from 'hono/jsx-renderer'
-import { Script } from 'honox/server'
-import { Footer } from '../components/Footer'
-import { Header } from '../components/Header'
-import { MobileBottomBar } from '../components/MobileBottomBar'
-import { Sidebar } from '../components/Sidebar'
-import { getAllPosts } from '../lib/posts'
-import { verticalRhythmUnit } from '../styles/variables'
+import { Style, css } from "hono/css";
+import { html, raw } from "hono/html";
+import { jsxRenderer } from "hono/jsx-renderer";
+import { Script } from "honox/server";
+import { Footer } from "../components/Footer";
+import { Header } from "../components/Header";
+import { MobileBottomBar } from "../components/MobileBottomBar";
+import { Sidebar } from "../components/Sidebar";
+import { getAllPosts } from "../lib/posts";
+import { verticalRhythmUnit } from "../styles/variables";
 
-const codeBlockFontSize = 14
+const codeBlockFontSize = 14;
 
 /* ── Theme CSS Variables (injected as raw <style>) ── */
 const themeVarsStyle = `
@@ -99,7 +99,7 @@ const themeVarsStyle = `
     bottom: calc(56px + env(safe-area-inset-bottom, 0) + 18px) !important;
   }
 }
-`
+`;
 
 /* ── Theme toggle script (runs before paint to avoid flash) ── */
 const themeInitScript = `
@@ -125,7 +125,7 @@ const themeInitScript = `
     }
   });
 })();
-`
+`;
 
 /* ── View toggle script (list/grid switching) ── */
 const viewToggleScript = `
@@ -160,7 +160,7 @@ const viewToggleScript = `
     else if(gridBtn){switchView('grid');}
   });
 })();
-`
+`;
 
 /* ── Search script (vanilla JS, runs after DOM is ready) ── */
 const searchScript = `
@@ -247,7 +247,7 @@ const searchScript = `
     }
   });
 })();
-`
+`;
 
 /* ── Mobile bottom bar script ── */
 const mobileBarScript = `
@@ -336,7 +336,7 @@ const mobileBarScript = `
     });
   }
 })();
-`
+`;
 
 const bodyCss = css`
   :-hono-global {
@@ -466,7 +466,7 @@ const bodyCss = css`
       font-family: monospace !important;
     }
   }
-`
+`;
 
 const wrapperCss = css`
   position: relative;
@@ -516,7 +516,7 @@ const mainCss = css`
   @media (max-width: 900px) {
     flex-direction: column;
   }
-`
+`;
 
 const leftSidebarAreaCss = css`
   width: 200px;
@@ -525,7 +525,7 @@ const leftSidebarAreaCss = css`
   @media (max-width: 1100px) {
     display: none;
   }
-`
+`;
 
 const contentAreaCss = css`
   flex: 1;
@@ -540,7 +540,7 @@ const contentAreaCss = css`
     padding: 1rem 1.25rem;
     border-radius: 8px;
   }
-`
+`;
 
 const sidebarAreaCss = css`
   width: 280px;
@@ -549,30 +549,30 @@ const sidebarAreaCss = css`
   @media (max-width: 900px) {
     display: none;
   }
-`
+`;
 
 export default jsxRenderer(
   ({ children, title: propsTitle, frontmatter }, c) => {
     const description =
       frontmatter?.description ||
-      'エンジニアリングに関する情報を発信するサイトです。'
+      "エンジニアリングに関する情報を発信するサイトです。";
 
     const title = propsTitle
       ? `${propsTitle} - ぽんろぐ備忘録`
-      : 'ぽんろぐ備忘録'
+      : "ぽんろぐ備忘録";
 
     const ogImage = frontmatter?.ogImage
       ? `https://www.ponnlog.com${frontmatter.ogImage}`
       : frontmatter?.title
-        ? 'https://www.ponnlog.com/static/ogp.png'
-        : 'https://www.ponnlog.com/static/ogp.png'
+      ? "https://www.ponnlog.com/static/ogp.png"
+      : "https://www.ponnlog.com/static/ogp.png";
     return (
-      <html lang='ja'>
+      <html lang="ja">
         <head>
-          <meta charset='utf-8' />
+          <meta charset="utf-8" />
           <meta
-            name='viewport'
-            content='width=device-width, initial-scale=1.0'
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
           />
           {/* Theme init (before paint to avoid flash) */}
           {html`<style>${raw(themeVarsStyle)}</style>`}
@@ -581,45 +581,45 @@ export default jsxRenderer(
           {html`<script>${raw(viewToggleScript)}</script>`}
           <title>{title}</title>
 
-          <meta name='description' content={description} />
-          <meta property='og:type' content='website' />
-          <meta property='og:description' content={description} />
-          <meta property='og:image' content={ogImage} />
+          <meta name="description" content={description} />
+          <meta property="og:type" content="website" />
+          <meta property="og:description" content={description} />
+          <meta property="og:image" content={ogImage} />
           <meta
-            property='og:url'
+            property="og:url"
             content={`https://www.ponnlog.com${c.req.path}`}
           />
-          <meta name='twitter:card' content='summary_large_image' />
-          <meta name='twitter:site' content='@Non_c5c' />
-          <meta name='twitter:creator' content='@Non_c5c' />
-          <meta property='og:title' content={title} />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:site" content="@Non_c5c" />
+          <meta name="twitter:creator" content="@Non_c5c" />
+          <meta property="og:title" content={title} />
 
           {/*FIXME {import.meta.env.PROD ? <GoogleAnalytics /> : null}*/}
 
           <script
-            src='https://kit.fontawesome.com/ea66b8338f.js'
-            crossorigin='anonymous'
+            src="https://kit.fontawesome.com/ea66b8338f.js"
+            crossorigin="anonymous"
             async
           />
           <script
             async
-            src='https://platform.twitter.com/widgets.js'
-            charset='utf-8'
+            src="https://platform.twitter.com/widgets.js"
+            charset="utf-8"
           />
 
-          <link rel='icon' sizes='48x48' href='/static/favicon.ico' />
+          <link rel="icon" sizes="48x48" href="/static/favicon.ico" />
           <link
-            rel='apple-touch-icon'
-            sizes='180x180'
-            href='/static/apple-touch-icon.png'
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/static/apple-touch-icon.png"
           />
           <link
-            href='/index.xml'
-            rel='alternate'
-            type='application/rss+xml'
-            title='TODO'
+            href="/index.xml"
+            rel="alternate"
+            type="application/rss+xml"
+            title="TODO"
           />
-          <Script src='/app/client.ts' async />
+          <Script src="/app/client.ts" async />
           <Style />
           {html`<script id="search-posts-data" type="application/json">${raw(
             JSON.stringify(
@@ -652,76 +652,32 @@ export default jsxRenderer(
             <Footer />
           </div>
           {/* Search Modal (hidden by default, toggled by vanilla JS) */}
-          <div
-            id='search-overlay'
-            style='display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:300'
-          />
-          <div
-            id='search-modal'
-            style='display:none;position:fixed;top:15%;left:50%;transform:translateX(-50%);width:90%;max-width:560px;background:var(--c-panel-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--c-panel-border);border-radius:12px;box-shadow:0 8px 32px var(--c-shadow-lg);z-index:301;overflow:hidden'
-          >
-            <div style='display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1rem;border-bottom:1px solid var(--c-border)'>
-              <svg
-                width='18'
-                height='18'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                stroke-width='2'
-                stroke-linecap='round'
-                stroke-linejoin='round'
-                style='flex-shrink:0'
-              >
-                <circle cx='11' cy='11' r='8' />
-                <line x1='21' y1='21' x2='16.65' y2='16.65' />
-              </svg>
-              <input
-                id='search-input'
-                type='text'
-                placeholder='記事を検索...'
-                style='flex:1;border:none;background:transparent;color:var(--c-text);font-size:1rem;outline:none;font-family:inherit'
-              />
-              <button
-                id='search-close-btn'
-                type='button'
-                aria-label='Close search'
-                style='display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;border:none;background:transparent;color:var(--c-text-muted);cursor:pointer;padding:0'
-              >
-                <svg
-                  width='16'
-                  height='16'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='currentColor'
-                  stroke-width='2'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
-                >
-                  <line x1='18' y1='6' x2='6' y2='18' />
-                  <line x1='6' y1='6' x2='18' y2='18' />
-                </svg>
+          <div id="search-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:300" />
+          <div id="search-modal" style="display:none;position:fixed;top:15%;left:50%;transform:translateX(-50%);width:90%;max-width:560px;background:var(--c-panel-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--c-panel-border);border-radius:12px;box-shadow:0 8px 32px var(--c-shadow-lg);z-index:301;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1rem;border-bottom:1px solid var(--c-border)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input id="search-input" type="text" placeholder="記事を検索..." style="flex:1;border:none;background:transparent;color:var(--c-text);font-size:1rem;outline:none;font-family:inherit" />
+              <button id="search-close-btn" type="button" aria-label="Close search" style="display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;border:none;background:transparent;color:var(--c-text-muted);cursor:pointer;padding:0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
             </div>
-            <div
-              id='search-results'
-              style='max-height:400px;overflow-y:auto;padding:0.5rem'
-            />
+            <div id="search-results" style="max-height:400px;overflow-y:auto;padding:0.5rem" />
           </div>
           {html`<script>${raw(searchScript)}</script>`}
           <MobileBottomBar />
           {html`<script>${raw(mobileBarScript)}</script>`}
         </body>
       </html>
-    )
-  },
-)
+    );
+  }
+);
 
-const _GoogleAnalytics = () => {
+const GoogleAnalytics = () => {
   return (
     <>
       <script
         async
-        src='https://www.googletagmanager.com/gtag/js?id=G-xxxxxxxxxx'
+        src="https://www.googletagmanager.com/gtag/js?id=G-xxxxxxxxxx"
       />
       {html`
         <script>
@@ -735,5 +691,5 @@ const _GoogleAnalytics = () => {
         </script>
       `}
     </>
-  )
-}
+  );
+};

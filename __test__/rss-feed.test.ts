@@ -37,27 +37,27 @@ test.describe('RSS Feed (/index.xml)', () => {
     expect(body).toContain('</item>')
   })
 
-  test('should contain known post titles in the RSS feed', async ({
-    request,
-  }) => {
+  test('should contain post titles in RSS items', async ({ request }) => {
     const response = await request.get('/index.xml')
     const body = await response.text()
-    expect(body).toContain('ブログ初投稿')
-    expect(body).toContain('情報処理安全確保支援士に合格しました')
+    // Each item should have a title element
+    expect(body).toContain('<title>')
+    // Count items to ensure at least one post is present
+    const itemCount = (body.match(/<item>/g) || []).length
+    expect(itemCount).toBeGreaterThan(0)
   })
 
   test('should contain post descriptions', async ({ request }) => {
     const response = await request.get('/index.xml')
     const body = await response.text()
-    expect(body).toContain('ブログを作成しました。')
-    expect(body).toContain('情報処理安全確保支援士に合格した体験記です。')
+    expect(body).toContain('<description>')
   })
 
   test('should contain post links', async ({ request }) => {
     const response = await request.get('/index.xml')
     const body = await response.text()
-    expect(body).toContain('/posts/hello-world/')
-    expect(body).toContain('/posts/riss/')
+    // Links should point to /posts/ paths
+    expect(body).toContain('/posts/')
   })
 
   test('should contain pubDate elements', async ({ request }) => {

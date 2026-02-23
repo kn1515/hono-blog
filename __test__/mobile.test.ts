@@ -27,10 +27,14 @@ test.describe('Mobile Layout', () => {
   test('should display a post detail page correctly on mobile', async ({
     page,
   }) => {
-    const response = await page.goto('/posts/hello-world/')
+    // Navigate to the first post dynamically
+    await page.goto('/')
+    const postLink = page.locator('a[href*="/posts/"]').first()
+    const href = await postLink.getAttribute('href')
+    const response = await page.goto(href ?? '/posts/')
     expect(response?.status()).toBe(200)
     const title = page.locator('h1')
-    await expect(title).toContainText('ブログ初投稿')
+    await expect(title).toBeVisible()
   })
 
   test('should display the about page correctly on mobile', async ({

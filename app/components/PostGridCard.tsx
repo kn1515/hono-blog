@@ -1,8 +1,8 @@
-import { format } from '@formkit/tempo'
-import { css } from 'hono/css'
+import { format } from "@formkit/tempo";
+import { css } from "hono/css";
 
-import type { Post } from '../lib/posts'
-import { parseDate } from '../lib/time'
+import type { Post } from "../lib/posts";
+import { parseDate } from "../lib/time";
 
 const cardCss = css`
   display: block;
@@ -17,14 +17,14 @@ const cardCss = css`
     box-shadow: 0 4px 12px var(--c-shadow);
     transform: translateY(-2px);
   }
-`
+`;
 
 const cardImageCss = css`
   width: 100%;
   height: 180px;
   object-fit: cover;
   display: block;
-`
+`;
 
 const cardImagePlaceholderCss = css`
   width: 100%;
@@ -35,18 +35,18 @@ const cardImagePlaceholderCss = css`
   justify-content: center;
   color: var(--c-text-muted);
   font-size: 2rem;
-`
+`;
 
 const cardBodyCss = css`
   padding: 1rem;
-`
+`;
 
 const cardTagsCss = css`
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
   margin-bottom: 0.5rem;
-`
+`;
 
 const cardTagCss = css`
   font-size: 0.75rem;
@@ -55,7 +55,7 @@ const cardTagCss = css`
   border: 1px solid var(--c-border);
   border-radius: 0.25rem;
   padding: 0.1rem 0.5rem;
-`
+`;
 
 const cardTitleCss = css`
   font-size: 1.1rem;
@@ -67,21 +67,21 @@ const cardTitleCss = css`
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-`
+`;
 
 const cardDateCss = css`
   font-size: 0.8rem;
   color: var(--c-text-muted);
-`
+`;
 
 type Props = {
-  post: Post
-}
+  post: Post;
+};
 
 export function PostGridCard({ post }: Props) {
-  const imageUrl = post.frontmatter.image
-  const categories = post.frontmatter.categories ?? []
-  const tags = post.frontmatter.tags ?? []
+  const imageUrl = post.frontmatter.image;
+  const categories = post.frontmatter.categories ?? [];
+  const tags = post.frontmatter.tags ?? [];
 
   return (
     <a href={post.permalink} class={cardCss}>
@@ -92,18 +92,18 @@ export function PostGridCard({ post }: Props) {
       )}
       <div class={cardBodyCss}>
         <div class={cardTagsCss}>
-          {categories.map(cat => (
+          {categories.map((cat) => (
             <span class={cardTagCss}>{cat}</span>
           ))}
-          {tags.map(tag => (
+          {tags.map((tag) => (
             <span class={cardTagCss}>{tag}</span>
           ))}
         </div>
         <h2 class={cardTitleCss}>{post.frontmatter.title}</h2>
         <time datetime={post.frontmatter.date} class={cardDateCss}>
-          {format(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
+          {format(parseDate(post.frontmatter.date), "YYYY/MM/DD")}
         </time>
       </div>
     </a>
-  )
+  );
 }

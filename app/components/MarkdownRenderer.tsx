@@ -1,7 +1,6 @@
 import { compile, run } from '@mdx-js/mdx'
 import { Fragment, jsx } from 'hono/jsx/jsx-runtime'
 import { useMDXComponents } from '../lib/mdx-components'
-
 type Props = {
   content: string
   baseUrl: string
@@ -28,11 +27,11 @@ export async function MarkdownRenderer({ content, baseUrl }: Props) {
   const transformed = String(compiled).replaceAll('./', imgBaseUrl)
 
   const { default: MDXContent } = await run(transformed, {
-    // @ts-expect-error
+    // @ts-ignore
     jsx: jsx,
-    // @ts-expect-error
+    // @ts-ignore
     jsxDEV: jsx,
-    // @ts-expect-error
+    // @ts-ignore
     jsxs: jsx,
     Fragment: Fragment,
     useMDXComponents: useMDXComponents,

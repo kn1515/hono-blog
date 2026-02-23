@@ -3,7 +3,7 @@ import { createApp } from 'honox/server'
 
 const app = createApp({
   trailingSlash: true,
-  init(_app) {},
+  init(app) {},
 })
 
 showRoutes(app)

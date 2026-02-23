@@ -12,7 +12,7 @@ import {
   getTags,
 } from '../../../../../lib/posts'
 
-const param = ssgParams<Env>(_c => {
+const param = ssgParams<Env>(c => {
   const params: { id: string; num: string }[] = []
   getTags().forEach((tag, _) => {
     const maxPageNumber = getMaxPageNumber(tag.posts)
@@ -31,7 +31,7 @@ const param = ssgParams<Env>(_c => {
 export default createRoute(param, c => {
   const tagId = c.req.param('id')
   const numStr = c.req.param('num')
-  const num = Number.parseInt(numStr, 10)
+  const num = Number.parseInt(numStr)
   if (Number.isNaN(num)) {
     return c.notFound()
   }

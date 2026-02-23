@@ -1,12 +1,12 @@
-import { css } from 'hono/css'
-import { Fragment } from 'hono/jsx/jsx-runtime'
-import { Heading } from '../../components/Heading'
-import { blue } from '../../styles/color'
+import { css } from "hono/css";
+import { Fragment } from "hono/jsx/jsx-runtime";
+import { Heading } from "../../components/Heading";
+import { blue } from "../../styles/color";
 
-const _linkCss = css`
+const linkCss = css`
   color: ${blue};
   text-decoration: none;
-`
+`;
 
 const sectionCss = css`
   margin: 1rem 0;
@@ -14,15 +14,15 @@ const sectionCss = css`
   border: 1px solid ${blue};
   border-radius: 8px;
   background-color: var(--c-card-bg);
-`
+`;
 
 const paragraphCss = css`
   margin-bottom: 1rem;
   line-height: 1.5;
   color: var(--c-text-muted);
-`
+`;
 
-export const title = 'UserTerms'
+export const title = "UserTerms";
 
 export default function UserTerms() {
   return (
@@ -74,5 +74,5 @@ export default function UserTerms() {
         </p>
       </div>
     </Fragment>
-  )
+  );
 }

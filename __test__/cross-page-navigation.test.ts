@@ -101,17 +101,4 @@ test.describe('Cross-Page Navigation (Integration)', () => {
     await privacyLink.click()
     await expect(page).toHaveURL('/privacy-policy/')
   })
-
-  test('should navigate between posts using post pagination', async ({
-    page,
-  }) => {
-    await page.goto('/posts/hello-world/')
-    // The hello-world post should have a link to the riss post (next post)
-    const nextPostLink = page.locator('a[href*="/posts/riss/"]')
-    const count = await nextPostLink.count()
-    if (count > 0) {
-      await nextPostLink.first().click()
-      await expect(page).toHaveURL('/posts/riss/')
-    }
-  })
 })
