@@ -60,13 +60,11 @@ export default function UserTerms() {
         </p>
         <h2>クッキー(cookie)について</h2>
         <p class={paragraphCss}>
-          当サイトは、ウェブページのアクセス解析サービスであるGoogle
-          Analyticsを利用しています。
+          当サイトは、ウェブページのアクセス解析サービスであるCloudflare Web Analyticsを利用しています。
           <br />
           そのため、一部ページにおいて同サービスにより提供されるcookieを使用しています。
           <br />
-          cookieに関する情報、収集される情報についての詳細は、Google
-          Analyticsのプライバシーポリシーをご確認ください。
+          cookieに関する情報、収集される情報についての詳細は、Cloudflare Web Analyticsのプライバシーポリシーをご確認ください。
         </p>
         <h2>本利用規約について</h2>
         <p class={paragraphCss}>
