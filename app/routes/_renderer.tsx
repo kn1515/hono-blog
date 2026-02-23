@@ -249,6 +249,38 @@ const searchScript = `
 })();
 `
 
+/* ── Code block copy button script ── */
+const codeCopyScript = `
+(function(){
+  document.addEventListener('click', function(e) {
+    var btn = e.target && e.target.closest && e.target.closest('.code-copy-btn');
+    if (!btn) return;
+    var wrapper = btn.closest('.code-block-wrapper');
+    if (!wrapper) return;
+    var code = wrapper.querySelector('code');
+    if (!code) return;
+    var text = code.textContent || '';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() {
+        btn.textContent = 'Copied!';
+        setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+      });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    }
+  });
+})();
+`
+
 /* ── Mobile bottom bar script ── */
 const mobileBarScript = `
 (function(){
@@ -777,6 +809,34 @@ const bodyCss = css`
       font-size: ${codeBlockFontSize}px !important;
       font-family: monospace !important;
     }
+
+    .code-block-wrapper {
+      position: relative;
+    }
+    .code-block-wrapper:hover .code-copy-btn {
+      opacity: 1;
+    }
+    .code-copy-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 0.3rem 0.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 0.375rem;
+      background: rgba(40, 44, 52, 0.7);
+      color: #abb2bf;
+      font-size: 0.75rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.15s ease, background 0.15s ease;
+      z-index: 1;
+      line-height: 1;
+      backdrop-filter: blur(4px);
+    }
+    .code-copy-btn:hover {
+      background: rgba(60, 64, 72, 0.9);
+      color: #fff;
+    }
   }
 `
 
@@ -1021,6 +1081,7 @@ export default jsxRenderer(
           {html`<script>${raw(popularArticlesScript)}</script>`}
           <MobileBottomBar />
           {html`<script>${raw(mobileBarScript)}</script>`}
+          {html`<script>${raw(codeCopyScript)}</script>`}
         </body>
       </html>
     )
