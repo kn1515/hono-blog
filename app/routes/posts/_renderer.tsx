@@ -5,8 +5,10 @@ import { jsxRenderer } from 'hono/jsx-renderer'
 import { Author } from '../../components/Author'
 import { PostDetails } from '../../components/PostDetails'
 import { PostPagination } from '../../components/PostPagination'
+import { RelatedPosts } from '../../components/RelatedPosts'
 import { ShareDropdown } from '../../components/ShareDropdown'
 import { ShareButtons } from '../../components/ShareIcons'
+import { getRelatedPosts } from '../../lib/post-meta'
 import { getPaginationPosts } from '../../lib/posts'
 import { getRelativeDate, parseDate } from '../../lib/time'
 import { gray, grayLight } from '../../styles/color'
@@ -273,6 +275,16 @@ export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
 
   const paginationPosts = getPaginationPosts(frontmatter.title)
 
+  const currentPermalink = `/${filepath
+    .replaceAll('app/routes/', '')
+    .replaceAll('index.mdx', '')}`
+  const relatedPosts = getRelatedPosts(
+    currentPermalink,
+    frontmatter.categories ?? [],
+    frontmatter.tags ?? [],
+    3,
+  )
+
   const permalink = `${import.meta.env.BASE_URL}${filepath
     .replaceAll('app/routes/', '')
     .replaceAll('index.mdx', '')}`
@@ -301,6 +313,7 @@ export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
       <article class={articleCss}>{children}</article>
       <ShareButtons title={frontmatter.title} permalink={permalink} />
       <Author />
+      <RelatedPosts posts={relatedPosts} />
       <div id='giscus-container' />
       <PostPagination paginationPosts={paginationPosts} />
       <div class={toTopLinkCss}>

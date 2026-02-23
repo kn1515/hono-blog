@@ -39,7 +39,7 @@ test.describe('User Terms Page (/user-terms/)', () => {
   test('should mention Google Analytics', async ({ page }) => {
     await page.goto('/user-terms/')
     const body = page.locator('body')
-    await expect(body).toContainText('Google')
+    await expect(body).toContainText('Cloudflare')
   })
 
   test('should have the header and footer', async ({ page }) => {

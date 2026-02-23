@@ -51,3 +51,55 @@ const allPostMeta = _getAllPostMeta()
 export function getAllPostMeta(): PostMeta[] {
   return allPostMeta
 }
+
+/**
+ * Find up to `limit` related posts based on shared tags and categories.
+ * Excludes the current post itself. Posts are scored by the number of
+ * shared tags + categories, then sorted by score (desc) and date (desc).
+ * If fewer than `limit` related posts are found, fills the remaining
+ * slots with the most recent posts.
+ */
+export function getRelatedPosts(
+  currentPermalink: string,
+  categories: string[],
+  tags: string[],
+  limit = 3,
+): PostMeta[] {
+  const others = allPostMeta.filter(p => p.permalink !== currentPermalink)
+
+  const scored = others
+    .map(p => {
+      let score = 0
+      for (const cat of categories) {
+        if (p.categories.includes(cat)) score += 1
+      }
+      for (const tag of tags) {
+        if (p.tags.includes(tag)) score += 2
+      }
+      return { post: p, score }
+    })
+    .filter(s => s.score > 0)
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score
+      return parseDate(b.post.date).getTime() - parseDate(a.post.date).getTime()
+    })
+
+  const related = scored.slice(0, limit).map(s => s.post)
+
+  // Fill remaining slots with recent posts not already included
+  if (related.length < limit) {
+    const usedPermalinks = new Set([
+      currentPermalink,
+      ...related.map(p => p.permalink),
+    ])
+    for (const p of others) {
+      if (related.length >= limit) break
+      if (!usedPermalinks.has(p.permalink)) {
+        related.push(p)
+        usedPermalinks.add(p.permalink)
+      }
+    }
+  }
+
+  return related
+}
