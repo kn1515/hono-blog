@@ -5,6 +5,8 @@ import { BlockLink } from "../components/markdown/BlockLink";
 import { ExLinkCard } from "../components/markdown/ExLinkCard";
 import { Note } from "../components/markdown/Note";
 import { StyledPre } from "../components/markdown/StyledPre";
+import { Bold, Marker, TextColor, Underline } from "../components/markdown/TextStyles";
+import { Toc } from "../components/markdown/Toc";
 import { Twitter } from "../components/markdown/Twitter";
 import {
   backgroundDark,
@@ -23,6 +25,8 @@ export function useMDXComponents(): MDXComponents {
     blockquote: BlockQuote,
     a: Link,
     em: Em,
+    h2: H2,
+    h3: H3,
     table: Table,
     th: Th,
     td: Td,
@@ -30,6 +34,11 @@ export function useMDXComponents(): MDXComponents {
     BlockLink: BlockLink,
     Note: Note,
     Twitter: Twitter,
+    Toc: Toc,
+    Marker: Marker,
+    Bold: Bold,
+    Underline: Underline,
+    TextColor: TextColor,
   };
   // @ts-ignore
   return components;
@@ -140,4 +149,63 @@ function Td(props: PropsWithChildren<Hono.TdHTMLAttributes>) {
       {props.children}
     </td>
   );
+}
+
+/* ── Styled Headings ── */
+const h2Css = css`
+  position: relative;
+  font-size: 1.55rem;
+  font-weight: 700;
+  margin: 2.5rem 0 1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  line-height: 1.5;
+  border-bottom: 2px solid var(--c-border);
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--c-accent, #2dd4bf);
+    border-radius: 2px;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 1.35rem;
+  }
+`;
+
+const h3Css = css`
+  position: relative;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 2rem 0 0.75rem;
+  padding: 0.35rem 0 0.35rem 0.9rem;
+  line-height: 1.5;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.2em;
+    bottom: 0.2em;
+    width: 3px;
+    background: var(--c-accent, #2dd4bf);
+    border-radius: 2px;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 1.15rem;
+  }
+`;
+
+function H2(props: PropsWithChildren<Hono.HTMLAttributes>) {
+  return <h2 class={h2Css} id={props.id}>{props.children}</h2>;
+}
+
+function H3(props: PropsWithChildren<Hono.HTMLAttributes>) {
+  return <h3 class={h3Css} id={props.id}>{props.children}</h3>;
 }
