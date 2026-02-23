@@ -4,6 +4,13 @@ import type { MDXComponents } from 'mdx/types'
 import { BlockLink } from '../components/markdown/BlockLink'
 import { Note } from '../components/markdown/Note'
 import { StyledPre } from '../components/markdown/StyledPre'
+import {
+  Bold,
+  Marker,
+  TextColor,
+  Underline,
+} from '../components/markdown/TextStyles'
+import { Toc } from '../components/markdown/Toc'
 import { Twitter } from '../components/markdown/Twitter'
 import { backgroundDark, blue, border, grayLight } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
@@ -22,6 +29,11 @@ export function useMDXComponents(): MDXComponents {
     BlockLink: BlockLink,
     Note: Note,
     Twitter: Twitter,
+    Marker: Marker,
+    Bold: Bold,
+    Underline: Underline,
+    TextColor: TextColor,
+    Toc: Toc,
   }
   // @ts-expect-error
   return components

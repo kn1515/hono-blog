@@ -113,7 +113,9 @@ export function PostGridCard({ post }: Props) {
           <time datetime={post.frontmatter.date}>
             {format(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
           </time>
-          <span class={relativeDateCss}>({getRelativeDate(post.frontmatter.date)})</span>
+          <span class={relativeDateCss}>
+            ({getRelativeDate(post.frontmatter.date)})
+          </span>
         </div>
       </div>
     </a>

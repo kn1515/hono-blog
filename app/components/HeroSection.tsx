@@ -215,7 +215,9 @@ export function HeroSection({ pinnedPosts }: Props) {
                     <time datetime={post.frontmatter.date}>
                       {format(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
                     </time>
-                    <span style='margin-left:0.4rem;opacity:0.8;font-size:0.85em'>({getRelativeDate(post.frontmatter.date)})</span>
+                    <span style='margin-left:0.4rem;opacity:0.8;font-size:0.85em'>
+                      ({getRelativeDate(post.frontmatter.date)})
+                    </span>
                   </div>
                 </div>
               </a>

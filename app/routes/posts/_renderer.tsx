@@ -278,10 +278,13 @@ export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
         <time datetime={frontmatter.date}>
           {format(parseDate(frontmatter.date), 'YYYY/MM/DD')}
         </time>
-        <span class={relativeDateCss}>({getRelativeDate(frontmatter.date)})</span>
+        <span class={relativeDateCss}>
+          ({getRelativeDate(frontmatter.date)})
+        </span>
         {frontmatter.updatedAt && (
           <span class={updatedAtCss}>
-            更新: <time datetime={frontmatter.updatedAt}>
+            更新:{' '}
+            <time datetime={frontmatter.updatedAt}>
               {format(parseDate(frontmatter.updatedAt), 'YYYY/MM/DD')}
             </time>
           </span>
