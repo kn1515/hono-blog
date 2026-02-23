@@ -414,7 +414,6 @@ export const Header = () => {
                 rel='noopener noreferrer'
               >
                 <IconGithub />
-                GitHub
               </a>
               <a
                 href='https://twitter.com/Non_c5c'
@@ -422,7 +421,6 @@ export const Header = () => {
                 rel='noopener noreferrer'
               >
                 <IconX />
-                X
               </a>
             </div>
           </details>
