@@ -1,0 +1,305 @@
+---
+title: "M5Stack(ESP32) に NUTTX(RTOS) をインストール"
+date: 2024-10-31T00:00:00
+description: "NuttXをM5Stackにインストールします。"
+categories:
+  - ESP32
+tags:
+  - 初心者
+  - RTOS
+  - ESP32
+  - nuttx
+  - M5Stack
+image: "/posts/hello-world/53372440.png"
+---
+
+NuttXをM5Stackにインストールします。
+
+{/* <!--more--> */}
+
+<Toc>
+- 前書き
+- 実行環境
+- 手順
+- 感想
+- さらなる発展
+</Toc>
+
+## 前書き
+- **NuttX**とは
+    - https://monoist.itmedia.co.jp/mn/articles/2105/10/news022.html
+> Gregory Nutt氏という組み込み業界で30年以上働くエンジニアが、個人で作り始めたRTOS
+
+M5stack(ESP32)でunixっぽいOSを動かすことを目標にします。
+
+**raspberrypi pico** で **NuttX** が動く記事はあったのですが、M5stackで動かした記事が少なそうだったので、記事を作成しました。
+M5stackはESP32がコアとなっているため、基本的にESP32で動かす方法でnuttxが実行可能でした。
+
+<Note>
+
+参考:
+- https://qiita.com/kaz19610303/items/4123758969f38adaf77a
+- https://ideal-reality.com/computer/esp32/esp32%E3%81%A7nuttx%E3%82%92%E8%A9%A6%E3%81%99/
+- https://another.maple4ever.net/archives/3221/
+
+</Note>
+
+## 実行環境
+- Windows11 WSL2 Ubuntu 20.04
+- M5Stack Gray development KIT
+
+## 手順
+
+<Note>
+
+~/にいる前提
+
+</Note>
+
+### ESP-IDFのインストール
+- ESP32を出しているESPRESSIF社が提供している公式開発環境
+    - 下記のコマンドを実行
+```bash
+git clone --recursive https://github.com/espressif/esp-idf.git
+cd esp-idf
+./install.sh
+```
+
+<Note>
+
+途中でモジュールが足りず、エラーとなる場合がある。その時はメッセージを見て適宜モジュールをインストールする。検証時は下記を実行した。
+
+</Note>
+
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install python3.8-venv
+```
+
+- パス設定
+```bash
+. $HOME/esp-idf/export.sh
+```
+
+<Note>
+
+何度もesp-idfを使う場合は、~/.bashrcなどに上記コマンドを追記する。
+
+</Note>
+
+### NuttXの開発環境構築
+- ESP32で動かすだけの場合、下記のみをインストールでOK
+```bash
+sudo apt install kconfig-frontends
+```
+
+<Note>
+
+公式ドキュメント: https://nuttx.apache.org/docs/latest/quickstart/install.html
+
+</Note>
+
+### NuttXのインストール
+- 下記のコマンドを実行
+```bash
+git clone https://github.com/apache/incubator-nuttx.git nuttx
+git clone https://github.com/apache/incubator-nuttx-apps.git apps
+cd nuttx
+./tools/configure.sh esp32-devkitc:nsh
+make
+```
+
+<Note>
+
+nuttx.binが生成される
+
+</Note>
+
+### WSL2の環境からUSB-UART 経由で M5Stack に書き込みできるようにする
+- 引用元: https://another.maple4ever.net/archives/3221/
+
+    - 今回はWSL2の環境からCLI上で書き込めるようにする。
+    - 事前にPCとM5Stackを付属のusb type-cケーブルで接続する。
+    - Windows 側にUSB-UART ドライバーセットアップは不要
+
+- powershellを開き、usbipd-win をインストール
+```powershell
+winget install --interactive --exact dorssel.usbipd-win
+```
+
+- Ubuntuに戻り、aptでusbipdをインストール
+```bash
+sudo apt update
+sudo apt upgrade
+sudo apt install linux-tools-virtual hwdata
+sudo update-alternatives --install /usr/local/bin/usbip usbip `ls /usr/lib/linux-tools/*/usbip | tail -n1` 20
+```
+- ubuntuのudevを構成して、USB接続をユーザ権限で見れるようにする。※PlatformIO のudev 定義を借用
+- https://docs.platformio.org/en/stable/core/installation/udev-rules.html
+```bash
+curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/system/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules
+```
+
+<Note>
+
+**ここでWindowsを再起動する。**
+
+</Note>
+
+### USB機器のバインド
+- usbipd wsl list コマンドで USB 機器を表示。
+    - CP2104 USB to UART が M5Stack なので 2-2 をアタッチする。
+    - BUSIDは環境依存
+    - 初回のアタッチの操作のみ管理者権限が必要で次回からはユーザ権限とのこと。
+```powershell
+usbipd wsl list
+BUSID  VID:PID    DEVICE                                                        STATE
+2-2    10c4:ea60  CP2104 USB to UART Bridge Controller                          Not attached
+2-6    04f2:b71a  HD Webcam, IR Camera                                          Not attached
+2-10   8087:0026  インテル(R) ワイヤレス Bluetooth(R)                           Not attached
+4-1    0bda:0316  Realtek USB 3.0 Card Reader                                   Not attached
+
+usbipd wsl attach --busid 2-2
+
+# アタッチが成功するとSTATE Attached - Ubuntuに変化する。
+usbipd wsl list
+BUSID  VID:PID    DEVICE                                                        STATE
+2-2    10c4:ea60  CP2104 USB to UART Bridge Controller                          Attached - Ubuntu
+2-6    04f2:b71a  HD Webcam, IR Camera                                          Not attached
+2-10   8087:0026  インテル(R) ワイヤレス Bluetooth(R)                           Not attached
+4-1    0bda:0316  Realtek USB 3.0 Card Reader                                   Not attached
+```
+
+<Note>
+
+初回以降、ユーザ権限で実行する場合は下記(exeをつけて実行)
+
+</Note>
+
+```powershell
+usbipd.exe wsl attach --busid 2-2
+```
+
+- WSL2 Ubuntu で lsusb して機器(CP210)が見えれば可
+```bash
+lsusb
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 001 Device 002: ID 10c4:ea60 Silicon Labs CP210x UART Bridge
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+```
+-  udev 定義が効いていれば /dev/ttyUSB0 あたりにユーザ権限の書き込み付きでブロックデバイスが見える。`rw-rw-rw `ならOK。`crw------` なら`chmod`する。
+```bash
+ls -laF /dev/ttyUSB*
+crw------- 1 root root 188, 0 Mar  2 03:06 /dev/ttyUSB0
+sudo chmod 666 /dev/ttyUSB0
+
+# 権限付与
+ls -laF /dev/ttyUSB*
+crw-rw-rw- 1 root root 188, 0 Mar  2 03:06 /dev/ttyUSB0
+```
+
+### ブートローダの書き込み
+- NuttXのバイナリをESP32で動かす場合、専用ブートローダが必要となる。
+- Nuttx初回起動時や他のバイナリファイルを書き込むときには、事前に専用ブートローダを書き込む。
+    - ブートローダは下記で配布されている。
+    - https://github.com/espressif/esp-nuttx-bootloader
+    - 下記をダウンロードして、`~/Downloads/nuttx_esp32_bootloader`とした任意のディレクトリにいれておく。まとめて一つのディレクトリに置くこと。
+    ```
+    bootloader-esp32.bin
+    partition-table-esp32.bin
+    ```
+- 下記コマンドを実行
+    - 上のファイルを別の場所に置いた場合、パスは読み替え
+```bash
+make flash ESPTOOL_PORT=/dev/ttyUSB0 ESPTOOL_BINDIR=~/Downloads/nuttx-esp32-bootloader/
+# 略
+# Hash of data verified.
+# Leaving...
+# Hard resetting via RTS pin...
+```
+
+### NuttXの書き込み
+- 先ほどMakeしてビルドした `nuttx.bin`を書き込む。
+- 下記コマンドを実行
+```bash
+make flash ESPTOOL_PORT=/dev/ttyUSB0
+# 略
+Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
+Crystal is 40MHz
+MAC: a4:cf:12:76:92:b0
+Uploading stub...
+Running stub...
+Stub running...
+Changing baud rate to 921600
+Changed.
+Configuring flash size...
+Auto-detected Flash size: 16MB
+Flash will be erased from 0x00010000 to 0x0002ffff...
+Compressed 130144 bytes to 57407...
+Wrote 130144 bytes (57407 compressed) at 0x00010000 in 1.4 seconds (effective 749.8 kbit/s)...
+Hash of data verified.
+
+Leaving...
+Hard resetting via RTS pin...
+```
+
+<Note>
+
+うまくいけばこの時点でM5StackにNuttxが書き込まれる。M5stackには何も表示されない。
+
+</Note>
+
+### シリアルポート経由でNuttX Shellを実行
+- picocomが必要
+```bash
+sudo apt install picocom
+```
+
+- picocomでシリアルポート経由によってnshにアクセスし、シェルを実行
+    - 動かない場合Enterを押すと動く。
+```bash
+picocom -b 115200 /dev/ttyUSB0
+picocom v3.1
+
+port is        : /dev/ttyUSB0
+flowcontrol    : none
+baudrate is    : 115200
+parity is      : none
+databits are   : 8
+stopbits are   : 1
+escape is      : C-a
+local echo is  : no
+noinit is      : no
+noreset is     : no
+hangup is      : no
+nolock is      : no
+send_cmd is    : sz -vv
+receive_cmd is : rz -vv -E
+imap is        :
+omap is        :
+emap is        : crcrlf,delbs,
+logfile is     : none
+initstring     : none
+exit_after is  : not set
+exit is        : no
+
+Type [C-a] [C-h] to see available commands
+Terminal ready
+
+nsh>
+Terminating...
+Thanks for using picocom
+```
+
+<Note>
+
+閉じるときは Ctrl-A → Ctrl-X
+
+</Note>
+
+## 感想
+- raspberrypi picoだとジャンパーケーブルなどでいろいろ線をつなぐ必要がありますが、usb type-cケーブルだけあればM5StackがPCとつなげて書き込みができるので楽でした。
+
+## さらなる発展
+- nsh用のコマンドを自作できるとのこと
+    - https://www.youtube.com/watch?v=zz_Z2tBOVvI
