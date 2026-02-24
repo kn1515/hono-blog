@@ -16,6 +16,73 @@ Hono / Honox + Vite で構築したブログ用プロジェクトです。Cloudf
 pnpm install
 ```
 
+## 初期セットアップ
+
+このプロジェクトをフォーク・クローンして自分のブログとして使う場合の設定手順です。
+
+### 1. Giscus（コメント機能）の設定
+
+ブログ記事のコメント欄には [giscus](https://giscus.app/) を使用しています。GitHub Discussions をバックエンドとしたコメントシステムです。
+
+1. GitHub リポジトリの **Settings > General > Features** で **Discussions** を有効にする
+2. Discussions に「Comments」カテゴリを作成する（形式: **Announcement** 推奨）
+3. [giscus.app](https://giscus.app/ja) にアクセスし、以下を入力して設定値を生成する
+   - **リポジトリ:** `<ユーザー名>/<リポジトリ名>`
+   - **ページとディスカッションのマッピング:** `pathname`
+   - **カテゴリ:** `Comments`
+   - **テーマ:** `light`（ダークモード切替はコード側で対応済み）
+4. 生成されたスクリプトから以下の値を取得し、`app/routes/posts/_renderer.tsx` 内の giscus スクリプトを書き換える
+
+   | 属性 | 説明 |
+   |---|---|
+   | `data-repo` | リポジトリ名（例: `kn1515/hono-blog`） |
+   | `data-repo-id` | リポジトリ ID（例: `R_kgDONGoI-A`） |
+   | `data-category` | カテゴリ名（例: `Comments`） |
+   | `data-category-id` | カテゴリ ID（例: `DIC_kwDONGoI-M4C3CnG`） |
+
+### 2. Cloudflare Pages の設定
+
+#### アカウント準備
+
+1. [Cloudflare ダッシュボード](https://dash.cloudflare.com/) にログインする
+2. **Workers & Pages > Create > Pages** から新しいプロジェクトを作成する
+   - プロジェクト名は `wrangler.toml` の `name`（現在: `ponnlog`）と一致させるか、`wrangler.toml` を書き換える
+   - GitHub Actions からデプロイするため、Git 連携は不要（Direct Upload を選択）
+
+#### API トークンの作成
+
+1. Cloudflare ダッシュボードの **マイプロフィール > API トークン > トークンを作成する** へ進む
+2. **カスタムトークンを作成する** を選択し、以下の権限を付与する
+   - **アカウント / Cloudflare Pages** : 編集
+3. トークンを保存しておく
+
+#### アカウント ID の確認
+
+1. Cloudflare ダッシュボードのトップページ左サイドバー、または任意のドメインの **概要** ページ右下に表示されている **アカウント ID** をコピーする
+
+### 3. GitHub Actions シークレットの設定
+
+CI/CD でのデプロイに GitHub Actions を使用しています。リポジトリの **Settings > Secrets and variables > Actions** に以下のシークレットを登録してください。
+
+| シークレット名 | 説明 |
+|---|---|
+| `CLOUDFLARE_API_TOKEN` | 手順 2 で作成した API トークン |
+| `CLOUDFLARE_ACCOUNT_ID` | 手順 2 で確認したアカウント ID |
+
+設定後、`main` ブランチへの push 時に自動でビルド・デプロイが実行されます（`.github/workflows/build.yaml`）。
+
+### 4. サイト情報の変更
+
+自分のブログとして使う場合、以下のファイルも変更してください。
+
+- `vite.config.ts` : `BASE_URL` を自分のドメインに変更
+- `wrangler.toml` : `name` をプロジェクト名に変更
+- `app/components/Author.tsx` : 著者情報を変更
+- `app/components/Header.tsx` : サイトタイトル・ナビゲーションを変更
+- `.github/workflows/build.yaml` : `--project-name` を Cloudflare Pages のプロジェクト名に変更
+
+---
+
 ## 開発サーバーの起動
 
 ローカルでブログを確認する場合:
