@@ -268,6 +268,23 @@ const articleCss = css`
   word-break: break-word;
 `
 
+const heroImageCss = css`
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin: 1rem 0 1.5rem;
+  display: block;
+  box-shadow: 0 2px 12px var(--c-shadow);
+
+  @media (max-width: 600px) {
+    max-height: 240px;
+    border-radius: 8px;
+  }
+`
+
+const DEFAULT_POST_IMAGE = '/static/logo2.png'
+
 export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
   if (!(frontmatter && filepath)) {
     return <div>Not Post Page</div>
@@ -310,6 +327,12 @@ export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
       <h1 class={postTitleCss}>{frontmatter.title}</h1>
       <ShareDropdown title={frontmatter.title} permalink={permalink} />
       <PostDetails frontmatter={frontmatter} />
+      <img
+        src={frontmatter.image || DEFAULT_POST_IMAGE}
+        alt={frontmatter.title}
+        class={heroImageCss}
+        loading='eager'
+      />
       <article class={articleCss}>{children}</article>
       <ShareButtons title={frontmatter.title} permalink={permalink} />
       <Author />
