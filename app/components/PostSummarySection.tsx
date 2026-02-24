@@ -123,8 +123,13 @@ export async function PostSummarySection({ post }: Props) {
             </span>
           </time>
           <div class={titleContainerCss}>
-            <img src={imageUrl} alt='PostImg' class={imageCss} />
-            <h1 class={titleCss}>{post.frontmatter.title}</h1>
+            <img
+              src={imageUrl}
+              alt={post.frontmatter.title}
+              class={imageCss}
+              loading='lazy'
+            />
+            <h2 class={titleCss}>{post.frontmatter.title}</h2>
           </div>
           <div class={underlineCss} />
         </div>

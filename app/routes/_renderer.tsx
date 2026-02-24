@@ -943,11 +943,49 @@ export default jsxRenderer(
       ? `${propsTitle} - ぽんろぐ備忘録`
       : 'ぽんろぐ備忘録'
 
+    const siteUrl = 'https://www.ponnlog.com'
+    const canonicalUrl = `${siteUrl}${c.req.path}`
+    const isArticle = !!frontmatter?.title
+    const ogType = isArticle ? 'article' : 'website'
+
     const ogImage = frontmatter?.ogImage
-      ? `https://www.ponnlog.com${frontmatter.ogImage}`
-      : frontmatter?.title
-        ? 'https://www.ponnlog.com/static/ogp.png'
-        : 'https://www.ponnlog.com/static/ogp.png'
+      ? `${siteUrl}${frontmatter.ogImage}`
+      : frontmatter?.image
+        ? `${siteUrl}${frontmatter.image}`
+        : `${siteUrl}/static/ogp.png`
+
+    const jsonLd = isArticle
+      ? JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BlogPosting',
+          headline: frontmatter.title,
+          description: frontmatter.description || description,
+          image: ogImage,
+          datePublished: frontmatter.date,
+          dateModified: frontmatter.updatedAt || frontmatter.date,
+          author: {
+            '@type': 'Person',
+            name: 'ぽん',
+            url: `${siteUrl}/about/`,
+          },
+          publisher: {
+            '@type': 'Organization',
+            name: 'ぽんろぐ備忘録',
+            logo: {
+              '@type': 'ImageObject',
+              url: `${siteUrl}/static/logo2.png`,
+            },
+          },
+          mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl },
+        })
+      : JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: 'ぽんろぐ備忘録',
+          url: siteUrl,
+          description,
+          author: { '@type': 'Person', name: 'ぽん' },
+        })
     return (
       <html lang='ja'>
         <head>
@@ -965,18 +1003,34 @@ export default jsxRenderer(
           {html`<script>${raw(viewToggleScript)}</script>`}
           <title>{title}</title>
 
+          <link rel='canonical' href={canonicalUrl} />
           <meta name='description' content={description} />
-          <meta property='og:type' content='website' />
+          <meta name='robots' content='index, follow' />
+          <meta property='og:type' content={ogType} />
+          <meta property='og:site_name' content='ぽんろぐ備忘録' />
           <meta property='og:description' content={description} />
           <meta property='og:image' content={ogImage} />
-          <meta
-            property='og:url'
-            content={`https://www.ponnlog.com${c.req.path}`}
-          />
+          <meta property='og:url' content={canonicalUrl} />
+          <meta property='og:title' content={title} />
+          {isArticle && frontmatter?.date && (
+            <meta
+              property='article:published_time'
+              content={frontmatter.date}
+            />
+          )}
+          {isArticle && frontmatter?.updatedAt && (
+            <meta
+              property='article:modified_time'
+              content={frontmatter.updatedAt}
+            />
+          )}
           <meta name='twitter:card' content='summary_large_image' />
           <meta name='twitter:site' content='@Non_c5c' />
           <meta name='twitter:creator' content='@Non_c5c' />
-          <meta property='og:title' content={title} />
+          <meta name='twitter:title' content={title} />
+          <meta name='twitter:description' content={description} />
+          <meta name='twitter:image' content={ogImage} />
+          {html`<script type="application/ld+json">${raw(jsonLd)}</script>`}
 
           {/*FIXME {import.meta.env.PROD ? <GoogleAnalytics /> : null}*/}
 
@@ -985,6 +1039,13 @@ export default jsxRenderer(
             crossorigin='anonymous'
             async
           />
+          <link
+            rel='preconnect'
+            href='https://kit.fontawesome.com'
+            crossorigin='anonymous'
+          />
+          <link rel='preconnect' href='https://platform.twitter.com' />
+          <link rel='preconnect' href='https://giscus.app' />
           <script
             async
             src='https://platform.twitter.com/widgets.js'
@@ -1001,7 +1062,7 @@ export default jsxRenderer(
             href='/index.xml'
             rel='alternate'
             type='application/rss+xml'
-            title='TODO'
+            title='ぽんろぐ備忘録 RSS Feed'
           />
           <Script src='/app/client.ts' async />
           <Style />
@@ -1010,11 +1071,19 @@ export default jsxRenderer(
           )}</script>`}
         </head>
         <body class={bodyCss}>
+          <a
+            href='#main-content'
+            style='position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:999'
+            onFocus='this.style.position="static";this.style.width="auto";this.style.height="auto"'
+            onBlur='this.style.position="absolute";this.style.left="-9999px";this.style.width="1px";this.style.height="1px"'
+          >
+            コンテンツへスキップ
+          </a>
           <div class={wrapperCss}>
             <div class={glowTopCss} />
             <div class={glowBottomCss} />
             <Header />
-            <main class={mainCss}>
+            <main class={mainCss} id='main-content'>
               <div class={leftSidebarAreaCss}>
                 <div id='left-toc-container' />
                 <div id='like-button-container' />

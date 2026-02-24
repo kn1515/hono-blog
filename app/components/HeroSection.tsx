@@ -198,7 +198,7 @@ export function HeroSection({ pinnedPosts }: Props) {
                 {post.frontmatter.image ? (
                   <img
                     src={post.frontmatter.image}
-                    alt=''
+                    alt={post.frontmatter.title}
                     class={pinnedImgCss}
                     loading='lazy'
                   />

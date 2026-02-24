@@ -415,7 +415,11 @@ export const Header = () => {
     <header class={headerCss} id='site-header'>
       <div class={headerContainerCss}>
         <a href='/' class={titleCss}>
-          <img src='/static/logo2.png' alt='' class='header-logo-owl' />
+          <img
+            src='/static/logo2.png'
+            alt='ぽんろぐ備忘録 フクロウロゴ'
+            class='header-logo-owl'
+          />
           <LogoText />
         </a>
         <nav class={navAreaCss}>
