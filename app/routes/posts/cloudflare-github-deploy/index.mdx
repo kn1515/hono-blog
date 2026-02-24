@@ -1,0 +1,406 @@
+---
+title: "Hono/HonoXブログをCloudflare Pages + GitHub Actionsで公開する手順"
+date: 2026-02-25T00:00:00
+description: "Hono/HonoXで構築したブログをGitHubリポジトリで管理し、GitHub ActionsからCloudflare Pagesへ自動デプロイする方法をステップバイステップで解説します。"
+categories:
+  - 技術
+tags:
+  - Cloudflare Pages
+  - GitHub Actions
+  - Hono
+  - HonoX
+  - CI/CD
+  - デプロイ
+pinned: false
+---
+
+本記事では、Hono / HonoX + Vite で構築したブログを **Cloudflare Pages** にデプロイし、**GitHub Actions** で自動化する手順を解説します。当ブログの実際の構成をベースに、フォーク・クローンして自分のブログとして公開するまでの流れをまとめます。
+
+{/* <!--more--> */}
+
+<Toc>
+- 前提条件
+- 全体の構成イメージ
+- ステップ1：リポジトリの準備
+- ステップ2：Cloudflare Pages プロジェクトの作成
+- ステップ3：Cloudflare API トークンの発行
+- ステップ4：GitHub Actions シークレットの設定
+- ステップ5：wrangler.toml の設定
+- ステップ6：GitHub Actions ワークフローの確認
+- ステップ7：サイト情報のカスタマイズ
+- ステップ8：Giscus（コメント機能）の設定
+- デプロイの実行と確認
+- ローカルでの開発とプレビュー
+- トラブルシューティング
+- まとめ
+</Toc>
+
+## 前提条件
+
+以下がインストール・準備済みであることを前提とします。
+
+| 項目 | 説明 |
+|---|---|
+| **Node.js** | v20 以上推奨 |
+| **pnpm** | パッケージマネージャー（v10 推奨） |
+| **GitHub アカウント** | リポジトリのホスティング用 |
+| **Cloudflare アカウント** | Pages / API トークン用（無料プランで OK） |
+
+---
+
+## 全体の構成イメージ
+
+デプロイの流れは以下のとおりです。
+
+1. ローカルで記事を書いて `git push`
+2. GitHub Actions が `main` ブランチへの push を検知
+3. `pnpm build` でビルド（SSG で静的ファイルを生成）
+4. `wrangler pages deploy` で Cloudflare Pages にデプロイ
+5. Cloudflare Pages がサイトを配信
+
+<Note>
+
+GitHub リポジトリと Cloudflare Pages を Git 連携（自動ビルド）でつなぐ方法もありますが、本構成では **GitHub Actions + wrangler CLI** による Direct Upload 方式を採用しています。ビルド環境を GitHub Actions 側で制御できるため、柔軟性が高いのがメリットです。
+
+</Note>
+
+---
+
+## ステップ1：リポジトリの準備
+
+### フォークまたはクローン
+
+GitHub 上で [kn1515/hono-blog](https://github.com/kn1515/hono-blog) リポジトリをフォークするか、テンプレートとしてクローンします。
+
+```bash
+git clone https://github.com/kn1515/hono-blog.git
+cd hono-blog
+```
+
+### 依存関係のインストール
+
+```bash
+pnpm install
+```
+
+<Note>
+
+`pnpm` がインストールされていない場合は `npm install -g pnpm` で導入できます。
+
+</Note>
+
+---
+
+## ステップ2：Cloudflare Pages プロジェクトの作成
+
+1. [Cloudflare ダッシュボード](https://dash.cloudflare.com/) にログインする
+2. 左メニューから **Workers & Pages** を選択する
+3. **Create** → **Pages** を選択する
+4. **Direct Upload** を選択する（Git 連携は使わない）
+5. プロジェクト名を入力する
+
+<Note>
+
+プロジェクト名は後述する `wrangler.toml` の `name` や GitHub Actions ワークフローの `--project-name` と一致させる必要があります。例えば `hono-blog` や `my-blog` など、任意の名前を設定してください。
+
+</Note>
+
+初回は空でもよいので「Create Project」をクリックしてプロジェクトを作成します。実際のファイルは GitHub Actions から自動デプロイされます。
+
+---
+
+## ステップ3：Cloudflare API トークンの発行
+
+GitHub Actions から Cloudflare にデプロイするために、API トークンを発行します。
+
+### トークンの作成手順
+
+1. Cloudflare ダッシュボードの右上アイコン → **マイプロフィール** を開く
+2. **API トークン** → **トークンを作成する** をクリック
+3. **カスタムトークンを作成する** を選択
+4. 以下の権限を付与する
+
+| 権限 | 設定値 |
+|---|---|
+| **アカウント / Cloudflare Pages** | 編集 |
+
+5. **概要に進む** → **トークンを作成する** をクリック
+6. 表示されたトークンを**コピーして安全に保管する**（再表示不可）
+
+### アカウント ID の確認
+
+1. Cloudflare ダッシュボードのトップページ左サイドバー、または任意のドメインの **概要** ページ右下に表示されている **アカウント ID** をコピーする
+
+---
+
+## ステップ4：GitHub Actions シークレットの設定
+
+リポジトリの **Settings > Secrets and variables > Actions** から、以下の 2 つのシークレットを登録します。
+
+| シークレット名 | 値 |
+|---|---|
+| `CLOUDFLARE_API_TOKEN` | ステップ3 で作成した API トークン |
+| `CLOUDFLARE_ACCOUNT_ID` | ステップ3 で確認したアカウント ID |
+
+### 設定手順
+
+1. GitHub リポジトリのページで **Settings** タブを開く
+2. 左メニューの **Secrets and variables** → **Actions** を選択
+3. **New repository secret** をクリック
+4. `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID` をそれぞれ登録
+
+---
+
+## ステップ5：wrangler.toml の設定
+
+プロジェクトルートにある `wrangler.toml` を編集します。
+
+```toml
+name = "hono-blog"
+pages_build_output_dir = "dist"
+compatibility_date = "2024-04-04"
+
+[env.production]
+compatibility_date = "2024-04-04"
+```
+
+| 項目 | 説明 |
+|---|---|
+| `name` | Cloudflare Pages のプロジェクト名と一致させる |
+| `pages_build_output_dir` | ビルド成果物のディレクトリ（`dist` のまま） |
+
+---
+
+## ステップ6：GitHub Actions ワークフローの確認
+
+`.github/workflows/build.yaml` にデプロイ用のワークフローが定義されています。中身を確認し、必要に応じてプロジェクト名を変更してください。
+
+```yaml
+name: Build
+on: push
+permissions:
+  contents: read
+  statuses: write
+jobs:
+  build:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v3
+        name: Install pnpm
+        with:
+          version: 10
+          run_install: false
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: Install dependencies
+        run: pnpm install
+      - name: Install Playwright Browsers
+        run: pnpm run install:playwright
+      - name: Build blog
+        run: pnpm run build
+      - name: Deploy
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy ./dist --project-name=hono-blog
+      - name: Add publish URL as commit status
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const sha = context.payload.pull_request?.head.sha ?? context.sha;
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              context: 'Cloudflare Pages',
+              description: 'Cloudflare Pages deployment',
+              state: 'success',
+              sha,
+              target_url: "${{ steps.deploy.outputs.deployment-url }}",
+            });
+```
+
+### ポイント解説
+
+- **`on: push`**: すべてのブランチへの push でワークフローが実行される
+- **`cloudflare/wrangler-action@v3`**: Cloudflare 公式の GitHub Action で wrangler コマンドを実行
+- **`--project-name=hono-blog`**: ここを自分の Cloudflare Pages プロジェクト名に変更する
+- **commit status**: デプロイ後のプレビュー URL をコミットステータスに記録し、PR 上から確認可能
+
+<Note>
+
+`--project-name` の値は、ステップ2 で作成した Cloudflare Pages のプロジェクト名と一致させてください。
+
+</Note>
+
+---
+
+## ステップ7：サイト情報のカスタマイズ
+
+自分のブログとして公開するために、以下のファイルを変更します。
+
+### vite.config.ts
+
+`base` の URL を自分のドメインに変更します。
+
+```typescript
+base:
+  process.env.NODE_ENV === 'production' ? 'https://www.your-domain.com' : '/',
+```
+
+### app/components/Author.tsx
+
+著者名やプロフィール情報を自分の情報に変更します。
+
+### app/components/Header.tsx
+
+サイトタイトルやナビゲーションリンクを変更します。
+
+### .github/workflows/build.yaml
+
+`--project-name` を自分の Cloudflare Pages プロジェクト名に変更します。
+
+```yaml
+command: pages deploy ./dist --project-name=<あなたのプロジェクト名>
+```
+
+---
+
+## ステップ8：Giscus（コメント機能）の設定
+
+ブログ記事にコメント欄を表示したい場合、[giscus](https://giscus.app/) を設定します。GitHub Discussions をバックエンドとしたコメントシステムです。
+
+### 手順
+
+1. GitHub リポジトリの **Settings > General > Features** で **Discussions** を有効にする
+2. Discussions で「**Comments**」カテゴリを作成する（形式: **Announcement** 推奨）
+3. [giscus.app](https://giscus.app/ja) にアクセスし、設定値を生成する
+   - **リポジトリ:** `<ユーザー名>/<リポジトリ名>`
+   - **ページとディスカッションのマッピング:** `pathname`
+   - **カテゴリ:** `Comments`
+4. 生成されたスクリプトから以下の値を取得し、`app/routes/posts/_renderer.tsx` 内の giscus スクリプトを書き換える
+
+| 属性 | 説明 |
+|---|---|
+| `data-repo` | リポジトリ名（例: `username/hono-blog`） |
+| `data-repo-id` | リポジトリ ID |
+| `data-category` | カテゴリ名（例: `Comments`） |
+| `data-category-id` | カテゴリ ID |
+
+---
+
+## デプロイの実行と確認
+
+すべての設定が終わったら、`main` ブランチに push するだけで自動デプロイが走ります。
+
+```bash
+git add .
+git commit -m "初回デプロイ"
+git push origin main
+```
+
+### デプロイの確認方法
+
+1. **GitHub Actions**: リポジトリの **Actions** タブでワークフローの実行状況を確認
+2. **Cloudflare ダッシュボード**: Workers & Pages でデプロイ履歴を確認
+3. **プレビュー URL**: コミットステータスに表示されるデプロイ URL をクリック
+
+デフォルトでは `https://<プロジェクト名>.pages.dev` でアクセスできます。
+
+### カスタムドメインの設定（任意）
+
+独自ドメインを使いたい場合:
+
+1. Cloudflare ダッシュボードで **Workers & Pages** → 対象プロジェクトを選択
+2. **Custom domains** タブから **Set up a custom domain** をクリック
+3. ドメインを入力し、DNS レコードの設定を行う
+
+---
+
+## ローカルでの開発とプレビュー
+
+### 開発サーバー
+
+```bash
+pnpm dev
+```
+
+Vite の開発サーバーが `http://localhost:5173` で起動します。ホットリロード対応なので、記事の編集がリアルタイムで反映されます。
+
+### ローカルプレビュー（本番相当）
+
+```bash
+pnpm build
+pnpm preview
+```
+
+`wrangler pages dev` を使って、Cloudflare Pages と同等の環境でローカルプレビューできます。
+
+### 手動デプロイ
+
+CI を使わず手動でデプロイしたい場合:
+
+```bash
+pnpm deploy
+```
+
+このコマンドは `pnpm build && wrangler pages deploy ./dist` を実行します。事前に `CLOUDFLARE_API_TOKEN` 環境変数の設定が必要です。
+
+---
+
+## トラブルシューティング
+
+### GitHub Actions が失敗する
+
+- **シークレットの確認**: `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID` が正しく設定されているか確認
+- **プロジェクト名の不一致**: `--project-name` が Cloudflare Pages のプロジェクト名と一致しているか確認
+- **API トークンの権限**: Cloudflare Pages の「編集」権限が付与されているか確認
+
+### ビルドエラーが発生する
+
+- Node.js のバージョンが v20 以上か確認
+- `pnpm install` で依存関係が正しくインストールされているか確認
+- `pnpm build` をローカルで実行してエラー内容を確認
+
+### デプロイ後にページが表示されない
+
+- `wrangler.toml` の `pages_build_output_dir` が `dist` になっているか確認
+- ビルド成果物が `dist/` ディレクトリに生成されているか確認
+
+### Giscus コメントが表示されない
+
+- GitHub Discussions が有効になっているか確認
+- giscus の `data-repo` や `data-repo-id` が正しいか確認
+- Discussions に「Comments」カテゴリが存在するか確認
+
+---
+
+## まとめ
+
+本記事では、Hono/HonoX ブログを Cloudflare Pages + GitHub Actions で公開する手順を解説しました。
+
+手順をまとめると:
+
+1. **リポジトリの準備**: フォーク・クローンして依存関係をインストール
+2. **Cloudflare Pages**: プロジェクトを作成（Direct Upload 方式）
+3. **API トークン**: Cloudflare Pages の編集権限を持つトークンを発行
+4. **GitHub シークレット**: トークンとアカウント ID を登録
+5. **設定ファイルの変更**: `wrangler.toml`、`vite.config.ts`、ワークフローファイルのプロジェクト名を統一
+6. **push して自動デプロイ**: `main` ブランチへの push で CI/CD が走る
+
+Cloudflare Pages の無料枠は十分に寛大で、個人ブログであれば無料で運用できます。GitHub Actions も公開リポジトリなら無料で利用可能です。ぜひ自分だけのブログを構築してみてください。
