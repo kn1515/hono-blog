@@ -87,6 +87,10 @@ const themeVarsStyle = `
   --c-x-hover-bg: #4e4e56;
   color-scheme: dark;
 }
+/* Dark mode: brighten owl logo for visibility */
+.dark .header-logo-owl {
+  filter: brightness(1.6) contrast(0.9);
+}
 /* Theme toggle icon visibility */
 #theme-toggle .icon-sun { display: block; }
 #theme-toggle .icon-moon { display: none; }

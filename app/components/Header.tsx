@@ -58,6 +58,38 @@ const IconMenu = () => (
   </svg>
 )
 
+const LogoText = () => (
+  <svg
+    viewBox='0 0 200 85'
+    fill='currentColor'
+    role='img'
+    aria-label='ぽんろぐ備忘録'
+    class='header-logo-text'
+  >
+    <text
+      x='4'
+      y='42'
+      font-size='38'
+      font-weight='700'
+      font-family="'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif"
+      letter-spacing='2'
+    >
+      ぽんろぐ
+    </text>
+    <text
+      x='6'
+      y='72'
+      font-size='20'
+      font-weight='400'
+      font-family="'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif"
+      fill-opacity='0.7'
+      letter-spacing='6'
+    >
+      備忘録
+    </text>
+  </svg>
+)
+
 /* ── Styles ── */
 const headerCss = css`
   position: sticky;
@@ -102,7 +134,7 @@ const titleCss = css`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--c-bg);
+  background: var(--c-header-bg);
   padding: 0.2rem 0.5rem;
   border-radius: 8px;
   position: relative;
@@ -114,8 +146,16 @@ const titleCss = css`
     opacity: 0.85;
   }
 
-  & img {
-    height: 100px;
+  & .header-logo-owl {
+    height: 70px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+    transition: filter 0.3s ease;
+  }
+
+  & .header-logo-text {
+    height: 65px;
     width: auto;
     display: block;
   }
@@ -123,8 +163,12 @@ const titleCss = css`
   @media (max-width: 434px) {
     padding: 0.15rem 0.3rem;
 
-    & img {
-      height: 64px;
+    & .header-logo-owl {
+      height: 46px;
+    }
+
+    & .header-logo-text {
+      height: 42px;
     }
   }
 `
@@ -371,7 +415,8 @@ export const Header = () => {
     <header class={headerCss} id='site-header'>
       <div class={headerContainerCss}>
         <a href='/' class={titleCss}>
-          <img src='/static/logo.png' alt='ぽんろぐ備忘録' />
+          <img src='/static/logo2.png' alt='' class='header-logo-owl' />
+          <LogoText />
         </a>
         <nav class={navAreaCss}>
           <details class={accordionCss}>
