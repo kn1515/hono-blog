@@ -7,7 +7,9 @@ test.describe('Search Filtering', () => {
     await page.goto('/')
     await page.locator('#search-open-btn').click()
     const results = page.locator('#search-results')
-    await expect(results).toContainText('タイトル、説明、カテゴリ、タグで検索できます')
+    await expect(results).toContainText(
+      'タイトル、説明、カテゴリ、タグで検索できます',
+    )
   })
 
   test('should filter and display matching posts when typing a query', async ({
@@ -50,7 +52,9 @@ test.describe('Search Filtering', () => {
 
     // Clear the input
     await input.fill('')
-    await expect(results).toContainText('タイトル、説明、カテゴリ、タグで検索できます')
+    await expect(results).toContainText(
+      'タイトル、説明、カテゴリ、タグで検索できます',
+    )
   })
 
   test('should navigate to post when clicking a search result', async ({

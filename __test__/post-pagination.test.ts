@@ -14,7 +14,8 @@ test.describe('Post Pagination (prev/next navigation)', () => {
       // Pick the second post (not the newest) to ensure at least a "next" link
       middlePostUrl = (await postLinks.nth(1).getAttribute('href')) ?? '/posts/'
     } else {
-      middlePostUrl = (await postLinks.first().getAttribute('href')) ?? '/posts/'
+      middlePostUrl =
+        (await postLinks.first().getAttribute('href')) ?? '/posts/'
     }
     await page.close()
   })

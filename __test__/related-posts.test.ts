@@ -50,9 +50,7 @@ test.describe('Related Posts Section', () => {
     }
   })
 
-  test('should display a date for each related post card', async ({
-    page,
-  }) => {
+  test('should display a date for each related post card', async ({ page }) => {
     await page.goto(postUrl)
     const section = page.locator('section:has(h2:text("関連記事"))')
     const cards = section.locator('a[href*="/posts/"]')

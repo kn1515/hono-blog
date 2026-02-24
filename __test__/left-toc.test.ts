@@ -55,7 +55,7 @@ test.describe('Left Sidebar Table of Contents', () => {
     await page.waitForSelector('#left-toc-list')
 
     const firstLink = page.locator('#left-toc-list li a').first()
-    const href = await firstLink.getAttribute('href')
+    const _href = await firstLink.getAttribute('href')
     await firstLink.click()
 
     // URL should contain a hash fragment

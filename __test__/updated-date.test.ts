@@ -10,9 +10,7 @@ test.describe('Updated Date Display on Posts', () => {
     await expect(updatedText).toBeVisible()
   })
 
-  test('should display updated date in YYYY/MM/DD format', async ({
-    page,
-  }) => {
+  test('should display updated date in YYYY/MM/DD format', async ({ page }) => {
     await page.goto('/posts/blog-tech-stack/')
     // Find all time elements — first is the publish date, second is update date
     const timeElements = page.locator('time')

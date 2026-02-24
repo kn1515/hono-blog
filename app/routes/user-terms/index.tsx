@@ -60,7 +60,8 @@ export default function UserTerms() {
         </p>
         <h2>クッキー(cookie)について</h2>
         <p class={paragraphCss}>
-          当サイトは、ウェブページのアクセス解析サービスであるCloudflare Web Analyticsを利用しています。
+          当サイトは、ウェブページのアクセス解析サービスであるCloudflare Web
+          Analyticsを利用しています。
           <br />
           そのため、一部ページにおいて同サービスにより提供されるcookieを使用しています。
           <br />

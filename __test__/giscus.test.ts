@@ -11,9 +11,7 @@ test.describe('Giscus Comment Section', () => {
     await page.close()
   })
 
-  test('should render the giscus container on post pages', async ({
-    page,
-  }) => {
+  test('should render the giscus container on post pages', async ({ page }) => {
     await page.goto(postUrl)
     const giscusContainer = page.locator('#giscus-container')
     await expect(giscusContainer).toBeAttached()
