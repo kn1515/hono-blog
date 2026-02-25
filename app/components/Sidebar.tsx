@@ -12,6 +12,47 @@ const sidebarCss = css`
   align-self: flex-start;
 `
 
+/* ── Search Box Section ── */
+const searchBoxButtonCss = css`
+  display: block;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+`
+
+const searchBoxCss = css`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.85rem;
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    border-color: var(--c-border-light);
+    box-shadow: 0 1px 4px var(--c-shadow-sm);
+  }
+`
+
+const searchBoxTextCss = css`
+  flex: 1;
+  font-size: 0.85rem;
+  color: var(--c-text-faint);
+  user-select: none;
+`
+
+const searchBoxIconCss = css`
+  flex-shrink: 0;
+  color: var(--c-text-faint);
+  display: flex;
+  align-items: center;
+`
+
 /* ── Section Card (shared) ── */
 const sectionCss = css`
   background: var(--c-card-bg);
@@ -195,6 +236,33 @@ export function Sidebar({ recentPosts }: Props) {
 
   return (
     <aside class={sidebarCss}>
+      {/* Search Box */}
+      <button
+        type='button'
+        class={`${sectionCss} ${searchBoxButtonCss}`}
+        id='sidebar-search-box'
+        aria-label='記事を検索'
+      >
+        <div class={searchBoxCss}>
+          <span class={searchBoxIconCss}>
+            <svg
+              width='16'
+              height='16'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              stroke-width='2'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+            >
+              <circle cx='11' cy='11' r='8' />
+              <line x1='21' y1='21' x2='16.65' y2='16.65' />
+            </svg>
+          </span>
+          <span class={searchBoxTextCss}>記事を検索...</span>
+        </div>
+      </button>
+
       {/* Author */}
       <div class={sectionCss}>
         <div class={authorCss}>

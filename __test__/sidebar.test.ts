@@ -32,4 +32,40 @@ test.describe('Sidebar', () => {
       await expect(page).toHaveURL(/\/categories\//)
     }
   })
+
+  test('should display the search box in the sidebar', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 })
+    await page.goto('/')
+    const searchBox = page.locator('#sidebar-search-box')
+    await expect(searchBox).toBeVisible()
+    await expect(searchBox).toContainText('記事を検索...')
+  })
+
+  test('should open search modal when sidebar search box is clicked', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 800 })
+    await page.goto('/')
+    const searchBox = page.locator('#sidebar-search-box')
+    await searchBox.click()
+
+    const modal = page.locator('#search-modal')
+    await expect(modal).toBeVisible()
+
+    const input = page.locator('#search-input')
+    await expect(input).toBeVisible()
+  })
+
+  test('should open search modal when sidebar search box is activated with Enter key', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 800 })
+    await page.goto('/')
+    const searchBox = page.locator('#sidebar-search-box')
+    await searchBox.focus()
+    await page.keyboard.press('Enter')
+
+    const modal = page.locator('#search-modal')
+    await expect(modal).toBeVisible()
+  })
 })
