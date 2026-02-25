@@ -62,6 +62,20 @@ const imageCss = css`
   margin-right: 1rem;
 `
 
+const imagePlaceholderCss = css`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 1rem;
+  background-color: var(--c-bg-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-text-muted);
+  font-size: 0.5rem;
+  flex-shrink: 0;
+`
+
 const moreButtonCss = css`
   background-color: ${gray};
   color: var(--c-bg);
@@ -123,12 +137,16 @@ export async function PostSummarySection({ post }: Props) {
             </span>
           </time>
           <div class={titleContainerCss}>
-            <img
-              src={imageUrl}
-              alt={post.frontmatter.title}
-              class={imageCss}
-              loading='lazy'
-            />
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt={post.frontmatter.title}
+                class={imageCss}
+                loading='lazy'
+              />
+            ) : (
+              <div class={imagePlaceholderCss}>No Image</div>
+            )}
             <h2 class={titleCss}>{post.frontmatter.title}</h2>
           </div>
           <div class={underlineCss} />
