@@ -804,6 +804,7 @@ const bodyCss = css`
 
       font-size: ${codeBlockFontSize}px;
       font-family: monospace;
+      line-height: 1.7;
       border: none;
     }
 
