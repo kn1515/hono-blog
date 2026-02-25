@@ -68,4 +68,27 @@ test.describe('Sidebar', () => {
     const modal = page.locator('#search-modal')
     await expect(modal).toBeVisible()
   })
+
+  test('should open search modal when search box in mobile drawer is clicked', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/')
+
+    // Open mobile sidebar drawer
+    await page.locator('#mobile-sidebar-btn').click()
+    const drawer = page.locator('#sidebar-drawer')
+    await expect(drawer).toBeVisible()
+
+    // Click the search box inside the drawer
+    const drawerSearchBox = drawer.locator('button[aria-label="記事を検索"]')
+    await drawerSearchBox.click()
+
+    // Search modal should open
+    const modal = page.locator('#search-modal')
+    await expect(modal).toBeVisible()
+
+    const input = page.locator('#search-input')
+    await expect(input).toBeVisible()
+  })
 })

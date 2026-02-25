@@ -305,6 +305,16 @@ const mobileBarScript = `
     /* Clone sidebar content into drawer if empty */
     if (sidebarArea && sidebarDrawer.children.length === 0) {
       sidebarDrawer.innerHTML = sidebarArea.innerHTML;
+      /* Re-bind search box inside the cloned drawer */
+      var drawerSearchBox = sidebarDrawer.querySelector('#sidebar-search-box');
+      if (drawerSearchBox) {
+        drawerSearchBox.removeAttribute('id');
+        drawerSearchBox.addEventListener('click', function() {
+          closeSidebar();
+          var btn = document.getElementById('search-open-btn');
+          if (btn) btn.click();
+        });
+      }
     }
     sidebarOverlay.style.display = 'block';
     sidebarDrawer.style.display = 'block';
