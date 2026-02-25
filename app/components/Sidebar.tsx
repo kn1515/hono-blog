@@ -14,9 +14,12 @@ const sidebarCss = css`
 
 /* ── Search Box Section ── */
 const searchBoxButtonCss = css`
+  background: var(--c-card-bg);
+  border: 1px solid var(--c-card-border);
+  border-radius: 12px;
+  padding: 1.5rem;
   display: block;
   width: 100%;
-  border: none;
   cursor: pointer;
   text-align: left;
   font: inherit;
@@ -239,7 +242,7 @@ export function Sidebar({ recentPosts }: Props) {
       {/* Search Box */}
       <button
         type='button'
-        class={`${sectionCss} ${searchBoxButtonCss}`}
+        class={searchBoxButtonCss}
         id='sidebar-search-box'
         aria-label='記事を検索'
       >
