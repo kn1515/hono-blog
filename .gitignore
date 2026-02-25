@@ -8,3 +8,6 @@ dist
 package-lock.json
 yarn.lock
 bun.lockb
+
+# Test results
+test-results/
