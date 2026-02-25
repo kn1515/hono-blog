@@ -245,16 +245,10 @@ const searchScript = `
   overlay.addEventListener('click', closeSearch);
   input.addEventListener('input', function(){ renderResults(input.value); });
 
-  /* Sidebar search box: open modal on click or Enter/Space key */
+  /* Sidebar search box: open modal on click (button natively supports Enter/Space) */
   var sidebarSearch = document.getElementById('sidebar-search-box');
   if (sidebarSearch) {
     sidebarSearch.addEventListener('click', openSearch);
-    sidebarSearch.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        openSearch();
-      }
-    });
   }
 
   document.addEventListener('keydown', function(e) {
