@@ -1,0 +1,264 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - link "コンテンツへスキップ" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "ぽんろぐ備忘録 フクロウロゴ ぽんろぐ備忘録" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img "ぽんろぐ備忘録 フクロウロゴ" [ref=e7]
+          - img "ぽんろぐ備忘録" [ref=e8]:
+            - generic [ref=e9]: ぽんろぐ
+            - generic [ref=e10]: 備忘録
+        - navigation [ref=e11]:
+          - group [ref=e12]:
+            - img [ref=e14] [cursor=pointer]
+          - button "Search" [ref=e16] [cursor=pointer]:
+            - img [ref=e17]
+          - button "Toggle theme" [ref=e20] [cursor=pointer]:
+            - img [ref=e22]
+    - main [ref=e28]:
+      - generic [ref=e29]:
+        - generic [ref=e30]:
+          - generic [ref=e31]:
+            - heading "ぽんろぐ備忘録" [level=2] [ref=e32]
+            - paragraph [ref=e33]: エンジニアリング・セキュリティ・低レイヤの学び、日々の生活を記録するブログです。
+          - generic [ref=e34]:
+            - generic [ref=e35]:
+              - img [ref=e36]
+              - generic [ref=e38]: ピックアップ
+            - link "情報処理安全確保支援士に合格しました 情報処理安全確保支援士に合格しました PICK UP 2024/12/27 (1年前)" [ref=e40] [cursor=pointer]:
+              - /url: /posts/riss/
+              - img "情報処理安全確保支援士に合格しました" [ref=e41]
+              - generic [ref=e42]:
+                - generic [ref=e43]: 情報処理安全確保支援士に合格しました
+                - generic [ref=e44]:
+                  - generic [ref=e45]:
+                    - img [ref=e46]
+                    - text: PICK UP
+                  - time [ref=e48]: 2024/12/27
+                  - generic [ref=e49]: (1年前)
+        - generic [ref=e50]:
+          - button "List view" [ref=e51] [cursor=pointer]:
+            - img [ref=e52]
+          - button "Grid view" [ref=e53] [cursor=pointer]:
+            - img [ref=e54]
+        - generic [ref=e60]:
+          - link "No Image 技術 Cloudflare Pages GitHub Actions Hono HonoX CI/CD デプロイ Hono/HonoXブログをCloudflare Pages + GitHub Actionsで公開する手順 2026/02/25 (14時間前)" [ref=e61] [cursor=pointer]:
+            - /url: /posts/cloudflare-github-deploy/
+            - generic [ref=e62]: No Image
+            - generic [ref=e63]:
+              - generic [ref=e64]:
+                - generic [ref=e65]: 技術
+                - generic [ref=e66]: Cloudflare Pages
+                - generic [ref=e67]: GitHub Actions
+                - generic [ref=e68]: Hono
+                - generic [ref=e69]: HonoX
+                - generic [ref=e70]: CI/CD
+                - generic [ref=e71]: デプロイ
+              - heading "Hono/HonoXブログをCloudflare Pages + GitHub Actionsで公開する手順" [level=2] [ref=e72]
+              - generic [ref=e73]:
+                - time [ref=e74]: 2026/02/25
+                - generic [ref=e75]: (14時間前)
+          - link "WindowsユーザがMacに乗り換えるときにやるべき設定とおすすめアプリ 技術 Mac macOS Windows 環境構築 初心者 WindowsユーザがMacに乗り換えるときにやるべき設定とおすすめアプリ 2026/02/24 (1日前)" [ref=e76] [cursor=pointer]:
+            - /url: /posts/windows-to-mac/
+            - img "WindowsユーザがMacに乗り換えるときにやるべき設定とおすすめアプリ" [ref=e77]
+            - generic [ref=e78]:
+              - generic [ref=e79]:
+                - generic [ref=e80]: 技術
+                - generic [ref=e81]: Mac
+                - generic [ref=e82]: macOS
+                - generic [ref=e83]: Windows
+                - generic [ref=e84]: 環境構築
+                - generic [ref=e85]: 初心者
+              - heading "WindowsユーザがMacに乗り換えるときにやるべき設定とおすすめアプリ" [level=2] [ref=e86]
+              - generic [ref=e87]:
+                - time [ref=e88]: 2026/02/24
+                - generic [ref=e89]: (1日前)
+          - link "Hono/HonoXを使ったブログの作成と技術スタック 技術 Hono HonoX Vite Cloudflare Pages MDX SSG Hono/HonoXを使ったブログの作成と技術スタック 2026/02/23 (2日前)" [ref=e90] [cursor=pointer]:
+            - /url: /posts/blog-tech-stack/
+            - img "Hono/HonoXを使ったブログの作成と技術スタック" [ref=e91]
+            - generic [ref=e92]:
+              - generic [ref=e93]:
+                - generic [ref=e94]: 技術
+                - generic [ref=e95]: Hono
+                - generic [ref=e96]: HonoX
+                - generic [ref=e97]: Vite
+                - generic [ref=e98]: Cloudflare Pages
+                - generic [ref=e99]: MDX
+                - generic [ref=e100]: SSG
+              - heading "Hono/HonoXを使ったブログの作成と技術スタック" [level=2] [ref=e101]
+              - generic [ref=e102]:
+                - time [ref=e103]: 2026/02/23
+                - generic [ref=e104]: (2日前)
+          - link "業務で使えるログ解析シェル芸まとめ 技術 Shell Linux ログ解析 業務効率化 コマンドライン 業務で使えるログ解析シェル芸まとめ 2026/02/21 (4日前)" [ref=e105] [cursor=pointer]:
+            - /url: /posts/shell-log-analysis/
+            - img "業務で使えるログ解析シェル芸まとめ" [ref=e106]
+            - generic [ref=e107]:
+              - generic [ref=e108]:
+                - generic [ref=e109]: 技術
+                - generic [ref=e110]: Shell
+                - generic [ref=e111]: Linux
+                - generic [ref=e112]: ログ解析
+                - generic [ref=e113]: 業務効率化
+                - generic [ref=e114]: コマンドライン
+              - heading "業務で使えるログ解析シェル芸まとめ" [level=2] [ref=e115]
+              - generic [ref=e116]:
+                - time [ref=e117]: 2026/02/21
+                - generic [ref=e118]: (4日前)
+          - link "エンジニアが参拝すべき神社・IT関連スポットまとめ よもやま 雑談 エンジニア 神社 エンジニアが参拝すべき神社・IT関連スポットまとめ 2026/02/20 (5日前)" [ref=e119] [cursor=pointer]:
+            - /url: /posts/engineer-shrines/
+            - img "エンジニアが参拝すべき神社・IT関連スポットまとめ" [ref=e120]
+            - generic [ref=e121]:
+              - generic [ref=e122]:
+                - generic [ref=e123]: よもやま
+                - generic [ref=e124]: 雑談
+                - generic [ref=e125]: エンジニア
+                - generic [ref=e126]: 神社
+              - heading "エンジニアが参拝すべき神社・IT関連スポットまとめ" [level=2] [ref=e127]
+              - generic [ref=e128]:
+                - time [ref=e129]: 2026/02/20
+                - generic [ref=e130]: (5日前)
+          - link "情報処理安全確保支援士に合格しました 資格 情報処理安全確保支援士 合格体験記 情報処理安全確保支援士に合格しました 2024/12/27 (1年前)" [ref=e131] [cursor=pointer]:
+            - /url: /posts/riss/
+            - img "情報処理安全確保支援士に合格しました" [ref=e132]
+            - generic [ref=e133]:
+              - generic [ref=e134]:
+                - generic [ref=e135]: 資格
+                - generic [ref=e136]: 情報処理安全確保支援士
+                - generic [ref=e137]: 合格体験記
+              - heading "情報処理安全確保支援士に合格しました" [level=2] [ref=e138]
+              - generic [ref=e139]:
+                - time [ref=e140]: 2024/12/27
+                - generic [ref=e141]: (1年前)
+          - link "M5Stack(ESP32) に NUTTX(RTOS) をインストール ESP32 初心者 RTOS ESP32 nuttx M5Stack M5Stack(ESP32) に NUTTX(RTOS) をインストール 2024/10/31 (1年前)" [ref=e142] [cursor=pointer]:
+            - /url: /posts/nuttx-install/
+            - img "M5Stack(ESP32) に NUTTX(RTOS) をインストール" [ref=e143]
+            - generic [ref=e144]:
+              - generic [ref=e145]:
+                - generic [ref=e146]: ESP32
+                - generic [ref=e147]: 初心者
+                - generic [ref=e148]: RTOS
+                - generic [ref=e149]: ESP32
+                - generic [ref=e150]: nuttx
+                - generic [ref=e151]: M5Stack
+              - heading "M5Stack(ESP32) に NUTTX(RTOS) をインストール" [level=2] [ref=e152]
+              - generic [ref=e153]:
+                - time [ref=e154]: 2024/10/31
+                - generic [ref=e155]: (1年前)
+          - link "ブログ初投稿 よもやま 雑談 ブログ初投稿 2024/10/30 (1年前)" [ref=e156] [cursor=pointer]:
+            - /url: /posts/hello-world/
+            - img "ブログ初投稿" [ref=e157]
+            - generic [ref=e158]:
+              - generic [ref=e159]:
+                - generic [ref=e160]: よもやま
+                - generic [ref=e161]: 雑談
+              - heading "ブログ初投稿" [level=2] [ref=e162]
+              - generic [ref=e163]:
+                - time [ref=e164]: 2024/10/30
+                - generic [ref=e165]: (1年前)
+          - link "「12ステップで作る組込みOS自作入門」の環境構築でつまずいた点と解決方法 技術 RTOS 組込み H8 KOZOS WSL2 「12ステップで作る組込みOS自作入門」の環境構築でつまずいた点と解決方法 2023/06/17 (2年前)" [ref=e166] [cursor=pointer]:
+            - /url: /posts/12step-os-setup/
+            - img "「12ステップで作る組込みOS自作入門」の環境構築でつまずいた点と解決方法" [ref=e167]
+            - generic [ref=e168]:
+              - generic [ref=e169]:
+                - generic [ref=e170]: 技術
+                - generic [ref=e171]: RTOS
+                - generic [ref=e172]: 組込み
+                - generic [ref=e173]: H8
+                - generic [ref=e174]: KOZOS
+                - generic [ref=e175]: WSL2
+              - heading "「12ステップで作る組込みOS自作入門」の環境構築でつまずいた点と解決方法" [level=2] [ref=e176]
+              - generic [ref=e177]:
+                - time [ref=e178]: 2023/06/17
+                - generic [ref=e179]: (2年前)
+        - generic [ref=e181]: "1"
+    - contentinfo [ref=e182]:
+      - generic [ref=e183]:
+        - text: ©
+        - time [ref=e184]: "2026"
+        - text: ぽん. Powered By
+        - link "Hono" [ref=e185] [cursor=pointer]:
+          - /url: https://hono.dev/
+        - text: .
+      - link "利用規約" [ref=e186] [cursor=pointer]:
+        - /url: /user-terms/
+      - text: "|"
+      - link "プライバシーポリシー" [ref=e187] [cursor=pointer]:
+        - /url: /privacy-policy/
+  - navigation [ref=e188]:
+    - link "ホーム" [ref=e189] [cursor=pointer]:
+      - /url: /
+      - img [ref=e190]
+      - generic [ref=e192]: ホーム
+    - button "検索" [ref=e193] [cursor=pointer]:
+      - img [ref=e194]
+      - generic [ref=e197]: 検索
+    - button "カテゴリ" [ref=e198] [cursor=pointer]:
+      - img [ref=e199]
+      - generic [ref=e201]: カテゴリ
+    - button "トップ" [ref=e202] [cursor=pointer]:
+      - img [ref=e203]
+      - generic [ref=e205]: トップ
+    - button "サイドバー" [ref=e206] [cursor=pointer]:
+      - img [ref=e207]
+      - generic [ref=e209]: サイドバー
+  - complementary [ref=e212]:
+    - button "記事を検索" [active] [ref=e213] [cursor=pointer]:
+      - generic [ref=e214]:
+        - img [ref=e216]
+        - generic [ref=e219]: 記事を検索...
+    - generic [ref=e221]:
+      - link "Author" [ref=e222] [cursor=pointer]:
+        - /url: /about/
+        - img "Author" [ref=e223]
+      - generic [ref=e224]: ぽん
+      - paragraph [ref=e225]:
+        - text: サーバーサイドエンジニア。
+        - text: 低レイヤやセキュリティに興味があります。
+      - generic [ref=e226]:
+        - link [ref=e227] [cursor=pointer]:
+          - /url: https://github.com/kn1515
+          - img [ref=e228]
+        - link [ref=e230] [cursor=pointer]:
+          - /url: https://twitter.com/Non_c5c
+          - img [ref=e231]
+    - generic [ref=e233]:
+      - heading "最近の投稿" [level=3] [ref=e234]
+      - list [ref=e235]:
+        - listitem [ref=e236]:
+          - link "Hono/HonoXブログをCloudflare Pages + GitHub Actionsで公開する手順" [ref=e237] [cursor=pointer]:
+            - /url: /posts/cloudflare-github-deploy/
+        - listitem [ref=e238]:
+          - link "WindowsユーザがMacに乗り換えるときにやるべき設定とおすすめアプリ" [ref=e239] [cursor=pointer]:
+            - /url: /posts/windows-to-mac/
+        - listitem [ref=e240]:
+          - link "Hono/HonoXを使ったブログの作成と技術スタック" [ref=e241] [cursor=pointer]:
+            - /url: /posts/blog-tech-stack/
+        - listitem [ref=e242]:
+          - link "業務で使えるログ解析シェル芸まとめ" [ref=e243] [cursor=pointer]:
+            - /url: /posts/shell-log-analysis/
+        - listitem [ref=e244]:
+          - link "エンジニアが参拝すべき神社・IT関連スポットまとめ" [ref=e245] [cursor=pointer]:
+            - /url: /posts/engineer-shrines/
+    - group [ref=e247]:
+      - generic "カテゴリー" [ref=e248] [cursor=pointer]:
+        - heading "カテゴリー" [level=3] [ref=e249]
+        - img [ref=e251]
+      - list [ref=e253]:
+        - listitem [ref=e254]:
+          - link "技術" [ref=e255] [cursor=pointer]:
+            - /url: /categories/技術/
+        - listitem [ref=e256]:
+          - link "よもやま" [ref=e257] [cursor=pointer]:
+            - /url: /categories/よもやま/
+        - listitem [ref=e258]:
+          - link "ESP32" [ref=e259] [cursor=pointer]:
+            - /url: /categories/esp32/
+        - listitem [ref=e260]:
+          - link "資格" [ref=e261] [cursor=pointer]:
+            - /url: /categories/資格/
+```
