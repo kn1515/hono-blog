@@ -797,6 +797,16 @@ const bodyCss = css`
       text-decoration: underline;
     }
 
+    pre code {
+      display: block;
+      overflow-x: auto;
+      padding: ${verticalRhythmUnit * 0.5}rem;
+      font-size: ${codeBlockFontSize}px;
+      font-family: monospace;
+      line-height: 1.7;
+      border: none;
+    }
+
     code.hljs {
       display: block;
       overflow-x: auto;
@@ -804,6 +814,7 @@ const bodyCss = css`
 
       font-size: ${codeBlockFontSize}px;
       font-family: monospace;
+      line-height: 1.7;
       border: none;
     }
 
