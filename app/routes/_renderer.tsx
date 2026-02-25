@@ -724,10 +724,11 @@ const bodyCss = css`
 
     p {
       margin: 0 0 1.7rem;
-      line-height: 1.7rem;
-      @media (max-width: 600px) {
-        line-height: 2rem;
-      }
+      line-height: 1.9;
+    }
+
+    li {
+      line-height: 1.9;
     }
 
     code {
