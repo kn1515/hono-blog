@@ -245,6 +245,12 @@ const searchScript = `
   overlay.addEventListener('click', closeSearch);
   input.addEventListener('input', function(){ renderResults(input.value); });
 
+  /* Sidebar search box: open modal on click (button natively supports Enter/Space) */
+  var sidebarSearch = document.getElementById('sidebar-search-box');
+  if (sidebarSearch) {
+    sidebarSearch.addEventListener('click', openSearch);
+  }
+
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' && modal.style.display !== 'none') {
       closeSearch();
