@@ -29,6 +29,10 @@ export default createRoute(param, c => {
     return c.notFound()
   }
 
+  if (num === 1) {
+    return c.redirect('/', 301)
+  }
+
   const { posts, hasPrev, hasNext } = getPosts(num)
 
   return c.render(

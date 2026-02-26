@@ -14,7 +14,7 @@ function generateRss(posts: Post[]): string {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>${title}</title>
-    <link>${baseUrl}</link>
+    <link>${baseUrl}/</link>
     <description>Recent content on ${title}</description>
     <generator>github.com/kn1515/hono-blog</generator>
     <language>ja</language>

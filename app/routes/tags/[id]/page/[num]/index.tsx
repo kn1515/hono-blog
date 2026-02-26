@@ -36,6 +36,10 @@ export default createRoute(param, c => {
     return c.notFound()
   }
 
+  if (num === 1) {
+    return c.redirect(`/tags/${tagId}/`, 301)
+  }
+
   const tagPosts = getTagPosts(tagId, num)
 
   if (!tagPosts) {
