@@ -41,7 +41,7 @@
     "@types/mdx-js__react": "2.0.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "autoprefixer": "^10.4.24",
+    "autoprefixer": "^10.4.27",
     "postcss": "^8.5.6",
     "recma-export-filepath": "^1.2.0",
     "rehype-highlight": "^7.0.2",
