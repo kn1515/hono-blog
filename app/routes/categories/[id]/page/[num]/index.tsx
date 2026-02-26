@@ -36,6 +36,10 @@ export default createRoute(param, c => {
     return c.notFound()
   }
 
+  if (num === 1) {
+    return c.redirect(`/categories/${categoryId}/`, 301)
+  }
+
   const category = getCategoryPosts(categoryId, num)
 
   if (!category) {

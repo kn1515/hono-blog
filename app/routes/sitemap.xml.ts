@@ -8,7 +8,7 @@ const SITEMAP_DATE_FORMAT = 'YYYY-MM-DD'
 function generateSitemap(posts: Post[]): string {
   const now = new Date()
   const staticPages = [
-    { loc: '', changefreq: 'daily', priority: '1.0' },
+    { loc: '/', changefreq: 'daily', priority: '1.0' },
     { loc: '/about/', changefreq: 'monthly', priority: '0.6' },
     { loc: '/categories/', changefreq: 'weekly', priority: '0.7' },
     { loc: '/tags/', changefreq: 'weekly', priority: '0.7' },
