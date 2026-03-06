@@ -46,7 +46,7 @@
     "recma-export-filepath": "^1.2.0",
     "rehype-highlight": "^7.0.2",
     "rehype-mdx-code-props": "^3.0.1",
-    "rehype-mdx-import-media": "^1.2.0",
+    "rehype-mdx-import-media": "^1.4.0",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^5.2.0",
     "shadcn-ui": "^0.9.5",
