@@ -3,9 +3,9 @@ import path from 'node:path'
 import url from 'node:url'
 import { format } from '@formkit/tempo'
 import { css } from 'hono/css'
-
+import RelativeDate from '../islands/RelativeDate'
 import type { Post } from '../lib/posts'
-import { getRelativeDate, parseDate } from '../lib/time'
+import { parseDate } from '../lib/time'
 import { blue, gray, grayLight } from '../styles/color'
 import { verticalRhythmUnit } from '../styles/variables'
 import { MarkdownRenderer } from './MarkdownRenderer'
@@ -133,7 +133,7 @@ export async function PostSummarySection({ post }: Props) {
           <time datetime={post.frontmatter.date} class={timeCss}>
             {format(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
             <span style='margin-left:0.4rem;opacity:0.8;font-size:0.85em'>
-              ({getRelativeDate(post.frontmatter.date)})
+              <RelativeDate date={post.frontmatter.date} />
             </span>
           </time>
           <div class={titleContainerCss}>

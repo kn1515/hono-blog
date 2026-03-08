@@ -8,9 +8,10 @@ import { PostPagination } from '../../components/PostPagination'
 import { RelatedPosts } from '../../components/RelatedPosts'
 import { ShareDropdown } from '../../components/ShareDropdown'
 import { ShareButtons } from '../../components/ShareIcons'
+import RelativeDate from '../../islands/RelativeDate'
 import { getRelatedPosts } from '../../lib/post-meta'
 import { getPaginationPosts } from '../../lib/posts'
-import { getRelativeDate, parseDate } from '../../lib/time'
+import { parseDate } from '../../lib/time'
 import { gray, grayLight } from '../../styles/color'
 
 /* ── Share dropdown toggle & clipboard copy (vanilla JS) ── */
@@ -313,7 +314,7 @@ export default jsxRenderer(({ children, Layout, frontmatter, filepath }) => {
           {format(parseDate(frontmatter.date), 'YYYY/MM/DD')}
         </time>
         <span class={relativeDateCss}>
-          ({getRelativeDate(frontmatter.date)})
+          <RelativeDate date={frontmatter.date} />
         </span>
         {frontmatter.updatedAt && (
           <span class={updatedAtCss}>
