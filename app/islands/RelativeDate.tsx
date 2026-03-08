@@ -30,7 +30,7 @@ export default function RelativeDate({ date }: { date: string }) {
   useEffect(() => {
     if (!ref.current) return
     ref.current.textContent = `(${getRelativeDate(date)})`
-  }, [])
+  }, [date])
 
   return <span ref={ref} />
 }
