@@ -1,7 +1,8 @@
 import { format } from '@formkit/tempo'
 import { css } from 'hono/css'
+import RelativeDate from '../islands/RelativeDate'
 import type { Post } from '../lib/posts'
-import { getRelativeDate, parseDate } from '../lib/time'
+import { parseDate } from '../lib/time'
 
 /* ── Hero Container ── */
 const heroCss = css`
@@ -216,7 +217,7 @@ export function HeroSection({ pinnedPosts }: Props) {
                       {format(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
                     </time>
                     <span style='margin-left:0.4rem;opacity:0.8;font-size:0.85em'>
-                      ({getRelativeDate(post.frontmatter.date)})
+                      <RelativeDate date={post.frontmatter.date} />
                     </span>
                   </div>
                 </div>

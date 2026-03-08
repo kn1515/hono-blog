@@ -1,8 +1,9 @@
 import { format } from '@formkit/tempo'
 import { css } from 'hono/css'
 
+import RelativeDate from '../islands/RelativeDate'
 import type { Post } from '../lib/posts'
-import { getRelativeDate, parseDate } from '../lib/time'
+import { parseDate } from '../lib/time'
 
 const cardCss = css`
   display: block;
@@ -114,7 +115,7 @@ export function PostGridCard({ post }: Props) {
             {format(parseDate(post.frontmatter.date), 'YYYY/MM/DD')}
           </time>
           <span class={relativeDateCss}>
-            ({getRelativeDate(post.frontmatter.date)})
+            <RelativeDate date={post.frontmatter.date} />
           </span>
         </div>
       </div>
