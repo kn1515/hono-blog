@@ -1,0 +1,160 @@
+---
+title: "Windsurf を WSL2 に接続すると Server installation が失敗する問題の解決方法（プロキシ環境）"
+date: 2026-03-16T00:00:00
+description: "Windows版WindsurfからWSL2に接続した際にServer installationが失敗する問題について、プロキシ環境での原因と解決方法を解説します。"
+categories:
+  - 技術
+tags:
+  - Windsurf
+  - WSL2
+  - プロキシ
+  - トラブルシューティング
+  - 環境構築
+image: "/static/logo2.png"
+---
+
+Windows版の**Windsurf**からWSL2（Ubuntu）に接続した際、Server installationが失敗する問題に遭遇しました。本記事では、プロキシ環境下での原因調査と解決方法をまとめます。
+
+{/* <!--more--> */}
+
+<Toc>
+- 発生した問題
+- 環境
+- 原因の調査
+- 原因
+- 解決方法
+- まとめ
+</Toc>
+
+## 発生した問題
+
+Windows上のWindsurfからWSL2上のUbuntu（Ubuntu 24.04 LTS）にリモート接続を行ったところ、**Server installation** のステップで失敗しました。
+
+エラーとしては以下のようなメッセージが表示されます。
+
+```
+Error downloading server from ...
+Server installation failed
+```
+
+プロキシ環境下で作業していたため、ネットワーク周りが怪しいと考え調査を始めました。
+
+---
+
+## 環境
+
+| 項目 | バージョン |
+|---|---|
+| **OS（ホスト）** | Windows 11 |
+| **WSL2 ディストリビューション** | Ubuntu 24.04 LTS |
+| **Windsurf** | 最新版 |
+| **ネットワーク** | 社内プロキシ環境 |
+
+---
+
+## 原因の調査
+
+### curlでの直接ダウンロードは成功する
+
+まず、WindsurfがダウンロードしようとしているURLに対して、WSL2上から直接`curl`コマンドでアクセスしてみました。
+
+```bash
+curl -x http://proxy.example.com:8080 -O https://windsurf-server-url/...
+```
+
+すると、**正常にダウンロードが完了**しました。つまり、WSL2のネットワーク自体やプロキシ設定には問題がないことがわかります。
+
+### インストールスクリプトの挙動を確認
+
+Windsurfのインストールスクリプトを調査したところ、以下のことがわかりました。
+
+1. スクリプトは**`wget`を優先的に使用**し、`wget`がインストールされていない場合のみ`curl`にフォールバックする
+2. Windsurfは以下のような形式でWSL2上にスクリプトを実行する
+
+```bash
+wsl.exe --distribution Ubuntu -- bash -c 'install script ...'
+```
+
+### `bash -c` の落とし穴
+
+ここが問題の核心です。`bash -c`で実行されるシェルは、**非ログイン**かつ**非インタラクティブ**なシェルです。
+
+そのため、通常プロキシ設定を記述している以下のファイルは**読み込まれません**。
+
+- `~/.bashrc`
+- `~/.bash_profile`
+- `~/.profile`
+
+つまり、これらのファイルに設定した`http_proxy`や`https_proxy`の環境変数は、Windsurfのインストールスクリプト実行時には**一切反映されていない**状態でした。
+
+<Note>
+
+Bashのシェル種別と読み込まれる設定ファイルの関係は以下の通りです。
+
+| シェル種別 | `.bash_profile` | `.bashrc` | `.profile` |
+|---|---|---|---|
+| ログイン + インタラクティブ | ✅ | ✅（通常.bash_profileから読込） | ✅（.bash_profileがない場合） |
+| 非ログイン + インタラクティブ | ❌ | ✅ | ❌ |
+| 非ログイン + 非インタラクティブ（`bash -c`） | ❌ | ❌ | ❌ |
+
+</Note>
+
+---
+
+## 原因
+
+まとめると、原因は以下の通りです。
+
+1. Windsurfのインストールスクリプトは **`wget`を優先して使用** する
+2. スクリプトは `wsl.exe ... bash -c` 経由で実行されるため、**非ログイン・非インタラクティブシェル**として動作する
+3. そのため `.bashrc` や `.profile` に設定したプロキシ環境変数（`http_proxy` / `https_proxy`）が**読み込まれない**
+4. 結果として `wget` がプロキシなしで外部にアクセスしようとし、**ダウンロードに失敗**する
+
+一方で`curl`コマンドは環境変数を手動で指定して実行したため成功していた、という状況でした。
+
+---
+
+## 解決方法
+
+`wget`は、シェルの環境変数とは別に**独自の設定ファイル `~/.wgetrc`** を読み込みます。このファイルにプロキシ設定を記述することで、非ログイン・非インタラクティブシェルからの実行でもプロキシが適用されます。
+
+### `~/.wgetrc` の作成
+
+```bash
+vi ~/.wgetrc
+```
+
+以下の内容を記述します。
+
+```
+http_proxy = http://proxy.example.com:8080
+https_proxy = http://proxy.example.com:8080
+```
+
+<Note>
+
+`proxy.example.com:8080` の部分は、ご自身の環境のプロキシサーバーのアドレスとポートに置き換えてください。認証が必要な場合は以下のように記述します。
+
+```
+http_proxy = http://username:password@proxy.example.com:8080
+https_proxy = http://username:password@proxy.example.com:8080
+```
+
+</Note>
+
+### 設定後の確認
+
+`~/.wgetrc` を保存した後、WindsurfからWSL2への接続を再度実行すると、**Server installationが正常に完了**しました。
+
+`wget`は起動時に`~/.wgetrc`を読み込むため、シェルの種別に関係なくプロキシ設定が反映されます。
+
+---
+
+## まとめ
+
+- Windsurfのインストールスクリプトは`wget`を優先利用する
+- `wsl.exe ... bash -c` 経由の実行では、`.bashrc`等の設定ファイルが読み込まれない
+- プロキシ環境では **`~/.wgetrc`にプロキシ設定を記述** することで解決できる
+- `wget`は独自に`~/.wgetrc`を読み込むため、シェルの種別に依存しない
+
+同様のプロキシ環境でWSL2を利用している方は、`~/.wgetrc`の設定を忘れずに行っておくと、Windsurf以外のツールでも同様のトラブルを未然に防ぐことができます。
