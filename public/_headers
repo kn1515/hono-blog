@@ -1,0 +1,16 @@
+# SEO: Allow all search engine crawlers to index all pages
+/*
+  X-Robots-Tag: all
+
+# Sitemap and robots.txt: ensure correct content types
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+/index.xml
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=3600
