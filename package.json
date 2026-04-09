@@ -18,7 +18,7 @@
     "hono": "^4.12.9",
     "honox": "^0.1.55",
     "ogp-parser": "^0.8.1",
-    "react": "^19.2.4",
+    "react": "^19.2.5",
     "react-dom": "^19.2.4",
     "react-icons": "^5.6.0",
     "rehype-mermaid": "^3.0.0",
