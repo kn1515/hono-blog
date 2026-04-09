@@ -24,7 +24,7 @@
     "rehype-mermaid": "^3.0.0",
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.1",
-    "vite-plugin-require": "^1.2.14"
+    "vite-plugin-require": "^1.2.17"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.9",
