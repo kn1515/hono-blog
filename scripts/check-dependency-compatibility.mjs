@@ -58,7 +58,10 @@ try {
   assert.ok(socket)
   socket.accept()
   await new Promise((resolve, reject) => {
-    const timeout = setTimeout(() => reject(new Error('WebSocket timeout')), 5000)
+    const timeout = setTimeout(
+      () => reject(new Error('WebSocket timeout')),
+      5000,
+    )
     socket.addEventListener('message', event => {
       clearTimeout(timeout)
       try {
