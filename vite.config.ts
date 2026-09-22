@@ -13,6 +13,8 @@ import { viteStaticCopy } from 'vite-plugin-static-copy'
 import { rehypePlugins, remarkPlugins } from './app/lib/mdx'
 
 const entry = './app/server.ts'
+// esbuild 0.28 requires Safari 14.1 for destructuring support.
+const buildTarget = ['es2020', 'chrome87', 'edge88', 'firefox78', 'safari14.1']
 
 const fixViteSsgBuiltins = () => ({
   name: 'fix-vite-ssg-builtins',
@@ -64,6 +66,7 @@ export default defineConfig(({ mode }) => {
   if (mode === 'client') {
     return {
       plugins: [client(), tailwindcss()],
+      build: { target: buildTarget },
     }
   }
 
@@ -85,6 +88,7 @@ export default defineConfig(({ mode }) => {
       builtins: [],
     },
     build: {
+      target: buildTarget,
       emptyOutDir: false,
     },
     plugins: [
