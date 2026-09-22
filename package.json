@@ -10,14 +10,14 @@
     "lint:fix": "biome check --write .",
     "install:playwright": "npx playwright install --with-deps chromium",
     "test": "playwright test",
-    "test:ui": "playwright test --ui"
+    "test:ui": "playwright test --ui",
+    "check:dependencies": "node scripts/check-dependency-compatibility.mjs"
   },
   "private": true,
   "dependencies": {
     "@formkit/tempo": "^1.0.0",
     "hono": "^4.13.5",
     "honox": "^0.1.55",
-    "ogp-parser": "^0.8.1",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-icons": "^5.6.0",
@@ -63,7 +63,14 @@
       "esbuild",
       "sharp",
       "workerd"
-    ]
+    ],
+    "overrides": {
+      "esbuild": "^0.28.1",
+      "miniflare>sharp": "^0.35.4",
+      "miniflare>undici": "^7.29.0",
+      "miniflare>ws": "^8.21.0",
+      "remark-mdx-frontmatter>toml": "^4.2.0"
+    }
   },
   "packageManager": "pnpm@10.34.5"
 }
