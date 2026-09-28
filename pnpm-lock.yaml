@@ -90,10 +90,10 @@ importers:
         version: 19.2.3(@types/react@19.2.14)
       autoprefixer:
         specifier: ^10.5.0
-        version: 10.5.0(postcss@8.5.23)
+        version: 10.5.0(postcss@8.5.28)
       postcss:
-        specifier: ^8.5.23
-        version: 8.5.23
+        specifier: ^8.5.28
+        version: 8.5.28
       recma-export-filepath:
         specifier: ^1.2.0
         version: 1.2.0
@@ -2448,8 +2448,8 @@ packages:
     peerDependencies:
       postcss: ^8.2.9
 
-  postcss@8.5.23:
-    resolution: {integrity: sha512-g50586zr4bZmwFiTlflMu8E0bDTb5I5gertgwAKmsdUlTQIhZtunzUlD1WSzwcVWPoAVpsrA6vlfCD7oXvRwgg==}
+  postcss@8.5.28:
+    resolution: {integrity: sha512-RRuzqDtt5Y9h3quz5hWhK+TPnsmVs6WwSU6LkJMeY4HstUEDuYTG8UJSdawMRzmzAtV+KEoG8N3Qg2qLy5vM/A==}
     engines: {node: ^10 || ^12 || >=14}
 
   precinct@12.2.0:
@@ -3567,7 +3567,7 @@ snapshots:
       '@alloc/quick-lru': 5.2.0
       '@tailwindcss/node': 4.2.2
       '@tailwindcss/oxide': 4.2.2
-      postcss: 8.5.23
+      postcss: 8.5.28
       tailwindcss: 4.2.2
 
   '@tailwindcss/vite@4.2.2(vite@6.4.3(@types/node@25.3.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))':
@@ -3833,7 +3833,7 @@ snapshots:
       '@vue/shared': 3.5.31
       estree-walker: 2.0.2
       magic-string: 0.30.21
-      postcss: 8.5.23
+      postcss: 8.5.28
       source-map-js: 1.2.1
 
   '@vue/compiler-sfc@3.5.32':
@@ -3845,7 +3845,7 @@ snapshots:
       '@vue/shared': 3.5.32
       estree-walker: 2.0.2
       magic-string: 0.30.21
-      postcss: 8.5.23
+      postcss: 8.5.28
       source-map-js: 1.2.1
 
   '@vue/compiler-ssr@3.5.31':
@@ -3983,13 +3983,13 @@ snapshots:
 
   astring@1.9.0: {}
 
-  autoprefixer@10.5.0(postcss@8.5.23):
+  autoprefixer@10.5.0(postcss@8.5.28):
     dependencies:
       browserslist: 4.29.0
       caniuse-lite: 1.0.30001787
       fraction.js: 5.3.4
       picocolors: 1.1.1
-      postcss: 8.5.23
+      postcss: 8.5.28
       postcss-value-parser: 4.2.0
 
   bail@2.0.2: {}
@@ -4317,11 +4317,11 @@ snapshots:
     dependencies:
       node-source-walk: 7.0.1
 
-  detective-postcss@7.0.1(postcss@8.5.23):
+  detective-postcss@7.0.1(postcss@8.5.28):
     dependencies:
       is-url: 1.2.4
-      postcss: 8.5.23
-      postcss-values-parser: 6.0.2(postcss@8.5.23)
+      postcss: 8.5.28
+      postcss-values-parser: 6.0.2(postcss@8.5.28)
 
   detective-sass@6.0.1:
     dependencies:
@@ -5482,14 +5482,14 @@ snapshots:
 
   postcss-value-parser@4.2.0: {}
 
-  postcss-values-parser@6.0.2(postcss@8.5.23):
+  postcss-values-parser@6.0.2(postcss@8.5.28):
     dependencies:
       color-name: 1.1.4
       is-url-superb: 4.0.0
-      postcss: 8.5.23
+      postcss: 8.5.28
       quote-unquote: 1.0.0
 
-  postcss@8.5.23:
+  postcss@8.5.28:
     dependencies:
       nanoid: 3.3.19
       picocolors: 1.1.1
@@ -5502,7 +5502,7 @@ snapshots:
       detective-amd: 6.0.1
       detective-cjs: 6.1.0
       detective-es6: 5.0.1
-      detective-postcss: 7.0.1(postcss@8.5.23)
+      detective-postcss: 7.0.1(postcss@8.5.28)
       detective-sass: 6.0.1
       detective-scss: 5.0.1
       detective-stylus: 5.0.1
@@ -5510,7 +5510,7 @@ snapshots:
       detective-vue2: 2.2.0(typescript@5.9.3)
       module-definition: 6.0.1
       node-source-walk: 7.0.1
-      postcss: 8.5.23
+      postcss: 8.5.28
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
@@ -6012,7 +6012,7 @@ snapshots:
       esbuild: 0.28.2
       fdir: 6.5.0(picomatch@4.0.7)
       picomatch: 4.0.7
-      postcss: 8.5.23
+      postcss: 8.5.28
       rollup: 4.59.0
       tinyglobby: 0.2.15
     optionalDependencies:
