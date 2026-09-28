@@ -48,7 +48,7 @@
     "rehype-mdx-code-props": "^3.0.1",
     "rehype-mdx-import-media": "^1.4.0",
     "remark-frontmatter": "^5.0.0",
-    "remark-mdx-frontmatter": "^5.2.0",
+    "remark-mdx-frontmatter": "^6.0.0",
     "shadcn-ui": "^0.9.5",
     "tailwindcss": "^4.2.2",
     "tailwindcss-animate": "^1.0.7",
