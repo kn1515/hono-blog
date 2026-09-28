@@ -15,7 +15,7 @@
   },
   "private": true,
   "dependencies": {
-    "@formkit/tempo": "^1.0.0",
+    "@formkit/tempo": "^1.1.0",
     "hono": "^4.13.5",
     "honox": "^0.1.55",
     "react": "^19.2.5",

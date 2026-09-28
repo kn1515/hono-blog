@@ -16,8 +16,8 @@ importers:
   .:
     dependencies:
       '@formkit/tempo':
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.1.0
+        version: 1.1.0
       hono:
         specifier: ^4.13.5
         version: 4.13.5
@@ -480,8 +480,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@formkit/tempo@1.0.0':
-    resolution: {integrity: sha512-2jhR8jnWFt4ajtbpHL2ZvJJ+ofj/XpAumb1OLmsY7U5iwCjGKuk0wqLR7dGsZfyvJeivfWLD9vzj9cdkUUWzyg==}
+  '@formkit/tempo@1.1.0':
+    resolution: {integrity: sha512-LF36zxNFvNO+U2uS2RX5h0SJZuL4z/JpDHbMOgumhv+re6k/Jpt9S9mZuEMLaLUtpDZlRZZE3UkIiwSS+Forig==}
 
   '@fortawesome/fontawesome-free@6.7.2':
     resolution: {integrity: sha512-JUOtgFW6k9u4Y+xeIaEiLr3+cjoUPiAuLXoyKOJSia6Duzb7pq+A76P9ZdPDoAoxHdHzq6gE9/jKBGXlZT8FbA==}
@@ -3166,7 +3166,7 @@ snapshots:
   '@esbuild/win32-x64@0.28.2':
     optional: true
 
-  '@formkit/tempo@1.0.0': {}
+  '@formkit/tempo@1.1.0': {}
 
   '@fortawesome/fontawesome-free@6.7.2': {}
 
